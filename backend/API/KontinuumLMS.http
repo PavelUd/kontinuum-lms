@@ -1,0 +1,6 @@
+@KontinuumLMS_HostAddress = http://localhost:5211
+
+GET {{KontinuumLMS_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
