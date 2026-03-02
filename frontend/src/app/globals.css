@@ -1,26 +1,235 @@
 @import "tailwindcss";
 
+/* ===================================== */
+/*              THEME TOKENS             */
+/* ===================================== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --primary: 0 255 136;
+    --bg: 241 245 249;
+    --card: 255 255 255;
+    --text: 30 41 59;
+    --muted: 100 116 139;
+
+    --radius: 16px;
+
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.03);
+    --shadow-premium: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
+
+    --gradient-accent: linear-gradient(135deg, #00ff88 0%, #00bd65 100%);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html[data-theme="dark"] {
+    --bg: 11 18 32;
+    --card: 15 23 42;
+    --text: 226 232 240;
+    --muted: 148 163 184;
+
+    --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.35);
+    --shadow-premium: 0 24px 60px rgba(0, 0, 0, 0.45);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ===================================== */
+/*               BASE LAYER              */
+/* ===================================== */
+
+@layer base {
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        background: rgb(var(--bg));
+        color: rgb(var(--text));
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        overflow-x: hidden;
+        transition: background 0.3s ease, color 0.3s ease;
+    }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ===================================== */
+/*            LAYOUT HELPERS             */
+/* ===================================== */
+
+@layer utilities {
+    .container-custom {
+        @apply w-full px-10;
+    }
+
+    .animate-dropdown {
+        animation: dropdown 0.18s ease-out forwards;
+    }
+
+    @keyframes dropdown {
+        from {
+            opacity: 0;
+            transform: translateY(-6px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+/* ===================================== */
+/*            COMPONENT LAYER            */
+/* ===================================== */
+
+@layer components {
+
+    /* ===== Navbar ===== */
+
+    .k-navbar {
+        @apply sticky top-0 z-50 px-4 md:px-8 py-4 border-b border-black/5 backdrop-blur-md;
+        background: rgba(255, 255, 255, 0.75);
+        transition: background 0.3s ease;
+    }
+
+    html[data-theme="dark"] .k-navbar {
+        background: rgba(15, 23, 42, 0.75);
+        border-color: rgba(255, 255, 255, 0.06);
+    }
+
+    .k-brand {
+        @apply font-extrabold text-2xl tracking-tight;
+    }
+
+    .k-navlink {
+        @apply inline-flex items-center gap-2 font-medium transition duration-200 hover:-translate-y-0.5;
+        color: rgb(var(--text));
+    }
+
+    .k-navlink:hover {
+        color: rgb(var(--primary));
+    }
+
+    /* ===== Buttons ===== */
+
+    .k-buy-btn {
+        @apply inline-flex items-center justify-center rounded-full px-5 py-2.5 font-semibold transition duration-200 hover:-translate-y-0.5;
+        background: rgb(var(--primary));
+        color: black;
+        box-shadow: var(--shadow-soft);
+    }
+
+    .k-buy-btn:hover {
+        box-shadow: var(--shadow-premium);
+    }
+
+    .k-icon-btn {
+        @apply inline-flex items-center justify-center rounded-full p-2 transition;
+    }
+
+    .k-icon-btn:hover {
+        background: rgba(0, 0, 0, 0.05);
+    }
+
+    /* ===== Streak ===== */
+
+    .k-streak {
+        @apply inline-flex items-center gap-1 rounded-full px-3 py-1 font-semibold text-sm;
+        background: rgba(0, 0, 0, 0.05);
+        color: rgb(var(--text));
+    }
+
+    /* ===== Avatar ===== */
+
+    .k-avatar {
+        @apply w-10 h-10 rounded-full flex items-center justify-center font-bold select-none transition;
+        background: rgba(0, 0, 0, 0.1);
+        color: rgb(var(--text));
+    }
+
+    .k-avatar:hover {
+        background: rgba(0, 0, 0, 0.15);
+    }
+
+    /* ===== Section title ===== */
+
+    .k-section-title {
+        @apply text-3xl font-extrabold tracking-tight mb-8;
+    }
+
+    /* ===== Course Card ===== */
+
+    .k-course-card {
+        @apply rounded-2xl p-6 transition transform hover:-translate-y-2 flex flex-col h-full duration-300;
+        background: rgb(var(--card));
+        box-shadow: var(--shadow-soft);
+    }
+
+    .k-course-card:hover {
+        box-shadow: var(--shadow-premium);
+    }
+
+    .k-card-placeholder {
+        @apply w-full aspect-video rounded-xl flex items-center justify-center mb-5;
+        background: rgba(0, 0, 0, 0.04);
+        color: rgba(0, 0, 0, 0.2);
+    }
+
+    html[data-theme="dark"] .k-card-placeholder {
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.2);
+    }
+
+    .k-course-title {
+        @apply font-bold text-lg leading-snug mb-4 flex-1;
+    }
+
+    .k-progress-info {
+        @apply flex items-center justify-between text-sm mb-2;
+        color: rgb(var(--muted));
+    }
+
+    /* ===== Steps ===== */
+
+    .k-steps {
+        @apply flex items-center gap-1 h-3;
+    }
+
+    .k-step-dot {
+        @apply w-1.5 h-1.5 rounded-full flex-shrink-0;
+    }
+
+    .k-step-done {
+        background: rgb(var(--primary));
+    }
+
+    .k-step-future {
+        background: rgba(0, 0, 0, 0.06);
+    }
+
+    html[data-theme="dark"] .k-step-future {
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .k-step-bar {
+        @apply h-2 min-w-5 rounded relative overflow-hidden;
+        background: rgba(0, 0, 0, 0.06);
+    }
+
+    html[data-theme="dark"] .k-step-bar {
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .k-step-fill {
+        @apply absolute left-0 top-0 h-full rounded transition-[width] duration-300;
+        background: var(--gradient-accent);
+    }
+
+    /* ===== Modal ===== */
+
+    .k-modal-backdrop {
+        @apply fixed inset-0 z-50 backdrop-blur-sm;
+        background: rgba(0, 0, 0, 0.4);
+    }
+
+    .k-modal {
+        @apply fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-md rounded-2xl z-50 p-6;
+        background: rgb(var(--card));
+        box-shadow: var(--shadow-premium);
+    }
 }

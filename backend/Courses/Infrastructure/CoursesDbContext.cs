@@ -1,7 +1,6 @@
 using System.Reflection;
 using Courses.Application.Interfaces;
 using Courses.Domain.Entities;
-using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace Courses.Infrastructure;
