@@ -1,6 +1,9 @@
 namespace Core;
 
-
+public struct None 
+{
+    public static readonly None Value = new();
+}
 public class Result
     {
         protected Result()

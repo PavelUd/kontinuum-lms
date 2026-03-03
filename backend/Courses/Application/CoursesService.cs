@@ -4,7 +4,7 @@ using Core;
 using Courses.Application.Interfaces;
 using Courses.Domain.Entities;
 using Courses.DTO;
-using Courses.Infrastructure;
+using Courses.DTO.Courses;
 
 namespace Courses.Application;
 
@@ -21,16 +21,16 @@ public class CoursesService : ICoursesService
     }
 
 
-    public  Result<List<CourseDTO>> GetCourses()
+    public  Result<List<SummaryCourseDto>> GetCourses()
     {
-       var result = _dbContext.Courses.ProjectTo<CourseDTO>(_mapper.ConfigurationProvider).ToList();
-       return Result<List<CourseDTO>>.Success(result);
+       var result = _dbContext.Courses.ProjectTo<SummaryCourseDto>(_mapper.ConfigurationProvider).ToList();
+       return Result<List<SummaryCourseDto>>.Success(result);
     }
 
-    public Result<CourseDTO> GetCourse(Guid courseId)
+    public Result<CourseDto> GetCourse(Guid courseId)
     {
-        var course = _dbContext.Courses.Where(x => x.Id == courseId).ProjectTo<CourseDTO>(_mapper.ConfigurationProvider).First();
-        return Result<CourseDTO>.Success(course);
+        var course = _dbContext.Courses.Where(x => x.Id == courseId).ProjectTo<CourseDto>(_mapper.ConfigurationProvider).First();
+        return Result<CourseDto>.Success(course);
     }
     
     public Result<Guid> CreateCourse(CourseCreateRequest request)

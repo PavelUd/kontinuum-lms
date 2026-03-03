@@ -2,9 +2,9 @@ using AutoMapper;
 using Courses.Domain.Entities;
 using Courses.Domain.Enums;
 
-namespace Courses.DTO;
+namespace Courses.DTO.Courses;
 
-public class CourseDTO
+public class SummaryCourseDto
 {
     public Guid Id { get; set; }
     
@@ -20,7 +20,7 @@ public class CourseDTO
     {
         public Mapping()
         {
-            CreateMap<Course, CourseDTO>()
+            CreateMap<Course, SummaryCourseDto>()
                 .ForMember(
                     dest => dest.LessonsCount,
                     opt => opt.MapFrom(src => src.Lessons.Count)

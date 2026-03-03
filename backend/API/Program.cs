@@ -1,4 +1,5 @@
 using Courses.Extensions;
+using Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,7 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowCredentials());
 });
-
+builder.Services.AddInfrastructureModule(builder.Configuration);
 builder.Services.AddCoursesModule(builder.Configuration);
 var app = builder.Build();
 
