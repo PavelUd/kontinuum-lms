@@ -10,7 +10,7 @@ interface Props {
 
 export function CourseCard({ course }: Props) {
 
-    console.log(course)
+
     const percent = Math.round(
         ((1) / course.lessonsCount) * 100
     )
@@ -25,15 +25,15 @@ export function CourseCard({ course }: Props) {
 
             <div>
                 <div className="k-progress-info">
-          <span>
-            Модуль {1} из {course.lessonsCount}
-          </span>
-                    <span className="font-bold text-text">{percent}%</span>
+                  <span>
+                    Модуль {1} из {course.lessonsCount}
+                  </span>
+                  <span className="font-bold text-text">{percent}%</span>
                 </div>
 
                 <SteppedProgress
-                    total={10}
-                    current={10}
+                    total={100}
+                    current={9}
                     currentProgress={30}
                 />
             </div>

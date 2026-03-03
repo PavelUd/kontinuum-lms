@@ -54,7 +54,7 @@ html[data-theme="dark"] {
 
 @layer utilities {
     .container-custom {
-        @apply w-full px-10;
+        @apply w-full px-20;
     }
 
     .animate-dropdown {
@@ -187,7 +187,7 @@ html[data-theme="dark"] {
     /* ===== Steps ===== */
 
     .k-steps {
-        @apply flex items-center gap-1 h-3;
+        @apply flex items-center gap-1 h-3 w-full overflow-hidden;
     }
 
     .k-step-dot {

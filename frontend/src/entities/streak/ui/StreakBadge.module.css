@@ -1,0 +1,25 @@
+.streakBadge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    background: #fff0e5;
+    color: #ff8a00;
+
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+
+    font-weight: 700;
+    font-size: 1.125rem;
+
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.streakBadge:hover {
+    transform: scale(1.1) rotate(-2deg);
+}
+
+.icon {
+    color: #ff8a00;
+}

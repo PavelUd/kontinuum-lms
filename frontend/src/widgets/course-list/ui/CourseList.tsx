@@ -2,23 +2,21 @@
 
 import { CourseCard } from '@/entities/course'
 import { useCoursesQuery } from '@/entities/course/model/useCoursesQuery'
-
+import { Loader } from '@/shared/ui/loader/Loader'
 export const CourseList = () => {
-    const { data, isLoading, isError, error } = useCoursesQuery()
-
-    if (isLoading) return <div className="text-muted">Загрузка курсов…</div>
-
-    if (isError) {
-        const message = error instanceof Error ? error.message : 'Ошибка загрузки'
-        return <div className="text-red-600">Ошибка: {message}</div>
-    }
-
+    const { data, isLoading, isError } = useCoursesQuery()
     const courses = data?.data ?? []
-    if (courses.length === 0) return <div className="text-muted">Курсы пока не найдены.</div>;
+
+    if (isLoading) return  <Loader />
+    if (isError) return <div>Ошибка загрузки</div>
+
     return (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {courses.map((course) => (
-                <CourseCard key={course.id} course={course} />
+                <CourseCard
+                    key={course.id}
+                    course={course}
+                />
             ))}
         </div>
     )
