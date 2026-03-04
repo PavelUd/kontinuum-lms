@@ -36,6 +36,7 @@ html[data-theme="dark"] {
 @layer base {
     html,
     body {
+        overflow: auto !important;
         height: 100%;
         font-family: 'Inter',"Times New Roman", Times, serif;
     }
@@ -51,6 +52,7 @@ html[data-theme="dark"] {
 /* ===================================== */
 /*            LAYOUT HELPERS             */
 /* ===================================== */
+
 
 @layer utilities {
     .container-custom {
