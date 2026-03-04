@@ -12,6 +12,20 @@ export const CourseList = () => {
     const courses = data?.data ?? []
 
     const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null)
+    const [isOpen, setIsOpen] = useState(false)
+
+    function openModal(courseId: string) {
+        setSelectedCourseId(courseId)
+        setIsOpen(true)
+    }
+
+    function closeModal() {
+        setIsOpen(false)
+
+        setTimeout(() => {
+            setSelectedCourseId(null)
+        }, 200) // время анимации
+    }
 
     if (isLoading) return <Loader />
     if (isError) return <div>Ошибка загрузки</div>
@@ -24,7 +38,7 @@ export const CourseList = () => {
                     <CourseCard
                         key={course.id}
                         course={course}
-                        onOpen={() => setSelectedCourseId(course.id)}
+                        onOpen={() => openModal(course.id)}
                     />
                 ))}
 
@@ -32,9 +46,9 @@ export const CourseList = () => {
 
             {selectedCourseId && (
                 <CourseModulesModal
-                    open
+                    open={isOpen}
                     courseId={selectedCourseId}
-                    onClose={() => setSelectedCourseId(null)}
+                    onClose={closeModal}
                 />
             )}
         </>

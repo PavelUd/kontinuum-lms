@@ -5,7 +5,6 @@ import { Fragment } from 'react'
 import { useCourseQuery } from '@/entities/course'
 import { ModuleRow } from '@/entities/module'
 import './CourseModulesModal.css'
-import {Loader} from "@/shared/ui/loader";
 
 interface Props {
     open: boolean
@@ -24,7 +23,7 @@ export function CourseModulesModal({
     const course= source?.data;
 
     return (
-        <Transition show={open} as={Fragment}>
+        <Transition appear show={open} as={Fragment}>
 
             <Dialog
                 as="div"
@@ -36,10 +35,10 @@ export function CourseModulesModal({
 
                 <Transition.Child
                     as={Fragment}
-                    enter="transition duration-200"
+                    enter="transition duration-5"
                     enterFrom="opacity-0 scale-95"
                     enterTo="opacity-100 scale-100"
-                    leave="transition duration-150"
+                    leave="transition duration-5"
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                 >
@@ -85,9 +84,9 @@ export function CourseModulesModal({
 
                             <div className="k-modules-list">
 
-                                {course?.lessons?.map((module) => (
+                                {course?.lessons?.map((module, index) => (
                                     <ModuleRow
-                                        key={module.id}
+                                        key={`${module.id}-${index}`}
                                         module={module}
                                     />
                                 ))}

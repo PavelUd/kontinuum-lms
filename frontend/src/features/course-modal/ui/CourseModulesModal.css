@@ -16,11 +16,18 @@
     justify-content: center;
     align-items: center;
     padding: 24px;
+
+
 }
 
 .k-modal {
     width: 100%;
     max-width: 1020px;
+    max-height: 85vh;
+
+    display: flex;
+    flex-direction: column;
+
     background: white;
     border-radius: 28px;
     padding: 28px;
@@ -32,6 +39,10 @@
     justify-content: space-between;
     align-items: start;
     margin-bottom: 24px;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
 }
 
 .k-modal-title {
@@ -52,8 +63,10 @@
 
 .k-modules-list {
     display: flex;
+    overflow-y: auto;
     flex-direction: column;
     gap: 12px;
+    scrollbar-width: none;
 }
 
 .k-overlay-enter {
