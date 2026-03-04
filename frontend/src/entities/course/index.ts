@@ -1,4 +1,4 @@
 export { CourseCard } from './ui/CourseCard'
-export type { Course } from './model/types'
-export  {getCourses} from './api/getCourses'
-export {useCoursesQuery} from './model/useCoursesQuery'
+export type { CourseSummary } from './model/types'
+export  {courseApiTs, getCourseById} from './api/course.api.ts'
+export {useCoursesQuery, useCourseQuery} from './model/useCoursesQuery'

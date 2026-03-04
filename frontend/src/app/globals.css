@@ -37,12 +37,12 @@ html[data-theme="dark"] {
     html,
     body {
         height: 100%;
+        font-family: 'Inter',"Times New Roman", Times, serif;
     }
 
     body {
         background: rgb(var(--bg));
         color: rgb(var(--text));
-        font-family: ui-sans-serif, system-ui, sans-serif;
         overflow-x: hidden;
         transition: background 0.3s ease, color 0.3s ease;
     }
@@ -176,11 +176,15 @@ html[data-theme="dark"] {
     }
 
     .k-course-title {
-        @apply font-bold text-lg leading-snug mb-4 flex-1;
+        font-weight: 700;
+        font-size: 1.6rem;
+        line-height: 1.4;
+        margin-bottom: 1rem;
+        flex-grow: 1;
     }
 
     .k-progress-info {
-        @apply flex items-center justify-between text-sm mb-2;
+        @apply flex items-center justify-between text-lg mb-2;
         color: rgb(var(--muted));
     }
 

@@ -1,14 +1,15 @@
 'use client'
 
-import { Course } from '../model/types'
+import { CourseSummary } from '../model/types'
 import { SteppedProgress } from '@/shared/ui/SteppedProgress/'
-import { Image as ImageIcon } from 'lucide-react'
+import {BookOpen } from 'lucide-react'
 
 interface Props {
-    course: Course
+    course: CourseSummary,
+    onOpen: () => void,
 }
 
-export function CourseCard({ course }: Props) {
+export function CourseCard({ course, onOpen }: Props) {
 
 
     const percent = Math.round(
@@ -16,9 +17,9 @@ export function CourseCard({ course }: Props) {
     )
 
     return (
-        <div className="k-course-card">
+        <div className="k-course-card cursor-pointer" onClick={onOpen}>
             <div className="k-card-placeholder">
-                <ImageIcon size={48} />
+                <BookOpen size={48} className="text-primary opacity-25; color: accent-amber-300" />
             </div>
 
             <h3 className="k-course-title">{course.name}</h3>

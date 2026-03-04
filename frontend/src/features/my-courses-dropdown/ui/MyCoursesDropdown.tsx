@@ -13,7 +13,7 @@ export function MyCoursesDropdown({ courses }: Props) {
         <Dropdown
             trigger={
                 <div className="flex items-center gap-2 font-semibold cursor-pointer me-3">
-                    <Layout size={18} />
+                    <Layout size={24} />
                     <span className="text-xl font-semibold tracking-tight">Мои курсы</span>
                 </div>
             }

@@ -1,0 +1,107 @@
+.k-module {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 17px;
+    border-radius: 20px;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+/* completed — светло зеленый */
+
+.k-module.completed {
+    background: #f0fdf4;
+}
+
+/* active */
+
+.k-module.active {
+    background: #f8fafc;
+}
+
+/* locked */
+
+.k-module.locked {
+    background: #f9fafb;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* hover */
+
+.k-module:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+/* номер */
+
+.k-module-number {
+    width: 53px;
+    height: 53px;
+    border-radius: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    font-weight: 700;
+    color: white;
+
+    background: var(--gradient-accent);
+}
+
+/* текст */
+
+.k-module-content {
+    flex: 1;
+}
+
+.k-module-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* badges */
+
+.k-module-badge {
+    margin-top: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    font-size: 15px;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+.k-module-badge.success {
+    background: #d1e7dd;
+    color: #208a59;
+    font-weight: bold;
+
+}
+
+.k-module-badge.active {
+    background: #cfe2ff;
+    font-weight: bold;
+    color: #1f79fd;
+}
+
+.k-module-badge.locked {
+    background: #e5e7eb;
+    color: #6b7280;
+}
+
+.k-module-number.locked{
+    background: #e5e7eb;
+    color: #6b7280
+}
+
+/* стрелка */
+
+.k-module-arrow {
+    color: #2563eb;
+}

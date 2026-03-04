@@ -1,13 +1,21 @@
 import { useQuery } from '@tanstack/react-query'
-import { getCourses } from '../api/getCourses'
-import type { Course } from './types'
+import {courseApiTs, getCourseById} from '../api/course.api.ts'
+import type {Course, CourseSummary} from './types'
 import {ApiResponse} from "@/shared/api/types/api-response";
 
 export const CoursesQueryKey = ['courses'] as const
 
 export const useCoursesQuery = () => {
-    return useQuery<ApiResponse<Course[]>>({
+    return useQuery<ApiResponse<CourseSummary[]>>({
         queryKey: CoursesQueryKey,
-        queryFn: getCourses,
+        queryFn: courseApiTs,
+    })
+}
+
+export function useCourseQuery(courseId: string) {
+    return useQuery<ApiResponse<Course>>({
+        queryKey: ['course', courseId],
+        queryFn: () => getCourseById(courseId),
+        enabled: !!courseId
     })
 }
