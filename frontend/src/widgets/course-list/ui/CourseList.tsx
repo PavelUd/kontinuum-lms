@@ -1,15 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { CourseCard } from '@/entities/course'
-import { useCoursesQuery } from '@/entities/course/model/useCoursesQuery'
-import { Loader } from '@/shared/ui/loader/Loader'
+import {CourseCard, CourseSummary} from '@/entities/course'
 import {CourseModulesModal} from "@/features/course-modal/ui/CourseModulesModal";
 
-export const CourseList = () => {
+type Props = {
+    courses : CourseSummary[]
+}
 
-    const { data, isLoading, isError } = useCoursesQuery()
-    const courses = data?.data ?? []
+export const CourseList = ({ courses } : Props) => {
+
 
     const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null)
     const [isOpen, setIsOpen] = useState(false)
@@ -24,11 +24,8 @@ export const CourseList = () => {
 
         setTimeout(() => {
             setSelectedCourseId(null)
-        }, 200) // время анимации
+        }, 200)
     }
-
-    if (isLoading) return <Loader />
-    if (isError) return <div>Ошибка загрузки</div>
 
     return (
         <>

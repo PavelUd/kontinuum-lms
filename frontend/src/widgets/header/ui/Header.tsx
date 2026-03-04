@@ -3,19 +3,20 @@
 import { MyCoursesDropdown } from '@/features/my-courses-dropdown/ui/MyCoursesDropdown'
 import { ProfileMenu } from '@/features/profile-menu/ui/ProfileMenu'
 import { StreakBadge } from '@/entities/streak/ui/StreakBadge'
+import {CourseSummary} from "@/entities/course";
 
 type HeaderProps = {
     userName: string
     userEmail: string
     streak?: number
-    myCourses?: string[]
+    courses?: CourseSummary[]
 }
 
 export function Header({
                            userName,
                            userEmail,
                            streak = 12,
-                           myCourses = [],
+                           courses = [],
                        }: HeaderProps) {
     return (
         <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-black/5">
@@ -32,7 +33,7 @@ export function Header({
                     {/* RIGHT */}
                     <div className="flex items-center gap-6">
                         <div className="hidden lg:flex items-center gap-6">
-                            <MyCoursesDropdown courses={myCourses} />
+                            <MyCoursesDropdown courses={courses} />
                         </div>
                         <StreakBadge value={streak} />
                         <ProfileMenu name={userName} email={userEmail} />
