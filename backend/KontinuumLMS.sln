@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{6380DA6E-ECF4-4A2B-936F-AAF6C427E123}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockEngine", "BlockEngine\BlockEngine.csproj", "{4C43ED32-0BB6-4E71-ADEE-D54526CA8007}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{6380DA6E-ECF4-4A2B-936F-AAF6C427E123}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6380DA6E-ECF4-4A2B-936F-AAF6C427E123}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6380DA6E-ECF4-4A2B-936F-AAF6C427E123}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C43ED32-0BB6-4E71-ADEE-D54526CA8007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C43ED32-0BB6-4E71-ADEE-D54526CA8007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C43ED32-0BB6-4E71-ADEE-D54526CA8007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C43ED32-0BB6-4E71-ADEE-D54526CA8007}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

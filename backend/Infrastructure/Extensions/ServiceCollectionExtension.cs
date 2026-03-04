@@ -1,4 +1,5 @@
 using System.Reflection;
+using BlockEngine.Infrastructure;
 using Courses.Application.Interfaces;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ public static class ServiceCollectionExtension
     {
         AddDbContext(services, configuration);
         services.AddScoped<ICoursesDbContext>(sp => sp.GetRequiredService<AppDbContext>());
+        services.AddScoped<ILessonBlockDbContext>(sp => sp.GetRequiredService<AppDbContext>());
     }
 
     private static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
