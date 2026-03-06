@@ -29,16 +29,16 @@ export function ModuleHero({
                   <SteppedProgress total={40} current={12} currentProgress={30}></SteppedProgress>
               </div>
                 <div className={styles.category}>
-                    Модуль 12 • Математика ЕГЭ
+                    Модуль {module} • {category}
                 </div>
 
                 <h1 className={styles.title}>
-                    Производная функции и её геометрический смысл
+                    {title}
                 </h1>
 
                 <div className={styles.meta}>
                     <Clock size={20} />
-                    Время на изучение: 15 минут
+                    Время на изучение: {duration} минут
                 </div>
 
             </div>

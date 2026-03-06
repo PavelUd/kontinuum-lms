@@ -10,14 +10,14 @@ type Props = {
 
 export function ModuleContent({ blocks }: Props) {
 
-
+console.log(blocks)
     return (
         <div className={styles.moduleContent}>
             {blocks.map(block => {
                 const Block = getBlock(block.type)
                 if (!Block) return null
 
-                return <Block key={block.id} {...block.data} />
+                return <Block key={block.id} content={block.content} />
             })}
         </div>
     )

@@ -1,0 +1,95 @@
+.moduleRow {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 17px;
+    border-bottom: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+.current {
+    background: #f8fafc;
+    position: relative;
+}
+
+.current::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: 2px;
+    bottom: 2px;
+
+    width: 7px;
+    border-radius: 4px;
+
+    background: var(--gradient-accent);
+}
+
+/* number */
+
+.moduleNum {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    width: 30px;
+}
+
+/* content */
+
+.moduleContent {
+    flex: 1;
+}
+
+.moduleTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* badges */
+
+.badge {
+    margin-top: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 15px;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+.badgeSuccess {
+    background: #d1e7dd;
+    color: #208a59;
+    font-weight: bold;
+}
+
+.badgeActive {
+    background: #cfe2ff;
+    color: #1f79fd;
+    font-weight: bold;
+}
+
+.badgeLocked {
+    background: #e5e7eb;
+    color: #6b7280;
+}
+
+/* icons */
+.iconActive {
+    color: #2563eb;
+}
+
+/* states */
+
+.completed {
+    background: #e7f4ec;
+}
+
+.current {
+    background: #f8fafc;
+}
+
+.locked {
+    opacity: 0.6;
+}

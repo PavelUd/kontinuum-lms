@@ -3,20 +3,18 @@
 import * as Dialog from "@radix-ui/react-dialog"
 import styles from "./curriculum-sidebar.module.css"
 import {X} from "lucide-react";
+import {ModuleSidebarItem} from "@/entities/module/ui/ModuleSidebarItem";
+import {ModuleSummary} from "@/entities/module";
+import Link from "next/link"
 
 type Props = {
     open: boolean
-    onOpenChange: (open: boolean) => void
+    onOpenChange: (open: boolean) => void,
+    courseId: string,
+    modules: ModuleSummary[]
 }
 
-const modules = [
-    { id: 1, title: "Введение", status: "completed" },
-    { id: 2, title: "Производная", status: "active" },
-    { id: 3, title: "Интегралы", status: "locked" }
-]
-
-export function CurriculumSidebar({ open, onOpenChange }: Props) {
-
+export function CurriculumSidebar({ open, onOpenChange, modules, courseId }: Props) {
     return (
         <Dialog.Root open={open} onOpenChange={onOpenChange}>
 
@@ -35,14 +33,21 @@ export function CurriculumSidebar({ open, onOpenChange }: Props) {
                     </div>
 
                     <div className={styles.body}>
-                        {modules.map(l => (
-                            <div
-                                key={l.id}
-                                className={`${styles.lessonItem} ${l.status === "active" ? styles.active : ""}`}
-                            >
-                                {l.title}
-                            </div>
-                        ))}
+                        {modules.map((module) =>
+
+                            module.status === "locked" ? (
+                                <div key={module.id} className="cursor-not-allowed opacity-60">
+                                    <ModuleSidebarItem module={module} />
+                                </div>
+                            ) : (
+                                <Link
+                                    key={module.id}
+                                    href={`/courses/${courseId}/module/${module.id}`}
+                                >
+                                    <ModuleSidebarItem module={module} />
+                                </Link>
+                            )
+                        )}
                     </div>
 
                 </Dialog.Content>

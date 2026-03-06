@@ -13,5 +13,10 @@ export interface ModuleBlock {
     id: string
     type: BlockType
     orderIndex: number
-    data : Record<string, any>
+    content : Record<string, any>
+}
+
+export type TextBlockContent = {
+    title: string
+    text: string
 }

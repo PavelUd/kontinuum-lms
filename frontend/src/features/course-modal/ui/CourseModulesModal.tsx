@@ -5,6 +5,7 @@ import { Fragment } from 'react'
 import { useCourseQuery } from '@/entities/course'
 import { ModuleRow } from '@/entities/module'
 import './CourseModulesModal.css'
+import Link from "next/link"
 
 interface Props {
     open: boolean
@@ -85,10 +86,12 @@ export function CourseModulesModal({
                             <div className="k-modules-list">
 
                                 {course?.lessons?.map((module, index) => (
-                                    <ModuleRow
+                                    <Link
                                         key={`${module.id}-${index}`}
-                                        module={module}
-                                    />
+                                        href={`/courses/${course.id}/module/${module.id}`}
+                                    >
+                                        <ModuleRow module={module} />
+                                    </Link>
                                 ))}
 
                             </div>

@@ -1,18 +1,21 @@
 'use client'
 
-import DOMPurify from "dompurify"
+import {TextBlockContent} from "@/entities/module-block/model/types";
 
 type Props = {
-    content: string
+    content: TextBlockContent
 }
 
 export function TextBlock({ content }: Props) {
-
-    const cleanHtml = DOMPurify.sanitize(content);
-
     return (
-        <div
-            dangerouslySetInnerHTML={{ __html: cleanHtml }}
-        />
+        <div>
+            {content.title && <h1 className="text-4xl font-bold mb-6">
+                {content.title}
+            </h1>}
+
+            <div
+                dangerouslySetInnerHTML={{ __html: content.text }}
+            />
+        </div>
     )
 }

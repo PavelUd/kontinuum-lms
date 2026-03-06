@@ -9,13 +9,17 @@ interface Props {
 }
 
 export function ModuleRow({ module }: Props) {
-
+    const statusMap: Record<number, "locked" | "current" | "completed"> = {
+        1: "locked",
+        2: "current",
+        3: "completed"
+    }
     const locked = module.status === 1
-
+    const classAttribute = statusMap[module.status]
     return (
-        <div className={`k-module completed`}>
+        <div className={`k-module ${classAttribute}`}>
 
-            <div className="k-module-number">
+            <div className={`k-module-number ${classAttribute}`}>
                 {module.orderIndex}
             </div>
 

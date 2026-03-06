@@ -2,6 +2,7 @@ import { StreakBadge } from "@/entities/streak/ui/StreakBadge";
 import { ProfileMenu } from "@/features/profile-menu/ui/ProfileMenu";
 import { ChevronLeft, List } from "lucide-react";
 import styles from "./header.module.css";
+import Link from "next/link"
 
 type Props = {
     onOpenSidebar: () => void
@@ -15,10 +16,12 @@ export function Header({onOpenSidebar} : Props ) {
 
                     {/* LEFT */}
                     <div className={styles.lessonHeaderLeft}>
-                        <button className={styles.backBtn}>
-                            <ChevronLeft size={24}/>
-                            <span className={styles.btnText}>Назад к курсу</span>
-                        </button>
+                        <Link href="/">
+                            <button className={styles.backBtn}>
+                                <ChevronLeft size={24}/>
+                                <span className={styles.btnText}>Назад к курсу</span>
+                            </button>
+                        </Link>
                     </div>
 
                     {/* RIGHT */}
