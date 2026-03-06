@@ -4,6 +4,7 @@ using BlockEngine.Application.DTO;
 using BlockEngine.Application.Interfaces;
 using BlockEngine.Domain.Entities;
 using BlockEngine.Infrastructure;
+using Contracts.Contracts;
 using Core;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +24,7 @@ public class BlockService : IBlockService
         _mapper = mapper;
     }
 
-    public async Task<Result<List<LessonBlockDTO>>> GetBlockByLesson(Guid lessonId)
+    public async Task<Result<List<LessonBlockDto>>> GetBlockByLesson(Guid lessonId)
     {
         try
         {
@@ -33,7 +34,7 @@ public class BlockService : IBlockService
 
             var tasks = blocks.Select(async block =>
             {
-                var dto = _mapper.Map<LessonBlockDTO>(block);
+                var dto = _mapper.Map<LessonBlockDto>(block);
                 var rendered = await _blockEngine.RenderAsync(block.Type, block.Content);
                 dto.Content = rendered;
 
@@ -42,15 +43,15 @@ public class BlockService : IBlockService
 
             var result = await Task.WhenAll(tasks);
 
-            return await Result<List<LessonBlockDTO>>.SuccessAsync(result.ToList());
+            return await Result<List<LessonBlockDto>>.SuccessAsync(result.ToList());
         }
         catch (Exception ex)
         {
-            return await Result<List<LessonBlockDTO>>.FailureAsync(ex.Message);
+            return await Result<List<LessonBlockDto>>.FailureAsync(ex.Message);
         }
     }
 
-    public async Task<Result<Guid>> CreateLessonBlock(CreateBlockRequest request, Guid lessonId)
+    public async Task<Result<Guid>> CreateLessonBlock(BlockCreateRequest request, Guid lessonId)
     {
         try
         {

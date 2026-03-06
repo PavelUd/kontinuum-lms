@@ -1,10 +1,12 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Contracts.Query;
 using Core;
 using Courses.Application.Interfaces;
 using Courses.Domain.Entities;
 using Courses.DTO;
 using Courses.DTO.Courses;
+using MediatR;
 
 namespace Courses.Application;
 
@@ -14,7 +16,7 @@ public class CoursesService : ICoursesService
     private  readonly ICoursesDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public CoursesService(ICoursesDbContext dbContext, IMapper mapper)
+    public CoursesService(ICoursesDbContext dbContext, IMapper mapper, IMediator mediator)
     {
         _dbContext = dbContext;
         _mapper = mapper;

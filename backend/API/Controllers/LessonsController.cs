@@ -31,10 +31,10 @@ public class LessonsController : Controller
         return Accepted($"/courses/{idResult.Data}", new { idResult.Data });
     }
     
-    [HttpGet("{id}/blocks")]
-    public async Task<IActionResult>GetBlocksLesson(Guid id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult>GetLessonByLesson(Guid id)
     {
-        var result = await _blockService.GetBlockByLesson(id);
+        var result = await _lessonsService.GetLessonById(id);
         if (!result.Succeeded)
         {
             return BadRequest(result.Errors);
@@ -43,7 +43,7 @@ public class LessonsController : Controller
     }
     
     [HttpPost("{id}/blocks")]
-    public async Task<IActionResult>CreateBlock(CreateBlockRequest request, Guid id)
+    public async Task<IActionResult>CreateBlock(BlockCreateRequest request, Guid id)
     {
         var idResult = await _blockService.CreateLessonBlock(request, id);
         if (!idResult.Succeeded)

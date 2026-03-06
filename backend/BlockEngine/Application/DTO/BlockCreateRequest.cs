@@ -6,24 +6,25 @@ using BlockEngine.Domain.Enum;
 
 namespace BlockEngine.Application.DTO;
 
-public class LessonBlockDTO
+public class BlockCreateRequest
 {
-    public Guid Id { get; set; }
-    
+    [JsonIgnore]
     public Guid LessonId { get; set; }
     
     public int OrderIndex { get; set; }
     
-    public BlockType  Type { get; set; }
+    public JsonElement Content  { get; set; }
     
-    public object Content  { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public BlockType Type { get; set; }
     
     private class Mapping : Profile
     {
         public Mapping()
         {
-            CreateMap<LessonBlock, LessonBlockDTO>()
-                .ForMember(dest => dest.Content, opt => opt.Ignore());;
+            CreateMap<BlockCreateRequest, LessonBlock>();
         }
     }
+    
+    
 }

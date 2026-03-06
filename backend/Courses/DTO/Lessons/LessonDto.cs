@@ -1,11 +1,11 @@
 using AutoMapper;
+using Contracts.Contracts;
 using Courses.Domain.Entities;
 using Courses.Domain.Enums;
-using Courses.DTO.Courses;
 
 namespace Courses.DTO.Lessons;
 
-public class SummaryLessonDto
+public class LessonDto
 {
     public Guid Id { get; set; }
     
@@ -16,12 +16,14 @@ public class SummaryLessonDto
     public LessonStatus Status { get; set; }
     
     public int OrderIndex { get; set; }
+
+    public List<LessonBlockDto> Blocks { get; set; } = new List<LessonBlockDto>();
     
     private class Mapping : Profile
     {
         public Mapping()
         {
-            CreateMap<Lesson, SummaryLessonDto>();
+            CreateMap<Lesson, LessonDto>();
         }
     }
 }

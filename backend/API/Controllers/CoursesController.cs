@@ -49,7 +49,7 @@ public class CoursesController : Controller
     [HttpGet("{id}/lessons")]
     public async Task<IActionResult> GetLessons(Guid id)
     {
-        var result = _lessonsService.GetLessons(id);
+        var result = await _lessonsService.GetLessons(id);
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
     

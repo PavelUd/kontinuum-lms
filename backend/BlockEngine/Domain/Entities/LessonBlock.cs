@@ -1,6 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
+using AutoMapper;
+using BlockEngine.Application.DTO;
 using BlockEngine.Domain.Enum;
+using Contracts.Contracts;
 using Core.Entities;
 
 namespace BlockEngine.Domain.Entities;
@@ -19,5 +22,16 @@ public class LessonBlock : BaseAuditableEntity
     
     [Column("content")]
     public JsonElement Content  { get; set; }
+    
+    private class Mapping : Profile
+    {
+        public Mapping()
+        {
+            CreateMap<LessonBlock, LessonBlockDto>()
+                .ForMember(dest => dest.Content, opt => opt.Ignore())
+                .ForMember(dest => dest.Type,
+                opt => opt.MapFrom(src => src.Type.ToString().ToLower()));
+        }
+    }
     
 }

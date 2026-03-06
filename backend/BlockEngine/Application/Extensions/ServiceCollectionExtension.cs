@@ -22,5 +22,13 @@ public static class ServiceCollectionExtension
         services.AddScoped<IBlockPlugin, TextBlockPlugin>();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         
+        
+        var assembly = Assembly.GetAssembly(typeof(IApplicationMarker));
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(assembly);
+
+        });
+        
     }
 }
