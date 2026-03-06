@@ -15,7 +15,7 @@
 
     --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.03);
     --shadow-premium: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
-
+    --primary-color: #00ff88;
     --gradient-accent: linear-gradient(135deg, #00ff88 0%, #00bd65 100%);
 }
 
@@ -193,7 +193,7 @@ html[data-theme="dark"] {
     /* ===== Steps ===== */
 
     .k-steps {
-        @apply flex items-center gap-1 h-3 w-full overflow-hidden;
+        @apply flex items-center gap-1 h-3 overflow-hidden;
     }
 
     .k-step-dot {
@@ -224,6 +224,41 @@ html[data-theme="dark"] {
     .k-step-fill {
         @apply absolute left-0 top-0 h-full rounded transition-[width] duration-300;
         background: var(--gradient-accent);
+    }
+
+    .step .k-steps {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        height: 12px;
+    }
+
+    .step .k-step-dot {
+        height: 8px;
+        width: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .step .k-step-bar {
+        height: 10px;
+        min-width: 20px;
+        background: #edf2f7;
+        border-radius: 4px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .progress-container {
+        margin-top: auto;
+    }
+
+    .progress-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-muted);
     }
 
     /* ===== Modal ===== */

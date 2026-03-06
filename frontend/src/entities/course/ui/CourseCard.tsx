@@ -1,7 +1,7 @@
 'use client'
 
 import { CourseSummary } from '../model/types'
-import { SteppedProgress } from '@/shared/ui/SteppedProgress/'
+import { SteppedProgress } from '@/shared/ui/stepped-progress/'
 import {BookOpen } from 'lucide-react'
 
 interface Props {

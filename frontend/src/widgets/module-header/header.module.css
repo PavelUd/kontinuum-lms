@@ -1,0 +1,73 @@
+.lessonHeader {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+
+    backdrop-filter: blur(12px);
+
+    background: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.lessonHeaderContainer {
+    width: 100%;
+    padding-left: 32px;
+    padding-right: 32px;
+}
+@media (max-width: 1280px) {
+    .btnText {
+        display: none;
+    }
+    .outlineText {
+        display: none;
+    }
+}
+@media (min-width: 1280px) {
+    .lessonHeaderContainer {
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+}
+
+.lessonHeaderInner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+}
+
+.lessonHeaderLeft {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+}
+
+.lessonHeaderRight {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.backBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    font-size: 20px;
+    font-weight: 500;
+
+    cursor: pointer;
+}
+
+.outlineBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 22px;
+    font-weight: 500;
+
+    margin-right: 3rem;
+    cursor: pointer;
+}

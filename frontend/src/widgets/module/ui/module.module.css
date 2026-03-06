@@ -1,0 +1,74 @@
+body{
+   background-color: var(--primary);
+}
+.hero {
+    padding: 60px 20px 50px;
+    text-align: center;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 0 1.5rem;
+}
+.moduleContent {
+    padding: 20px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.55rem;
+    line-height: 1.7;
+    color: #333;
+}
+
+
+.moduleContent > * {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.moduleContent p {
+    margin-bottom: 1.5rem;
+}
+
+.moduleContent h2 {
+    font-weight: 800;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.75rem;
+}
+
+.category {
+    text-transform: uppercase;
+    color: var(--primary-color);
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.title {
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    color: #64748b;
+    font-size: 20px;
+}
+
+/* progress */
+
+.progress {
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+}

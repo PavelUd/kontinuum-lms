@@ -1,0 +1,110 @@
+.overlay {
+    z-index: 100;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+}
+
+
+.overlay[data-state="open"] {
+    animation: fadeIn 200ms ease;
+}
+
+.overlay[data-state="closed"] {
+    animation: fadeOut 200ms ease;
+}
+
+.sidebar {
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    height: 100%;
+    width: 530px;
+
+    background: white;
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: -6px 0 20px rgba(0,0,0,0.15);
+}
+
+.sidebar[data-state="open"] {
+    animation: slideIn 250ms ease;
+}
+
+.sidebar[data-state="closed"] {
+    animation: slideOut 250ms ease;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px 30px 30px;
+    font-size: 27px;
+    border-bottom: 1px solid #eee;
+
+    font-weight: 700;
+}
+
+.closeBtn {
+    border: none;
+    background: none;
+    color: #7e7e7e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    padding: 8px;
+
+    border-radius: 6px;
+}
+
+.closeBtn:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.body {
+    overflow-y: auto;
+}
+
+.lessonItem {
+    padding: 14px 22px;
+    border-bottom: 1px solid #eee;
+}
+
+.lessonItem:hover {
+    background: #f6f6f6;
+    cursor: pointer;
+}
+
+.active {
+    font-weight: 600;
+    background: #f3f7ff;
+}
+
+/* animations */
+
+@keyframes fadeIn {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1 }
+    to { opacity: 0 }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%) }
+    to { transform: translateX(0) }
+}
+
+@keyframes slideOut {
+    from { transform: translateX(0) }
+    to { transform: translateX(100%) }
+}
