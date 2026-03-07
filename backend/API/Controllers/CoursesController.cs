@@ -3,6 +3,7 @@ using Courses.Domain.Entities;
 using Courses.DTO;
 using Courses.DTO.Courses;
 using Courses.DTO.Lessons;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -21,14 +22,16 @@ public class CoursesController : Controller
         _lessonsService = lessonsService;
     }
 
+    
     [HttpGet]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> Get()
     {
         var result = _coursesService.GetCourses();
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
     
-    [HttpPost()]
+    [HttpPost]
     public async Task<IActionResult> CreateCourse(CourseCreateRequest request)
     {
         var idResult = _coursesService.CreateCourse(request);
@@ -40,6 +43,7 @@ public class CoursesController : Controller
     }
     
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<IActionResult> GetById(Guid id)
     {
         var result = _coursesService.GetCourse(id);

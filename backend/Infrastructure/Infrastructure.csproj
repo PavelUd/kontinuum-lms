@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Auth\Auth.csproj" />
       <ProjectReference Include="..\BlockEngine\BlockEngine.csproj" />
       <ProjectReference Include="..\Courses\Courses.csproj" />
     </ItemGroup>

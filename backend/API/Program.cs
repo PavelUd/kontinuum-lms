@@ -1,8 +1,16 @@
+using System.Reflection;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Auth.Domain;
+using Auth.Extensions;
 using BlockEngine.Application.Extensions;
+using Core.Entities.Interfaces;
 using Courses.Extensions;
 using Infrastructure.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +21,50 @@ builder.Services.AddControllers().AddJsonOptions(o =>
     o.JsonSerializerOptions.Converters.Add(
         new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
     );
-});;
-builder.Services.AddSwaggerGen();
+});
+
+builder.Services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(x =>
+    {
+        x.RequireHttpsMetadata = false;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["token:secret"])),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Kontinumm LMS API",
+        Description = "API Образовательной платформы"
+    });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "Введите строку авторизации: Bearer {token}",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+
+    options.AddSecurityRequirement(document => new() { [new OpenApiSecuritySchemeReference("Bearer", document)] = [] });
+
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
 
 builder.Services.AddCors(options =>
 {
@@ -27,16 +77,19 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddBlockEnginesModule(builder.Configuration);
 
+builder.Services.Configure<Token>(builder.Configuration.GetSection("token"));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IIdentityUser, IdentityUser>();
+
 builder.Services.AddInfrastructureModule(builder.Configuration);
 builder.Services.AddCoursesModule(builder.Configuration);
+builder.Services.AddAuthModule(builder.Configuration);
 var app = builder.Build();
-
-
-
 
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseCors("AllowLocalhost3000");
+app.UseAuthentication();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

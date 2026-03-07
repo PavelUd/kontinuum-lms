@@ -1,4 +1,6 @@
 using System.Reflection;
+using Auth.Domain;
+using Auth.Infrastructure;
 using BlockEngine.Domain.Entities;
 using BlockEngine.Infrastructure;
 using Courses.Application.Interfaces;
@@ -7,10 +9,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence;
 
-public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext
+public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext, IAuthDbContext 
 {
     public DbSet<Course> Courses { get; set; }
     public DbSet<Lesson> Lessons { get; set; }
+    
+    public DbSet<Credential> Credentials { get; set; }
     public DbSet<LessonBlock> LessonBLocks { get; set; }
     
     

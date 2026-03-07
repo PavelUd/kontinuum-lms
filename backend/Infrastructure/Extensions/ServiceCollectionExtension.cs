@@ -1,6 +1,9 @@
 using System.Reflection;
+using Auth.Application.Interfaces;
+using Auth.Infrastructure;
 using BlockEngine.Infrastructure;
 using Courses.Application.Interfaces;
+using Infrastructure.Hashing;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +23,8 @@ public static class ServiceCollectionExtension
         AddDbContext(services, configuration);
         services.AddScoped<ICoursesDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<ILessonBlockDbContext>(sp => sp.GetRequiredService<AppDbContext>());
+        services.AddScoped<IAuthDbContext>(sp => sp.GetRequiredService<AppDbContext>());
+        services.AddScoped<IHashingService, HashingService>();
     }
 
     private static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
