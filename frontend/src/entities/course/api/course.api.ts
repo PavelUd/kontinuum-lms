@@ -3,7 +3,7 @@ import type {Course, CourseSummary} from '../model/types'
 import {ApiResponse} from "@/shared/api/types/api-response";
 
 
-export const courseApiTs = async (): Promise<ApiResponse<CourseSummary[]>> => {
+export const courseApi = async (): Promise<ApiResponse<CourseSummary[]>> => {
     return api.get<ApiResponse<CourseSummary[]>>('courses')
 }
 

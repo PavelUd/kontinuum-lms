@@ -10,7 +10,6 @@ type Props = {
 
 export function ModuleContent({ blocks }: Props) {
 
-console.log(blocks)
     return (
         <div className={styles.moduleContent}>
             {blocks.map(block => {

@@ -3,12 +3,14 @@ import { ProfileMenu } from "@/features/profile-menu/ui/ProfileMenu";
 import { ChevronLeft, List } from "lucide-react";
 import styles from "./header.module.css";
 import Link from "next/link"
+import { User } from "@/entities/user/models/types";
 
 type Props = {
     onOpenSidebar: () => void
+    profile?: User
 }
 
-export function Header({onOpenSidebar} : Props ) {
+export function Header({onOpenSidebar, profile} : Props ) {
     return (
         <header className={styles.lessonHeader}>
             <div className={styles.lessonHeaderContainer}>
@@ -32,7 +34,7 @@ export function Header({onOpenSidebar} : Props ) {
                         </button>
 
                         <StreakBadge value={12} />
-                        <ProfileMenu name={"hello"} email={"hello"} />
+                        <ProfileMenu name={profile?.fullName} email={profile?.email} />
                     </div>
 
                 </div>

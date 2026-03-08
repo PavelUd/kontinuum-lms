@@ -107,6 +107,7 @@ export class FetchClient {
                 options.method !== 'GET' &&
                 options.method !== 'DELETE'
 
+
             if (hasBody) {
                 // Если пользователь сам не указал Content-Type, ставим JSON
                 if (!Object.keys(headers).some((h) => h.toLowerCase() === 'content-type')) {

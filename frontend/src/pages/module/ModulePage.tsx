@@ -10,6 +10,7 @@ import {Loader} from "@/shared/ui/loader";
 import {useModuleQuery} from "@/entities/module/model/useModulesQuery";
 import {Course} from "@/entities/course/model/types";
 import {useCourseQuery} from "@/entities/course";
+import {useProfileQuery} from "@/entities/user/models/useUsersQuery";
 type Props = {
         courseId: string
         lessonId: string
@@ -24,14 +25,21 @@ export function ModulePage({ courseId, lessonId }: Props) {
     } = useModuleQuery(lessonId);
 
     const {
+            data: profileData,
+            isLoading: profileLoading,
+            isError: profileError
+        } = useProfileQuery();
+
+
+    const {
         isLoading: courseLoading,
         data: courseData,
     } = useCourseQuery(courseId);
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
-
-    if (moduleLoading && courseLoading) return <Loader />
-    if (moduleError) return <div>Ошибка загрузки</div>
+    const profile = profileData?.data
+    if (moduleLoading && courseLoading && profileLoading) return <Loader />
+    if (moduleError && profileError) return <div>Ошибка загрузки</div>
 
 
     const lesson = moduleData?.data;
@@ -42,7 +50,7 @@ export function ModulePage({ courseId, lessonId }: Props) {
 
     return (
         <>
-        <Header onOpenSidebar={() => setSidebarOpen(true)}></Header>
+        <Header onOpenSidebar={() => setSidebarOpen(true)} profile={profile}></Header>
         <CurriculumSidebar
             open={sidebarOpen}
             onOpenChange={() => setSidebarOpen(false)} modules={lessons} courseId={courseData?.data.id ?? ""}  />

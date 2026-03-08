@@ -5,18 +5,24 @@ import { Fragment } from 'react'
 import { Settings, LogOut, Command } from 'lucide-react'
 import { UserAvatar } from '@/entities/user/ui/UserAvatar'
 import styles from '@/shared/ui/dropdown/Dropdown.module.css'
+import {useLogout} from "@/features/auth/model/useLogout";
 
 type Props = {
-    name: string
-    email: string
+    name?: string
+    email?: string
 }
 
+
+
 export function ProfileMenu({ name, email }: Props) {
+
+    const logout = useLogout()
+
     return (
         <Menu as="div" className={styles.dropdown}>
             {/* Trigger */}
             <Menu.Button>
-                <UserAvatar name={name} />
+                <UserAvatar name={name ?? ""} />
             </Menu.Button>
 
             {/* Dropdown */}
@@ -35,8 +41,8 @@ export function ProfileMenu({ name, email }: Props) {
                 >
                     {/* Profile */}
                     <div className="px-3 py-2">
-                        <div className="text-lg font-bold">{name}</div>
-                        <div className="text-muted">{email}</div>
+                        <div className="text-lg font-bold">{name ?? ""}</div>
+                        <div className="text-muted">{email ?? ""}</div>
                     </div>
 
                     <div className={styles.dropdownDivider} />
@@ -61,6 +67,7 @@ export function ProfileMenu({ name, email }: Props) {
                     <Menu.Item>
                         {({ active }) => (
                             <div
+
                                 className={`${styles.dropdownItem} ${
                                     active
                                         ? 'bg-[rgb(var(--primary))/0.1] text-[rgb(var(--primary))]'
@@ -77,6 +84,7 @@ export function ProfileMenu({ name, email }: Props) {
                     <Menu.Item>
                         {({ active }) => (
                             <div
+                                onClick={logout}
                                 className={`${styles.dropdownItem} ${
                                     active ? 'bg-red-100 text-red-500' : ''
                                 }`}

@@ -1,26 +1,25 @@
 import {CourseSummary} from "@/entities/course/model/types";
 import {Header} from "@/widgets/courses-header/ui/Header";
 import {CourseList} from "@/widgets/course-list/ui/CourseList";
+import {User} from "@/entities/user/models/types";
 
 type Props = {
-    userName: string
-    userEmail: string
+    profile?: User
     streak: number
     courses: CourseSummary[]
 }
 
 export function CoursesPage({
-                                userName,
-                                userEmail,
+                                profile,
                                 streak,
                                 courses
                             }: Props) {
 
+
     return (
         <>
             <Header
-                userName={userName}
-                userEmail={userEmail}
+                profile={profile}
                 streak={streak}
                 courses={courses}
             />

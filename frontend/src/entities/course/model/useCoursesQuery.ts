@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import {courseApiTs, getCourseById} from '../api/course.api.ts'
+import {courseApi, getCourseById} from '../api/course.api'
 import type {Course, CourseSummary} from './types'
 import {ApiResponse} from "@/shared/api/types/api-response";
 
@@ -8,7 +8,7 @@ export const CoursesQueryKey = ['courses'] as const
 export const useCoursesQuery = () => {
     return useQuery<ApiResponse<CourseSummary[]>>({
         queryKey: CoursesQueryKey,
-        queryFn: courseApiTs,
+        queryFn: courseApi,
     })
 }
 

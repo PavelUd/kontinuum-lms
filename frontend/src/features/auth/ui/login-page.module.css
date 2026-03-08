@@ -1,0 +1,47 @@
+.wrapper {
+    min-height: 100vh;
+    background: #f5f6f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    width: 470px;
+    background: white;
+    border-radius: 18px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.logo {
+    font-weight: 900;
+    font-size: 32px;
+    display: block;
+    margin-bottom: 30px;
+}
+
+.title {
+    font-size: 26px;
+    font-weight: 1000;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    font-size: 17px;
+    color: #6b7280;
+    font-weight: 500;
+    margin-bottom: 50px;
+}
+
+.bottom {
+    margin-top: 30px;
+}
+
+.studentLink {
+
+    font-size: 16px;
+    font-weight: 600;
+    color: #2563eb;
+}
