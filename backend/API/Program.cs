@@ -11,6 +11,7 @@ using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using Users.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,6 +83,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IIdentityUser, IdentityUser>();
 
 builder.Services.AddInfrastructureModule(builder.Configuration);
+builder.Services.AddUsersModule(builder.Configuration);
 builder.Services.AddCoursesModule(builder.Configuration);
 builder.Services.AddAuthModule(builder.Configuration);
 var app = builder.Build();

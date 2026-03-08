@@ -8,6 +8,7 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Users.Infrastructure;
 
 namespace Infrastructure.Extensions;
 
@@ -24,6 +25,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<ICoursesDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<ILessonBlockDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<IAuthDbContext>(sp => sp.GetRequiredService<AppDbContext>());
+        services.AddScoped<IUsersDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<IHashingService, HashingService>();
     }
 

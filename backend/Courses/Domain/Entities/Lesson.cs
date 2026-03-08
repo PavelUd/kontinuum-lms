@@ -5,7 +5,7 @@ using Courses.Domain.Enums;
 namespace Courses.Domain.Entities;
 
 [Table("lessons")]
-public class Lesson : BaseEntity
+public class Lesson  : BaseAuditableEntity
 {
     [Column("course_id")]
     public Guid CourseId { get; set; }

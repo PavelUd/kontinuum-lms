@@ -10,9 +10,6 @@ public class Credential
     [Column("user_id")]
     public Guid UserId { get; set; }
     
-    [Column("login")]
-    public string Login { get; set; }
-    
     [Column("salt")]
     public string Salt { get; set; }
     

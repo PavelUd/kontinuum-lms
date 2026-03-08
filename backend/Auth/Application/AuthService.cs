@@ -5,6 +5,7 @@ using System.Text;
 using Auth.Application.Interfaces;
 using Auth.Domain;
 using Auth.Infrastructure;
+using Contracts.Services;
 using Core;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -17,12 +18,14 @@ public class AuthService : IAuthService
     private readonly Token _token;
     private readonly IAuthDbContext _context;
     private readonly IHashingService _hashingService;
+    private readonly IUserQueryService _userQueryService;
 
-    public AuthService(IOptions<Token> tokenOptions, IAuthDbContext context, IHashingService hashingService)
+    public AuthService(IOptions<Token> tokenOptions, IAuthDbContext context, IHashingService hashingService, IUserQueryService userQueryService)
     {
         _token = tokenOptions.Value;
         _context = context;
         _hashingService = hashingService;
+        _userQueryService = userQueryService;
     }
 
     
@@ -39,7 +42,6 @@ public class AuthService : IAuthService
             _context.Credentials.Add(new Credential
             {
                 UserId = Guid.NewGuid(),
-                Login = login,
                 Password = passwordHash,
                 Salt = salt,
             });
@@ -60,10 +62,16 @@ public class AuthService : IAuthService
     
     public async Task<Result<string>> Authenticate(string login, string password)
     {
-        var credentials = GetUserByLogin(login);
+        var userResult = await _userQueryService.GetAuthUserByPhoneAsync(login);
+        if (!userResult.Succeeded)
+        {
+            return await Result<string>.FailureAsync(userResult.Errors);
+        }
+        var user =  userResult.Data;
+        var credentials = _context.Credentials.FirstOrDefault(x => x.UserId == user.Id);
         if (credentials == null)
         {
-            return await Result<string>.FailureAsync("Пользователь не найден");
+            return await Result<string>.FailureAsync("Пользователь не аутентифицирован");
         }
 
         var isConfirmPassword = VerifyPassword(password, credentials.Password, credentials.Salt);
@@ -72,7 +80,7 @@ public class AuthService : IAuthService
             return await Result<string>.FailureAsync("Неверный пароль");
         }
 
-        var role = "admin";
+        var role = user.Role;
         var tokens = await GenerateJwtToken(credentials,role, new TimeSpan(4, 0, 0));
         
         return await Result<string>.SuccessAsync(tokens);
@@ -98,15 +106,11 @@ public class AuthService : IAuthService
         var token = handler.CreateToken(descriptor);
         return handler.WriteToken(token);
     }
- 
-    private Credential? GetUserByLogin(string login)
-    {
-        return _context.Credentials.FirstOrDefault(x => x.Login == login);
-    }
     
+    //warning
     private bool IsUniqueLogin(string login)
     {
-        return !_context.Credentials.Any(u => u.Login == login);
+        return true;
     }
 
     private bool VerifyPassword(string enteredPassword, string storedHash, string storedSalt)
