@@ -3,6 +3,8 @@ using AutoMapper.QueryableExtensions;
 using Contracts.Contracts;
 using Contracts.Services;
 using Core;
+using Microsoft.EntityFrameworkCore;
+using Users.Application.DTO;
 using Users.Application.Interfaces;
 using Users.Infrastructure;
 
@@ -26,5 +28,11 @@ public class UsersService : IUsersService, IUserQueryService
         return firstOrDefault == null 
             ? Result<UserAuthDto>.FailureAsync("User not found") 
             : Result<UserAuthDto>.SuccessAsync(firstOrDefault);
+    }
+
+    public async Task<Result<UserDto>> GetUserById(Guid idUser)
+    {
+        var user = await _context.Users.Where(x => x.Id== idUser).ProjectTo<UserDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
+        return await Result<UserDto>.SuccessAsync(user);
     }
 }

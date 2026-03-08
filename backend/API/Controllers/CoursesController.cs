@@ -24,7 +24,6 @@ public class CoursesController : Controller
 
     
     [HttpGet]
-    [Authorize(Roles = "admin")]
     public async Task<IActionResult> Get()
     {
         var result = _coursesService.GetCourses();
@@ -43,7 +42,6 @@ public class CoursesController : Controller
     }
     
     [HttpGet("{id}")]
-    [Authorize]
     public async Task<IActionResult> GetById(Guid id)
     {
         var result = _coursesService.GetCourse(id);
