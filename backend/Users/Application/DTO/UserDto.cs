@@ -1,8 +1,10 @@
+using Contracts.Contracts;
+using Contracts.Contracts.Users;
 using Users.Domain;
 
 namespace Users.Application.DTO;
 
-public class UserDto
+public class UserDto : IUserDto
 {
     public Guid Id { get; set; }
     

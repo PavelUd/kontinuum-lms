@@ -1,9 +1,11 @@
 using System.Security.Principal;
 using Auth.Application.Dto;
 using Auth.Application.Interfaces;
+using Core;
 using Core.Entities.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Users.Application.DTO;
 using Users.Application.Interfaces;
 
 namespace API.Controllers;
@@ -31,22 +33,52 @@ public class AuthController : Controller
     {
         var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
         var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
-        var result = await _service.Authenticate(request.Login, request.Password);
-        return result.Succeeded ? Ok(result) : BadRequest(result);
+        var fingerprint = HttpContext.Request.Headers["X-Fingerprint"].ToString();
+
+        var result = await _service.Authenticate(request.Login, request.Password, fingerprint, userAgent, ip);
+
+        if (!result.Succeeded)
+            return BadRequest(result);
+
+        SaveRefreshTokenCookie(result.Data.Item2);
+        
+        return Ok(new Result<string> { Data = result.Data.Item1, Succeeded = true });
     }
     
-    [HttpPost("register")]
-    public async Task<IActionResult> Register(string login, string password)
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Authenticate()
     {
-        var result = await _service.RegisterAsync(login, password);
-        return result.Succeeded ? Ok(result) : BadRequest(result);
+        var oldRefreshToken = Request.Cookies["refresh_token"];
+        if (string.IsNullOrEmpty(oldRefreshToken))
+            return Unauthorized();
+        
+        var result = await _service.Refresh(oldRefreshToken);
+        
+        SaveRefreshTokenCookie(result.Data.Item2);
+        return Ok(new Result<string> { Data = result.Data.Item1, Succeeded = true });
     }
     
     [Authorize]
     [HttpGet("profile")]
     public async Task<IActionResult> GetProfile()
     {
-        var result = await _usersService.GetUserById(_user.Id);
+        var result = await _usersService.GetUserById<UserDto>(_user.Id);
         return result.Succeeded ? Ok(result) : BadRequest(result);
+    }
+    
+    private void SaveRefreshTokenCookie(string refreshToken)
+    {
+        
+        //На проде поменять  Secure на true 
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = false,               
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTimeOffset.UtcNow.AddDays(7),
+            Path = "/"
+        };
+
+        Response.Cookies.Append("refresh_token", refreshToken, cookieOptions);
     }
 }

@@ -1,5 +1,6 @@
 using AutoMapper;
 using Contracts.Contracts;
+using Contracts.Contracts.Users;
 using Users.Application.DTO;
 using Users.Domain;
 

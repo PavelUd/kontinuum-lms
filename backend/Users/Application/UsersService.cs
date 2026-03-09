@@ -1,6 +1,7 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Contracts.Contracts;
+using Contracts.Contracts.Users;
 using Contracts.Services;
 using Core;
 using Microsoft.EntityFrameworkCore;
@@ -30,9 +31,10 @@ public class UsersService : IUsersService, IUserQueryService
             : Result<UserAuthDto>.SuccessAsync(firstOrDefault);
     }
 
-    public async Task<Result<UserDto>> GetUserById(Guid idUser)
+    public async Task<Result<T>> GetUserById<T>(Guid idUser) where T : IUserDto
     {
-        var user = await _context.Users.Where(x => x.Id== idUser).ProjectTo<UserDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
-        return await Result<UserDto>.SuccessAsync(user);
+        var user = await _context.Users.Where(x => x.Id== idUser).ProjectTo<T>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
+        return await Result<T>.SuccessAsync(user);
     }
+    
 }

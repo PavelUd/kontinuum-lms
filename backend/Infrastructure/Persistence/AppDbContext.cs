@@ -14,6 +14,7 @@ namespace Infrastructure.Persistence;
 public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext, IAuthDbContext , IUsersDbContext
 {
     public DbSet<Course> Courses { get; set; }
+    public DbSet<RefreshSession> RefreshSessions { get; set; }
     public DbSet<Lesson> Lessons { get; set; }
     public DbSet<User>  Users { get; set; }
     public DbSet<Credential> Credentials { get; set; }
