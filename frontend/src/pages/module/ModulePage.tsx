@@ -8,7 +8,6 @@ import {ModuleContent} from "@/widgets/module/ui/ModuleContent";
 import styles from "@/widgets/module/ui/module.module.css"
 import {Loader} from "@/shared/ui/loader";
 import {useModuleQuery} from "@/entities/module/model/useModulesQuery";
-import {Course} from "@/entities/course/model/types";
 import {useCourseQuery} from "@/entities/course";
 import {useProfileQuery} from "@/entities/user/models/useUsersQuery";
 type Props = {
@@ -23,6 +22,8 @@ export function ModulePage({ courseId, lessonId }: Props) {
         isLoading: moduleLoading,
         isError: moduleError
     } = useModuleQuery(lessonId);
+
+
 
     const {
             data: profileData,

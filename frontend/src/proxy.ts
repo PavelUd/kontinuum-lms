@@ -7,7 +7,7 @@ const PUBLIC_ROUTES = [
 
 export function proxy(request: NextRequest) {
 
-    const token = request.cookies.get("access_token")?.value
+    const token = request.cookies.get("refresh_token")?.value
     const { pathname } = request.nextUrl
 
     const isPublicRoute = PUBLIC_ROUTES.includes(pathname)

@@ -2,11 +2,14 @@
 
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/shared/api/queryClient'
+import {AuthProvider} from "@/shared/api/auth/AuthProvider";
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (
         <QueryClientProvider client={queryClient}>
-            {children}
+            <AuthProvider>
+                {children}
+            </AuthProvider>
         </QueryClientProvider>
     )
 }
