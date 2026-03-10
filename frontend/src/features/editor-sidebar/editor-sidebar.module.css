@@ -1,0 +1,61 @@
+.editorSidebar {
+    width: 320px;
+    background: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    padding: 2rem 1.5rem;
+    overflow-y: auto;
+}
+
+.blockLibraryHeader {
+    margin-bottom: 16px;
+}
+
+.backLink {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #6b7280;
+    text-decoration: none;
+}
+
+.backLink:hover {
+    color: #374151;
+}
+
+.icon {
+    display: flex;
+}
+
+.title {
+    font-weight: 500;
+    margin: 0;
+    font-size: 20px;
+}
+
+.blockEntry {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 1.1rem;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #475569;
+}
+
+.blockEntry:hover {
+    border-color: var(--primary-color);
+    background: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.05);
+}

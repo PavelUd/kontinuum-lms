@@ -1,0 +1,66 @@
+.editorCanvas {
+    flex-grow: 1;
+    padding: 5rem 2rem;
+    overflow-y: auto;
+}
+
+.canvasHeaderEdit {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    text-align: center;
+}
+
+.title {
+    font-size: 40px;
+    font-weight: 500;
+    width: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.activeTitle {
+    border-bottom: 2px dashed #d1d5db;
+}
+
+.subtitle {
+    color: #6b7280;
+    font-size: 16px;
+}
+
+
+.canvasContainer {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 0 1.5rem;
+}
+
+
+/* End */
+
+
+.lessonEnd {
+    text-align: center;
+    padding: 40px 0;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 40px;
+}
+
+.lessonEndText {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.addIcon {
+    color: #2563eb;
+    opacity: 0.5;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.addIcon:hover {
+    opacity: 1;
+}

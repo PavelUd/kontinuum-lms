@@ -8,6 +8,8 @@ export type BlockType =
     | "video"
     | "spoiler"
     | "page_break"
+    | "table"
+    | "audio"
 
 export interface ModuleBlock {
     id: string
