@@ -23,7 +23,6 @@ export function CoursesPage({
                 streak={streak}
                 courses={courses}
             />
-
             <main className="max-w-[1400px] mx-auto px-6 md:px-10 xl:px-14 py-12">
 
                 <div className="mb-12">
