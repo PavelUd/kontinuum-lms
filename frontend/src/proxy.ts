@@ -22,15 +22,6 @@ export function proxy(request: NextRequest) {
         return NextResponse.redirect(new URL(loginPath, request.url))
     }
 
-    if (token && isPublicRoute) {
-
-        const redirectPath = pathname.startsWith("/admin")
-            ? "/admin"
-            : "/"
-
-        return NextResponse.redirect(new URL(redirectPath, request.url))
-    }
-
     return NextResponse.next()
 }
 

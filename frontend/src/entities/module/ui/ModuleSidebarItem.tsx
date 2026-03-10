@@ -5,14 +5,15 @@ import { CheckCircle, PlayCircle, Lock } from "lucide-react"
 import styles from './module-sidebar-item.module.css'
 
 interface Props {
-    module: ModuleSummary
+    module: ModuleSummary,
+    isCurrent?: boolean,
 }
 
-export function ModuleSidebarItem({ module }: Props) {
+export function ModuleSidebarItem({ module, isCurrent }: Props) {
 
 
 
-    const state = module.orderIndex == 1 ? styles.current : "";
+    const state = isCurrent ? styles.current : "";
     const locked = state === "locked"
 
     return (

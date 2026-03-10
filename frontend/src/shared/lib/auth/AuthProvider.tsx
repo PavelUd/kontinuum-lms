@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import {getToken, parseJwt, saveToken} from "@/shared/lib/auth/tokenStorage";
 import {ApiResponse} from "@/shared/api/types/api-response";
 import {refresh} from "@/shared/api/auth/refresh";
+import {usePathname, useRouter} from "next/navigation"
 import {Loader} from "@/shared/ui/loader";
 
 export const AuthContext = createContext<AuthContextType | null>(null)
@@ -14,18 +15,26 @@ type Props = {
 }
 
 export function AuthProvider({ children }: Props) {
+    const pathname = usePathname()
+    const router = useRouter()
+    const isPublicRoute =
+        pathname === "/login" ||
+        pathname === "/admin/login"
 
-    const { data, isLoading } = useQuery<ApiResponse<string>>({
+    const { data, isLoading, isError } = useQuery<ApiResponse<string>>({
         queryKey: ["auth"],
         queryFn: refresh,
         retry: false
     })
 
     useEffect(() => {
-        if (data?.data) {
+        if(isError && !isPublicRoute){
+            router.replace("/login")
+        }
+        else if (data?.data) {
             saveToken(data.data)
         }
-    }, [data])
+    }, [isError, data])
 
 
     const user = parseJwt(data?.data ?? "")
@@ -35,7 +44,7 @@ export function AuthProvider({ children }: Props) {
         loading: isLoading
     }
 
-    if(isLoading) {
+    if (!isPublicRoute && (isLoading || isError)) {
         return <Loader/>
     }
 

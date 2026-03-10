@@ -11,10 +11,12 @@ type Props = {
     open: boolean
     onOpenChange: (open: boolean) => void,
     courseId: string,
-    modules: ModuleSummary[]
+    modules: ModuleSummary[],
+    currentModuleId: string,
 }
 
-export function CurriculumSidebar({ open, onOpenChange, modules, courseId }: Props) {
+export function CurriculumSidebar({ open, onOpenChange, modules, courseId, currentModuleId }: Props) {
+
     return (
         <Dialog.Root open={open} onOpenChange={onOpenChange}>
 
@@ -33,21 +35,26 @@ export function CurriculumSidebar({ open, onOpenChange, modules, courseId }: Pro
                     </div>
 
                     <div className={styles.body}>
-                        {modules.map((module) =>
+                        {modules.map((module) => {
+                            const isCurrent = currentModuleId === module.id;
 
-                            module.status === "locked" ? (
-                                <div key={module.id} className="cursor-not-allowed opacity-60">
-                                    <ModuleSidebarItem module={module} />
-                                </div>
-                            ) : (
+                            if (module.status === "locked") {
+                                return (
+                                    <div key={module.id} className="cursor-not-allowed opacity-60">
+                                        <ModuleSidebarItem module={module} isCurrent={isCurrent} />
+                                    </div>
+                                );
+                            }
+
+                            return (
                                 <Link
                                     key={module.id}
                                     href={`/courses/${courseId}/module/${module.id}`}
                                 >
-                                    <ModuleSidebarItem module={module} />
+                                    <ModuleSidebarItem module={module} isCurrent={isCurrent} />
                                 </Link>
-                            )
-                        )}
+                            );
+                        })}
                     </div>
 
                 </Dialog.Content>
