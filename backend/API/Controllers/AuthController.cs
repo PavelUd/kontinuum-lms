@@ -57,6 +57,25 @@ public class AuthController : Controller
         SaveRefreshTokenCookie(result.Data.Item2);
         return Ok(new Result<string> { Data = result.Data.Item1, Succeeded = true });
     }
+
+
+    [Authorize]
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        var oldRefreshToken = Request.Cookies["refresh_token"];
+
+        if (string.IsNullOrEmpty(oldRefreshToken))
+            return NoContent();
+        
+        var result =  await _service.LogoutAsync(oldRefreshToken);
+        
+        if (!result.Succeeded)
+            return BadRequest(result);
+        
+        RemoveRefreshTokenCookie();
+        return NoContent();
+    }
     
     [Authorize]
     [HttpGet("profile")]
@@ -80,5 +99,18 @@ public class AuthController : Controller
         };
 
         Response.Cookies.Append("refresh_token", refreshToken, cookieOptions);
+    }
+    
+    private void RemoveRefreshTokenCookie()
+    {
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = false,
+            SameSite = SameSiteMode.Strict,
+            Path = "/"
+        };
+
+        Response.Cookies.Delete("refresh_token", cookieOptions);
     }
 }

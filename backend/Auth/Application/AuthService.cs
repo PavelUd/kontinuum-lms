@@ -32,35 +32,29 @@ public class AuthService : IAuthService
         _userQueryService = userQueryService;
     }
 
-    
-    public async Task<Result<string>> RegisterAsync(string login, string password)
+
+    public async Task<Result<None>> LogoutAsync(string refreshToken)
     {
-        if (!IsUniqueLogin(login))
+        var sessionResult = await GetValidRefreshSessionAsync(refreshToken);
+        if (!sessionResult.Succeeded)
         {
-            return await Result<string>.FailureAsync("Такой логин уже есть");
+            return await Result<None>.FailureAsync(sessionResult.Errors);
         }
 
         try
         {
-            var (passwordHash, salt) = _hashingService.HashWithSalt(password);
-            _context.Credentials.Add(new Credential
-            {
-                UserId = Guid.NewGuid(),
-                Password = passwordHash,
-                Salt = salt,
-            });
+            var session = sessionResult.Data;
+            await _context.RefreshSessions
+                .Where(x => x.UserId == session.UserId &&
+                            x.Fingerprint == session.Fingerprint &&
+                            x.Ua == session.Ua)
+                .ExecuteDeleteAsync();
             await _context.SaveChangesAsync();
-            var token = await Authenticate(login, password, "", "", "");
-            if (!token.Succeeded)
-            {
-                return  await Result<string>.FailureAsync(token.Errors);
-            }
-            return await Result<string>.SuccessAsync();
+            return await Result<None>.SuccessAsync();
         }
-
-        catch (Exception exception)
+        catch (Exception ex)
         {
-            return await Result<string>.FailureAsync(exception.Message);
+            return await Result<None>.FailureAsync(ex.Message);
         }
     }
     
@@ -99,29 +93,15 @@ public class AuthService : IAuthService
     }
     
     
-    public async Task<(string, string)> GenerateTokenPairAsync(Credential credentials, string role,  string fingerprint, string? userAgent, string? ip)
-    {
-        var accessToken = await GenerateJwtToken(credentials.UserId,role, new TimeSpan(4, 0, 0));
-        var refreshToken = GenerateRefreshToken();
-
-        await RotateRefreshTokenAsync(refreshToken, credentials.UserId,  fingerprint,  userAgent,  ip);
-        
-        return (accessToken, refreshToken);
-    }
-    
-    
     public async Task<Result<(string, string)>> Refresh(string token)
     {
-        var hashToken = _hashingService.Hash(token);
-        var session = await _context.RefreshSessions
-            .FirstOrDefaultAsync(x =>
-                x.RefreshTokenHash == hashToken &&
-                x.RevokedAt == null &&
-                x.ExpiresAt > DateTimeOffset.UtcNow);
-        if (session == null)
+        var sessionResult = await GetValidRefreshSessionAsync(token);
+        if (!sessionResult.Succeeded)
         {
-            return await Result<(string, string)>.FailureAsync("Токен невалиден или истёк");
+            return await Result<(string, string)>.FailureAsync(sessionResult.Errors);
         }
+
+        var session = sessionResult.Data;
 
         try
         {
@@ -136,6 +116,32 @@ public class AuthService : IAuthService
         {
             return await Result<(string, string)>.FailureAsync(ex.Message);
         }
+    }
+    
+    private async Task<(string, string)> GenerateTokenPairAsync(Credential credentials, string role,  string fingerprint, string? userAgent, string? ip)
+    {
+        var accessToken = await GenerateJwtToken(credentials.UserId,role, new TimeSpan(4, 0, 0));
+        var refreshToken = GenerateRefreshToken();
+
+        await RotateRefreshTokenAsync(refreshToken, credentials.UserId,  fingerprint,  userAgent,  ip);
+        
+        return (accessToken, refreshToken);
+    }
+    
+    private async Task<Result<RefreshSession>> GetValidRefreshSessionAsync(string token)
+    {
+        var hashToken = _hashingService.Hash(token);
+
+        var session = await _context.RefreshSessions
+            .FirstOrDefaultAsync(x =>
+                x.RefreshTokenHash == hashToken &&
+                x.RevokedAt == null &&
+                x.ExpiresAt > DateTimeOffset.UtcNow);
+
+        if (session == null)
+            return await Result<RefreshSession>.FailureAsync("Токен невалиден или истёк");
+
+        return await Result<RefreshSession>.SuccessAsync(session);
     }
     
     private async Task RotateRefreshTokenAsync(string token, Guid userId, string fingerprint, string? userAgent, string? ip)
@@ -161,11 +167,14 @@ public class AuthService : IAuthService
             
     }
 
+    
     private string GenerateRefreshToken()
     {
         var refreshToken = Guid.NewGuid().ToString();
         return refreshToken;
     }
+    
+    
     
     private async Task<string> GenerateJwtToken(Guid userId, string role, TimeSpan lifetime)
     {
@@ -186,13 +195,10 @@ public class AuthService : IAuthService
         var token = handler.CreateToken(descriptor);
         return handler.WriteToken(token);
     }
-    
-    //warning
-    private bool IsUniqueLogin(string login)
-    {
-        return true;
-    }
 
+
+    
+    
     private bool VerifyPassword(string enteredPassword, string storedHash, string storedSalt)
     {
         var salt = Convert.FromBase64String(storedSalt);
