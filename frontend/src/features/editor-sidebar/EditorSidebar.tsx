@@ -1,6 +1,8 @@
 import styles from "./editor-sidebar.module.css"
 import {ArrowLeft} from "lucide-react";
-import {BlockLibraryItem, iconMap} from "@/features/editor-sidebar/model/BlockConfig";
+import {BlockLibraryItem, iconMap} from "@/features/editor-sidebar/model/types";
+import {BlockType} from "@/entities/module-block/model/types";
+import {createBlock} from "@/entities/module-block/services/createBlock";
 
 
 export function CurriculumSidebar() {
@@ -34,7 +36,7 @@ export function CurriculumSidebar() {
                     <div
                         key={block.type}
                         className={styles.blockEntry}
-                        onClick={() => {}}
+                        onClick={() => {createBlock(block.type)}}
                     >
                         <BlockIcon size={20} style={{ color: block.color }}/>
                         {block.label}

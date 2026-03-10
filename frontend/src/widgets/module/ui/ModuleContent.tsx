@@ -5,7 +5,7 @@ import "@/entities/module-block/lib/register-blocks"
 import styles from "./module.module.css"
 
 type Props = {
-    blocks: ModuleBlock[]
+    blocks: ModuleBlock<any>[]
 }
 
 export function ModuleContent({ blocks }: Props) {

@@ -1,5 +1,9 @@
 import { registerBlock } from "./block-registry"
 
-import { TextBlock } from "../ui/TextBlock"
+import { TextBlock } from "../ui/text/TextBlock"
+import {EditTextBlock} from "@/entities/module-block/ui/text/EditTextBlock";
 
-registerBlock("text", TextBlock)
+registerBlock("text", {
+    view: TextBlock,
+    editor: EditTextBlock
+})

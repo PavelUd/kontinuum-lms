@@ -11,14 +11,32 @@ export type BlockType =
     | "table"
     | "audio"
 
-export interface ModuleBlock {
+export interface ModuleBlock<T> {
     id: string
     type: BlockType
     orderIndex: number
-    content : Record<string, any>
+    content : T
+    status: string
+}
+
+export type EditBlockProps<T = any> = {
+    block: ModuleBlock<T>
+
+    isActive: boolean
+
+    setActiveBlock: (id: string | null) => void
+
+    updateBlock: (id: string, patch: Partial<T>) => void
 }
 
 export type TextBlockContent = {
     title: string
     text: string
 }
+
+export type BlocksState = {
+    blockOrder: string[]
+    blocksById: Record<string, ModuleBlock<any>>
+}
+
+export type BlockStatus = "saving" | "saved" | "error"
