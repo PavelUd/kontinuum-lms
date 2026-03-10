@@ -11,10 +11,10 @@
 
 .lessonHeaderContainer {
     width: 100%;
-    padding-left: 32px;
-    padding-right: 32px;
+    padding-left: 22px;
+    padding-right: 22px;
 }
-@media (max-width: 1280px) {
+@media (max-width: 1080px) {
     .btnText {
         display: none;
     }
@@ -24,8 +24,8 @@
 }
 @media (min-width: 1280px) {
     .lessonHeaderContainer {
-        padding-left: 80px;
-        padding-right: 80px;
+        padding-left: 60px;
+        padding-right: 60px;
     }
 }
 
@@ -33,7 +33,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 80px;
+    height: 60px;
 }
 
 .lessonHeaderLeft {
@@ -54,7 +54,7 @@
     align-items: center;
     gap: 6px;
 
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 500;
 
     cursor: pointer;
@@ -63,11 +63,11 @@
 .outlineBtn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 500;
 
-    margin-right: 3rem;
+    margin-right: 1.5rem;
     cursor: pointer;
 }

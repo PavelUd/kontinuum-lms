@@ -16,7 +16,11 @@ type Props = {
 
 export function ProfileMenu({ name, email }: Props) {
 
-    const logout = useLogout()
+    const logoutMutation = useLogout()
+
+    const handleLogout = () => {
+        logoutMutation.mutate()
+    }
 
     return (
         <Menu as="div" className={styles.dropdown}>
@@ -41,8 +45,8 @@ export function ProfileMenu({ name, email }: Props) {
                 >
                     {/* Profile */}
                     <div className="px-3 py-2">
-                        <div className="text-lg font-bold">{name ?? ""}</div>
-                        <div className="text-muted">{email ?? ""}</div>
+                        <div className="text-sm font-bold">{name ?? ""}</div>
+                        <div className="text-muted text-sm">{email ?? ""}</div>
                     </div>
 
                     <div className={styles.dropdownDivider} />
@@ -84,7 +88,7 @@ export function ProfileMenu({ name, email }: Props) {
                     <Menu.Item>
                         {({ active }) => (
                             <div
-                                onClick={logout}
+                                onClick={handleLogout}
                                 className={`${styles.dropdownItem} ${
                                     active ? 'bg-red-100 text-red-500' : ''
                                 }`}

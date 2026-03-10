@@ -6,6 +6,9 @@ import { useCourseQuery } from '@/entities/course'
 import { ModuleRow } from '@/entities/module'
 import './CourseModulesModal.css'
 import Link from "next/link"
+import {ModulesSkeleton} from "@/features/course-modal/ui/ModulesSkeleton";
+import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
 
 interface Props {
     open: boolean
@@ -19,7 +22,7 @@ export function CourseModulesModal({
                                        onClose
                                    }: Props) {
 
-    const { data: source } = useCourseQuery(courseId)
+    const { data: source, isLoading: loading } = useCourseQuery(courseId)
 
     const course= source?.data;
 
@@ -66,7 +69,11 @@ export function CourseModulesModal({
 
                                 <div>
                                     <Dialog.Title className="k-modal-title">
-                                        {course?.name}
+                                        {loading ? (
+                                            <Skeleton width={520} height={38} />
+                                        ) : (
+                                            course?.name
+                                        )}
                                     </Dialog.Title>
 
                                     <p className="k-modal-subtitle">
@@ -85,14 +92,18 @@ export function CourseModulesModal({
 
                             <div className="k-modules-list">
 
-                                {course?.lessons?.map((module, index) => (
-                                    <Link
-                                        key={`${module.id}-${index}`}
-                                        href={`/courses/${course.id}/module/${module.id}`}
-                                    >
-                                        <ModuleRow module={module} />
-                                    </Link>
-                                ))}
+                                {loading ? (
+                                    <ModulesSkeleton />
+                                ) : (
+                                    course?.lessons?.map((module, index) => (
+                                        <Link
+                                            key={`${module.id}-${index}`}
+                                            href={`/courses/${course.id}/module/${module.id}`}
+                                        >
+                                            <ModuleRow module={module} />
+                                        </Link>
+                                    ))
+                                )}
 
                             </div>
 

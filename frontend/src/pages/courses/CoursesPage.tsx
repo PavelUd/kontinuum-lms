@@ -24,10 +24,10 @@ export function CoursesPage({
                 courses={courses}
             />
 
-            <main className="max-w-[1800px] mx-auto px-6 md:px-10 xl:px-16 py-12">
+            <main className="max-w-[1400px] mx-auto px-6 md:px-10 xl:px-14 py-12">
 
                 <div className="mb-12">
-                    <h1 className="text-4xl font-extrabold tracking-tight">
+                    <h1 className="text-2xl font-extrabold tracking-tight">
                         Мои курсы
                     </h1>
                 </div>

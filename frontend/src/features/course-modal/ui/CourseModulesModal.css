@@ -10,6 +10,7 @@
 }
 
 .k-modal-container {
+
     position: fixed;
     inset: 0;
     display: flex;
@@ -22,8 +23,8 @@
 
 .k-modal {
     width: 100%;
-    max-width: 1020px;
-    max-height: 85vh;
+    max-width: 800px;
+    height: 80vh;
 
     display: flex;
     flex-direction: column;
@@ -46,18 +47,19 @@
 }
 
 .k-modal-title {
-    font-size: 28px;
+    font-size: 1.5rem;
     font-weight: 800;
     color: #1f2937;
+
 }
 
 .k-modal-subtitle {
-    font-size: 20px;
+    font-size: 15px;
     color: #6b7280;
 }
 
 .k-modal-close {
-    font-size: 20px;
+    font-size: 15px;
     color: #9ca3af;
 }
 

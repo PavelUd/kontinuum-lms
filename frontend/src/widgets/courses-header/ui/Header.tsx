@@ -20,11 +20,11 @@ export function Header({
     return (
         <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-black/5">
             <div className="w-full px-8 xl:px-20">
-                <div className="flex items-center justify-between h-20">
+                <div className="flex items-center justify-between h-17">
 
                     {/* LEFT */}
                     <div className="flex items-center gap-5 flex-1">
-                        <div className="text-3xl font-extrabold tracking-tight">
+                        <div className="text-2xl font-extrabold tracking-tight">
                             Континуум
                         </div>
                     </div>

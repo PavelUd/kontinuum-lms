@@ -35,7 +35,7 @@ export function ModuleRow({ module }: Props) {
                     </span>
                 )}
 
-                {module.status === 2 && (
+                {(
                     <span className="k-module-badge active">
                         Изучаете сейчас
                     </span>
@@ -51,7 +51,7 @@ export function ModuleRow({ module }: Props) {
 
             {!locked && (
                 <ChevronRight
-                    size={24}
+                    size={18}
                     className="k-module-arrow"
                 />
             )}

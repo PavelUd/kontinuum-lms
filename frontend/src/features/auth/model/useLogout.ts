@@ -1,15 +1,26 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import {removeToken} from "@/shared/api/auth/tokenStorage";
+import {usePathname, useRouter} from 'next/navigation'
+import {removeToken} from "@/shared/lib/auth/tokenStorage";
+import {useMutation} from "@tanstack/react-query";
+import {logout} from "@/features/auth/api/login.api";
+import {queryClient} from "@/shared/api";
 
 export function useLogout() {
     const router = useRouter()
+    const pathname = usePathname()
 
-    const logout = () => {
-        removeToken()
-        router.push('/methodist-login')
-    }
+    return useMutation({
+        mutationFn: logout,
+        onSettled: () => {
+            removeToken()
+            queryClient.clear()
 
-    return logout
+            const redirect = pathname?.startsWith("/admin")
+                ? "/admin/login"
+                : "/login"
+
+            router.push(redirect)
+        }
+    })
 }

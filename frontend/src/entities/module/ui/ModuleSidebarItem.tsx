@@ -51,15 +51,15 @@ export function ModuleSidebarItem({ module }: Props) {
             <div>
 
                 {module.status === 3 && (
-                    <CheckCircle size={24} className={styles.iconActive} />
+                    <CheckCircle size={18} className={styles.iconActive} />
                 )}
 
                 {module.status === "active" && (
-                    <PlayCircle size={24} className={styles.iconActive} />
+                    <PlayCircle size={18} className={styles.iconActive} />
                 )}
 
                 {locked && (
-                    <Lock size={24} />
+                    <Lock size={18} />
                 )}
 
             </div>

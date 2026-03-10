@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 
 const PUBLIC_ROUTES = [
     "/login",
-    "/methodist-login"
+    "/admin/login"
 ]
 
 export function proxy(request: NextRequest) {
@@ -11,15 +11,24 @@ export function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl
 
     const isPublicRoute = PUBLIC_ROUTES.includes(pathname)
+    const isAdminRoute = pathname.startsWith("/admin")
 
-    // нет токена → редирект на login
     if (!token && !isPublicRoute) {
-        return NextResponse.redirect(new URL("/login", request.url))
+
+        const loginPath = isAdminRoute
+            ? "/admin/login"
+            : "/login"
+
+        return NextResponse.redirect(new URL(loginPath, request.url))
     }
 
-    // если токен есть → нельзя открывать страницы логина
     if (token && isPublicRoute) {
-        return NextResponse.redirect(new URL("/", request.url))
+
+        const redirectPath = pathname.startsWith("/admin")
+            ? "/admin"
+            : "/"
+
+        return NextResponse.redirect(new URL(redirectPath, request.url))
     }
 
     return NextResponse.next()

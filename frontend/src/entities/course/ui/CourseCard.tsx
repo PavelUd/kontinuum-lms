@@ -19,7 +19,7 @@ export function CourseCard({ course, onOpen }: Props) {
     return (
         <div className="k-course-card cursor-pointer" onClick={onOpen}>
             <div className="k-card-placeholder">
-                <BookOpen size={48} className="text-primary opacity-25; color: accent-amber-300" />
+                <BookOpen size={36} className="text-primary opacity-25; color: accent-amber-300" />
             </div>
 
             <h3 className="k-course-title">{course.name}</h3>

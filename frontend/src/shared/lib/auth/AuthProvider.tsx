@@ -2,7 +2,7 @@
 
 import {createContext, ReactNode, useContext, useEffect} from "react"
 import { useQuery } from "@tanstack/react-query"
-import {parseJwt, saveToken} from "@/shared/api/auth/tokenStorage";
+import {getToken, parseJwt, saveToken} from "@/shared/lib/auth/tokenStorage";
 import {ApiResponse} from "@/shared/api/types/api-response";
 import {refresh} from "@/shared/api/auth/refresh";
 import {Loader} from "@/shared/ui/loader";

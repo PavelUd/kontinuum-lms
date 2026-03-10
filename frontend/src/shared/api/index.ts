@@ -1,4 +1,4 @@
-import { getToken } from "./auth/tokenStorage"
+import { getToken } from "../lib/auth/tokenStorage"
 import { FetchClient } from './fetchClient'
 import { queryClient } from './queryClient'
 

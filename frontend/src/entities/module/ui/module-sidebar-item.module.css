@@ -2,8 +2,9 @@
     display: flex;
     align-items: center;
     gap: 18px;
-    padding: 17px;
-    border-bottom: 1px solid #e5e7eb;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    text-decoration: none;
     transition: all 0.2s ease;
 }
 
@@ -28,10 +29,10 @@
 /* number */
 
 .moduleNum {
-    font-size: 1rem;
+    font-size: 0.75rem;
     font-weight: 800;
     color: var(--text-muted);
-    width: 30px;
+    width: 20px;
 }
 
 /* content */
@@ -41,7 +42,7 @@
 }
 
 .moduleTitle {
-    font-size: 20px;
+    font-size:.900em;
     font-weight: 700;
     color: #1f2937;
 }
@@ -53,9 +54,13 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 15px;
-    padding: 4px 10px;
-    border-radius: 8px;
+
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+
+    padding: 0.35em 0.65em;
+    border-radius: 0.375rem;
 }
 
 .badgeSuccess {

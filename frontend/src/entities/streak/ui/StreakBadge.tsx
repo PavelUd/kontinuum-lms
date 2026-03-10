@@ -10,7 +10,7 @@ type Props = {
 export function StreakBadge({ value }: Props) {
     return (
         <div className={styles.streakBadge}>
-            <Flame size={20} className={styles.icon} />
+            <Flame size={18} className={styles.icon} />
             {value}
         </div>
     )

@@ -28,7 +28,7 @@ export function CurriculumSidebar({ open, onOpenChange, modules, courseId }: Pro
                         <Dialog.Title>Программа курса</Dialog.Title>
 
                         <Dialog.Close className={styles.closeBtn}>
-                            <X size={34} />
+                            <X size={24} />
                         </Dialog.Close>
                     </div>
 

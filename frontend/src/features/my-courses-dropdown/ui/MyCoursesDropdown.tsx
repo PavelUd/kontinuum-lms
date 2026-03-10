@@ -36,8 +36,8 @@ export function MyCoursesDropdown({ courses }: Props) {
             <Menu as="div" className={styles.dropdown}>
 
                 <Menu.Button className="flex items-center gap-2 font-semibold cursor-pointer me-3">
-                    <Layout size={24} />
-                    <span className="text-xl font-semibold tracking-tight">
+                    <Layout size={18} />
+                    <span className="text font-semibold tracking-tight">
                         Мои курсы
                     </span>
                 </Menu.Button>

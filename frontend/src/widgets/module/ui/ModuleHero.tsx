@@ -26,7 +26,7 @@ export function ModuleHero({
         <div className={styles.hero}>
             <div className={styles.container}>
                 <div className={`${styles.progress} step`}>
-                  <SteppedProgress total={40} current={12} currentProgress={30}></SteppedProgress>
+                  <SteppedProgress total={30} current={12} currentProgress={30}></SteppedProgress>
               </div>
                 <div className={styles.category}>
                     Модуль {module} • {category}
@@ -37,7 +37,7 @@ export function ModuleHero({
                 </h1>
 
                 <div className={styles.meta}>
-                    <Clock size={20} />
+                    <Clock size={16} />
                     Время на изучение: {duration} минут
                 </div>
 
