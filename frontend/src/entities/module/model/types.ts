@@ -12,5 +12,9 @@ export interface Module {
     title: string;
     status: number;
     orderIndex: number;
-    blocks: ModuleBlock[]
+    blocks: ModuleBlock<any>[]
+}
+
+export type UpdateTitleBlockProps = {
+    title: string
 }

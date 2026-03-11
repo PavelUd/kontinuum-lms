@@ -1,10 +1,11 @@
 import { create } from "zustand"
-import {BlocksState, BlockStatus, BlockType, ModuleBlock} from "@/entities/module-block/model/types";
+import {BlocksState, BlockType, CreateBlockProps, ModuleBlock} from "@/entities/module-block/model/types";
 import {getDefaultBlockContent} from "@/entities/module-block/model/block-defaults";
+import {blockCommandQueue} from "@/entities/module-block/model/block-command-queue";
 
 type BlocksStore = BlocksState & {
 
-    addBlock: (type: BlockType) => string
+    addBlock: (type: BlockType, lessonId: string) => string
 
     moveBlock: (id: string, direction: "up" | "down") => void
 
@@ -13,10 +14,6 @@ type BlocksStore = BlocksState & {
     updateBlock: (id: string, content: any) => void
 
     removeBlock: (id: string) => void
-
-    setStatus: (id: string, status: BlockStatus) => void
-
-    reorderBlocks: (from: number, to: number) => void
 
     loadBlocks: (blocks: ModuleBlock<any>[]) => void
 
@@ -36,7 +33,7 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
             activeBlockId: id
         }),
 
-    addBlock: (type) => {
+    addBlock: (type, lessonId) => {
 
         const id = crypto.randomUUID()
 
@@ -45,7 +42,6 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
             type,
             orderIndex: get().blockOrder.length,
             content:  getDefaultBlockContent(type),
-            status: "saving"
         }
 
         set(state => ({
@@ -55,6 +51,16 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
                 [id]: block
             }
         }))
+
+        blockCommandQueue.enqueue({
+            type: "create",
+            tempId: id,
+            lessonId: lessonId,
+            payload: {
+                content: block.content,
+                type: block.type,
+            }
+        })
 
         return id
     },
@@ -76,11 +82,8 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
                 return state
 
             const newOrder = [...state.blockOrder]
-
             const [moved] = newOrder.splice(index, 1)
-
             newOrder.splice(target, 0, moved)
-
             const newBlocks = { ...state.blocksById }
 
             newOrder.forEach((blockId, i) => {
@@ -90,13 +93,17 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
                 }
             })
 
+            blockCommandQueue.enqueue({
+                type: "reorder",
+                id: id,
+                moveUp :  direction === "up"
+            })
+
             return {
                 blockOrder: newOrder,
                 blocksById: newBlocks
             }
-
         })
-
     },
 
     replaceTempId: (tempId, realId) => {
@@ -114,7 +121,6 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
             newBlocks[realId] = {
                 ...block,
                 id: realId,
-                status: "saved"
             }
 
             return {
@@ -129,7 +135,6 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
 
     updateBlock: (id, content) => {
 
-        console.log(id, content)
         set(state => ({
             blocksById: {
                 ...state.blocksById,
@@ -139,6 +144,12 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
                 }
             }
         }))
+
+        blockCommandQueue.enqueue({
+            type: "update",
+            id,
+            payload: content
+        })
     },
 
     removeBlock: (id) => {
@@ -154,35 +165,10 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
             }
 
         })
-    },
 
-    setStatus: (id, status) => {
-
-        set(state => ({
-            blocksById: {
-                ...state.blocksById,
-                [id]: {
-                    ...state.blocksById[id],
-                    status
-                }
-            }
-        }))
-    },
-
-    reorderBlocks: (from, to) => {
-
-        set(state => {
-
-            const newOrder = [...state.blockOrder]
-
-            const [moved] = newOrder.splice(from, 1)
-
-            newOrder.splice(to, 0, moved)
-
-            return {
-                blockOrder: newOrder
-            }
-
+        blockCommandQueue.enqueue({
+            type: "delete",
+            id
         })
     },
 
@@ -193,7 +179,7 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
 
         blocks.forEach(b => {
             order.push(b.id)
-            map[b.id] = { ...b, status: "saved" }
+            map[b.id] = { ...b, }
         })
 
         set({

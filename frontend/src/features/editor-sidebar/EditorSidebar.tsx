@@ -2,10 +2,20 @@ import styles from "./editor-sidebar.module.css"
 import {ArrowLeft} from "lucide-react";
 import {BlockLibraryItem, iconMap} from "@/features/editor-sidebar/model/types";
 import {BlockType} from "@/entities/module-block/model/types";
-import {createBlock} from "@/entities/module-block/services/createBlock";
+import {useLessonBlocksStore} from "@/entities/module-block/model/blocks.store";
 
 
-export function CurriculumSidebar() {
+type Props = {
+    moduleId: string
+}
+
+export function EditorSidebar({ moduleId }: Props) {
+
+    const createBlock =(type: BlockType, lessonId: string) => {
+        const { addBlock, setActiveBlock,  } = useLessonBlocksStore.getState()
+        const tempId = addBlock(type, lessonId)
+        setActiveBlock(tempId)
+    }
 
     const blocks: BlockLibraryItem[] = [
         { type: "text", icon: "type", color: "blue", label: "Текстовый блок" },
@@ -36,7 +46,7 @@ export function CurriculumSidebar() {
                     <div
                         key={block.type}
                         className={styles.blockEntry}
-                        onClick={() => {createBlock(block.type)}}
+                        onClick={() => {createBlock(block.type, moduleId)}}
                     >
                         <BlockIcon size={20} style={{ color: block.color }}/>
                         {block.label}

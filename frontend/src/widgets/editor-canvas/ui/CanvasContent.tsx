@@ -1,24 +1,23 @@
 'use client'
 
 import styles from "./canvas.module.css"
-import {TextBlock} from "@/entities/module-block/ui/text/TextBlock";
 import {useLessonBlocksStore} from "@/entities/module-block/model/blocks.store";
 import {getBlock} from "@/entities/module-block/lib/block-registry";
 import "@/entities/module-block/lib/register-blocks"
 import {BlockControls} from "@/widgets/editor-canvas/ui/BlockControls";
+import {ModuleBlock} from "@/entities/module-block/model/types";
 
-type Props = {
-    name: string
-}
 
-export function CanvasContent({ name }: Props) {
+export function CanvasContent() {
 
     const blockOrder = useLessonBlocksStore(s => s.blockOrder)
     const blocksById = useLessonBlocksStore(s => s.blocksById)
+
     const updateBlock = useLessonBlocksStore(s => s.updateBlock)
     const setActiveBlock = useLessonBlocksStore(s => s.setActiveBlock)
     const moveBlock = useLessonBlocksStore(s => s.moveBlock)
     const removeBlock = useLessonBlocksStore(s => s.removeBlock)
+
     const activeBlock = useLessonBlocksStore(s => s.activeBlockId)
 
     return (

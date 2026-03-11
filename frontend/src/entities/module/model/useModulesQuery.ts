@@ -1,6 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
 import {ApiResponse} from "@/shared/api/types/api-response";
-import {getModuleById} from "@/entities/module/api/module.api.ts";
+import {getModuleById} from "@/entities/module/api/module.api";
 import {Module} from "@/entities/module";
 
 export function useModuleQuery(id: string) {

@@ -46,7 +46,7 @@ export function EditTextBlock({
     const handleTitleBlur = () => {
         if (!titleRef.current) return
 
-        const newTitle = titleRef.current.innerText
+        const newTitle = titleRef.current.innerText.trim()
 
         if (newTitle !== title) {
             updateBlock(block.id, { title: newTitle, text: block.content.text })

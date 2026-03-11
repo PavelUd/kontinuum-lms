@@ -1,3 +1,5 @@
+
+
 export type BlockType =
     | "text"
     | "image"
@@ -16,7 +18,6 @@ export interface ModuleBlock<T> {
     type: BlockType
     orderIndex: number
     content : T
-    status: string
 }
 
 export type EditBlockProps<T = any> = {
@@ -34,9 +35,43 @@ export type TextBlockContent = {
     text: string
 }
 
+export type CreateBlockProps = {
+    content: any,
+    type: BlockType,
+    orderIndex: number
+}
+
+export type UpdateContentBlockProps = {
+    content: any,
+}
+
+export type MoveUpBlockProps = {
+    moveUp : boolean,
+}
+
 export type BlocksState = {
     blockOrder: string[]
     blocksById: Record<string, ModuleBlock<any>>
 }
 
-export type BlockStatus = "saving" | "saved" | "error"
+export type BlockCommand =
+    | {
+    type: "create"
+    tempId: string
+    lessonId: string
+    payload: any
+}
+    | {
+    type: "update"
+    id: string
+    payload: any
+}
+    | {
+    type: "delete"
+    id: string
+}
+    | {
+    type: "reorder"
+    id: string
+    moveUp: boolean
+}
