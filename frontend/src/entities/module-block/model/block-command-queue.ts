@@ -70,8 +70,8 @@ export class BlockCommandQueue {
             }
 
             case "reorder": {
-                await moveBlock(cmd.id,{ "moveUp": cmd.moveUp })
-
+                console.log(cmd.payload);
+                await moveBlock(cmd.id,cmd.payload)
                 break
             }
         }

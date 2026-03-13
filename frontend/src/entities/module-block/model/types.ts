@@ -49,8 +49,9 @@ export type UpdateContentBlockProps = {
     content: any,
 }
 
-export type MoveUpBlockProps = {
-    moveUp : boolean,
+export type MoveBlockProps = {
+   aboveBlockId : string | null,
+   belowBlockId : string | null
 }
 
 export type BlocksState = {
@@ -76,6 +77,9 @@ export type BlockCommand =
 }
     | {
     type: "reorder"
-    id: string
-    moveUp: boolean
+    id: string,
+    payload: {
+    aboveBlockId: string | null,
+    belowBlockId: string |  null
+    }
 }

@@ -4,8 +4,21 @@ import styles from "./canvas.module.css"
 import {useLessonBlocksStore} from "@/entities/module-block/model/blocks.store";
 import {getBlock} from "@/entities/module-block/lib/block-registry";
 import "@/entities/module-block/lib/register-blocks"
+import {
+    DndContext,
+    closestCenter,
+    DragEndEvent,
+    DragOverlay,
+    useSensors,
+    useSensor,
+    PointerSensor,
+    DragStartEvent
+} from "@dnd-kit/core"
+import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
+import {SortableBlock} from "@/widgets/editor-canvas/ui/SortableBlock";
+import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers"
+import {useState} from "react";
 import {BlockControls} from "@/widgets/editor-canvas/ui/BlockControls";
-import {ModuleBlock} from "@/entities/module-block/model/types";
 
 
 export function CanvasContent() {
@@ -18,38 +31,112 @@ export function CanvasContent() {
     const moveBlock = useLessonBlocksStore(s => s.moveBlock)
     const removeBlock = useLessonBlocksStore(s => s.removeBlock)
 
+    const [draggingId, setDraggingId] = useState<string | null>(null)
+
     const activeBlock = useLessonBlocksStore(s => s.activeBlockId)
 
+    function handleDragStart(event: DragStartEvent) {
+        console.log(event.active.id);
+        setDraggingId(event.active.id.toString())
+    }
+
+    function handleDragEnd(event: DragEndEvent) {
+
+        const { active, over } = event
+
+        if (!over || active.id === over.id) return
+
+        const oldIndex = blockOrder.indexOf(active.id as string)
+        const newIndex = blockOrder.indexOf(over.id as string)
+
+        moveBlock(oldIndex, newIndex, draggingId ?? "");
+        setDraggingId(null)
+    }
+
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                delay: 100,
+                tolerance: 5
+            }
+        })
+    )
+
     return (
-        <div className={styles.canvasContainer}>
+                <div className={styles.canvasContainer}>
+                    <div className={styles.blocks}>
+                    <DndContext sensors={sensors}
+                        collisionDetection={closestCenter}
+                        onDragEnd={handleDragEnd}
+                                onDragStart={handleDragStart}
+                        modifiers={[restrictToVerticalAxis]}
+                    >
+                        <SortableContext
+                            items={blockOrder}
+                            strategy={verticalListSortingStrategy}
 
-            <div className={styles.blocks} onClick={() => setActiveBlock(null)}>
-                {blockOrder.map(id => {
+                        >
 
-                    const block = blocksById[id]
-                    const BlockComponent = getBlock(block.type, "editor")
-                    if (!BlockComponent) return null
+                        {blockOrder.map(id => {
 
-                    return (
-                        <div key={block.id} className={`${styles.editableBlockWrapper} ${activeBlock === block.id ? styles.active : ''}`} onClick={(e) => { e.stopPropagation(); setActiveBlock(block.id); }}>
-                            <BlockControls
-                                onMoveUp={() => moveBlock(block.id, "up")}
-                                onMoveDown={() => moveBlock(block.id, "down")}
-                                onRemove={() => removeBlock(block.id)}
-                            />
-                        <BlockComponent
-                            key={block.id}
-                            block={block}
-                            isActive={activeBlock === block.id}
-                            updateBlock={updateBlock}
-                        />
+                            const block = blocksById[id]
+                            const BlockComponent = getBlock(block.type, "editor")
+                            if (!BlockComponent){
+                              return
+                            }
+
+                            return (
+                                <SortableBlock key={block.id} id={block.id}>
+
+                                    <div
+                                        className={`${styles.editableBlockWrapper} ${activeBlock === block.id ? styles.active : ''}`}
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            setActiveBlock(block.id)
+                                        }}
+                                    >
+                                        <BlockControls onRemove={() => removeBlock(block.id)} />
+
+                                        <BlockComponent
+                                            block={block}
+                                            isActive={activeBlock === block.id}
+                                            updateBlock={updateBlock}
+                                        />
+
+                                    </div>
+
+                                </SortableBlock>
+                            )
+                        })}
+                        </SortableContext>
+
+                        <DragOverlay>
+                            {draggingId ? (
+                                <div className={`${styles.editableBlockOverlay}`}>
+                                    {(() => {
+                                        const block = blocksById[draggingId]
+                                        const BlockComponent = getBlock(block.type, "view")
+                                        if (!BlockComponent){
+                                            return
+                                        }
+                                        return (
+                                            <BlockComponent
+                                                key={block.id} content={block.content}
+                                            />
+                                        )
+                                    })()}
+                                </div>
+                            ) : null}
+                        </DragOverlay>
+                    </DndContext>
+                    </div>
+
+                    <div className={styles.lessonEnd}>
+                        <div className={styles.lessonEndText}>
+                            Конец урока
                         </div>
-                    )
-                })}
-            </div>
-            <div className={styles.lessonEnd}>
-                <div className={styles.lessonEndText}>Конец урока</div>
-            </div>
-        </div>
+                    </div>
+                </div>
+
     )
 }

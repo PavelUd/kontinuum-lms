@@ -57,6 +57,20 @@
     padding: 0 1.5rem;
 }
 
+.editableBlockOverlay{
+    padding: 0.5rem 1.5rem;
+    background: #f1f5f9;
+    border-color: #cbd5e0;
+    z-index: 20;
+    border-radius: 7px;
+
+}
+
+.dragOverlay{
+    width: 100%;
+    pointer-events: none;
+}
+
 .blocks blockquote,
 .blocks [contenteditable] blockquote {
     border-left: none;

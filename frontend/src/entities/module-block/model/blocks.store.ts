@@ -7,7 +7,7 @@ type BlocksStore = BlocksState & {
 
     addBlock: (type: BlockType, lessonId: string) => string
 
-    moveBlock: (id: string, direction: "up" | "down") => void
+    moveBlock: (from: number, to: number, id: string) => void
 
     replaceTempId: (tempId: string, realId: string) => void
 
@@ -65,40 +65,41 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
         return id
     },
 
-    moveBlock: (id: string, direction: "up" | "down") => {
+    moveBlock: (from: number, to: number, id: string) => {
 
         set(state => {
 
-            const index = state.blockOrder.indexOf(id)
-
-            if (index === -1) return state
-
-            const target =
-                direction === "up"
-                    ? index - 1
-                    : index + 1
-
-            if (target < 0 || target >= state.blockOrder.length)
-                return state
-
             const newOrder = [...state.blockOrder]
-            const [moved] = newOrder.splice(index, 1)
-            newOrder.splice(target, 0, moved)
+
+            const [moved] = newOrder.splice(from, 1)
+            newOrder.splice(to, 0, moved)
+
             const newBlocks = { ...state.blocksById }
 
-            newOrder.forEach((blockId, i) => {
-                newBlocks[blockId] = {
-                    ...newBlocks[blockId],
+            newOrder.forEach((id, i) => {
+                newBlocks[id] = {
+                    ...newBlocks[id],
                     orderIndex: i
                 }
             })
 
+            const newIndex = newOrder.indexOf(moved)
+
+            const aboveBlockId = newIndex > 0
+                ? newOrder[newIndex - 1]
+                : null
+
+            const belowBlockId = newIndex < newOrder.length - 1
+                ? newOrder[newIndex + 1]
+                : null
+
+            console.log(aboveBlockId, belowBlockId);
+
             blockCommandQueue.enqueue({
                 type: "reorder",
-                id: id,
-                moveUp :  direction === "up"
+                id,
+                payload: {belowBlockId : aboveBlockId, aboveBlockId : belowBlockId}
             })
-
             return {
                 blockOrder: newOrder,
                 blocksById: newBlocks
