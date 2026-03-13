@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace BlockEngine.Application.Plugins.Text;
+namespace BlockEngine.Application.Plugins.Heading;
 
-public class TextBlockContent
+public class HeadingBlockContent
 {
     [JsonPropertyName("text")]
     public string Text { get; set; }

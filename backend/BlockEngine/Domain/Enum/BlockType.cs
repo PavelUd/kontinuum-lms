@@ -6,5 +6,6 @@ public enum BlockType
     Formula,
     Tip,
     Note,
+    Heading,
     Spoiler
 }

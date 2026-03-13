@@ -1,5 +1,6 @@
 using System.Reflection;
 using BlockEngine.Application.Interfaces;
+using BlockEngine.Application.Plugins.Heading;
 using BlockEngine.Application.Plugins.Text;
 using BlockEngine.Application.Services;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<Services.BlockEngine>();
         services.AddScoped<IBlockService, BlockService>();
         services.AddScoped<IBlockPlugin, TextBlockPlugin>();
+        services.AddScoped<IBlockPlugin, HeadingBlockPlugin>();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         
         
