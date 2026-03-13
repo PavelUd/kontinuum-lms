@@ -5,7 +5,7 @@ namespace BlockEngine.Infrastructure;
 
 public interface ILessonBlockDbContext
 {
-    public DbSet<LessonBlock> LessonBLocks { get; set; }
+    public DbSet<LessonBlock> LessonBlocks { get; set; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
     int SaveChanges();
 }

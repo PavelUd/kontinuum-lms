@@ -26,9 +26,21 @@ public class LessonsService : ILessonsService
     public async Task<Result<List<SummaryLessonDto>>> GetLessons(Guid idCourse)
     {
         var result = _dbContext.Lessons.Where(x => x.CourseId == idCourse).ProjectTo<SummaryLessonDto>(_mapper.ConfigurationProvider).ToList();
-        var blocksResult = await _mediator.Send(new GetLessonBlocksQuery(result.First().CourseId));
         return await Result<List<SummaryLessonDto>>.SuccessAsync(result);
     }
+
+    public async Task<Result<None>> UpdateTitle(string title, Guid id)
+    {
+        var lesson = _dbContext.Lessons.FirstOrDefault(x => x.Id == id);
+        if (lesson == null)
+        {
+            return await Result<None>.SuccessAsync();
+        }
+        lesson.Title = title;
+        await _dbContext.SaveChangesAsync();
+        return await Result<None>.SuccessAsync();
+    }
+    
     
     public Result<Guid> CreateLesson(LessonCreateRequest request, Guid idCourse)
     {

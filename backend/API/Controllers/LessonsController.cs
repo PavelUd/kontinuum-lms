@@ -1,6 +1,7 @@
 using BlockEngine.Application.DTO;
 using BlockEngine.Application.Interfaces;
 using Courses.Application.Interfaces;
+using Courses.DTO.Lessons;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -12,16 +13,14 @@ namespace API.Controllers;
 public class LessonsController : Controller
 {
     private readonly ILessonsService _lessonsService;
-    private readonly IBlockService _blockService;
 
-    public LessonsController(ILessonsService lessonsService, IBlockService blockService)
+    public LessonsController(ILessonsService lessonsService)
     {
         _lessonsService = lessonsService;
-        _blockService = blockService;
     }
     
     [HttpDelete("{id}")]
-    public async Task<IActionResult> CreateLesson(Guid id)
+    public async Task<IActionResult> DeleteLesson(Guid id)
     {
         var idResult = _lessonsService.DeleteLesson(id);
         if (!idResult.Succeeded)
@@ -32,7 +31,7 @@ public class LessonsController : Controller
     }
     
     [HttpGet("{id}")]
-    public async Task<IActionResult>GetLessonByLesson(Guid id)
+    public async Task<IActionResult> GetLessonByLesson(Guid id)
     {
         var result = await _lessonsService.GetLessonById(id);
         if (!result.Succeeded)
@@ -42,14 +41,14 @@ public class LessonsController : Controller
         return Ok(result);
     }
     
-    [HttpPost("{id}/blocks")]
-    public async Task<IActionResult>CreateBlock(BlockCreateRequest request, Guid id)
+    [HttpPatch("{id}/title")]
+    public async Task<IActionResult> UpdateLessonTitle(Guid id, [FromBody] UpdateTitleRequest request)
     {
-        var idResult = await _blockService.CreateLessonBlock(request, id);
-        if (!idResult.Succeeded)
+        var result = await _lessonsService.UpdateTitle(request.Title, id);
+        if (!result.Succeeded)
         {
-            return BadRequest(idResult.Errors);
+            return BadRequest(result.Errors);
         }
-        return Accepted($"/courses/{idResult.Data}", new { idResult.Data });
+        return NoContent();
     }
 }

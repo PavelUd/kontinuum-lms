@@ -18,7 +18,7 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
     public DbSet<Lesson> Lessons { get; set; }
     public DbSet<User>  Users { get; set; }
     public DbSet<Credential> Credentials { get; set; }
-    public DbSet<LessonBlock> LessonBLocks { get; set; }
+    public DbSet<LessonBlock> LessonBlocks { get; set; }
     
     
     public AppDbContext(DbContextOptions<AppDbContext> options)

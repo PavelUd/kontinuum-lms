@@ -11,8 +11,6 @@ public class BlockCreateRequest
     [JsonIgnore]
     public Guid LessonId { get; set; }
     
-    public int OrderIndex { get; set; }
-    
     public JsonElement Content  { get; set; }
     
     [JsonConverter(typeof(JsonStringEnumConverter))]
