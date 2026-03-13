@@ -2,9 +2,11 @@ import {BlockType} from "@/entities/module-block/model/types";
 
 export type BlockContentMap = {
     text: {
-        title: string
         text: string
-    }
+    },
+    heading: {
+        text: "Заголовок"
+    },
 
     image: {
         url: string
@@ -41,8 +43,11 @@ export type BlockContentMap = {
 export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
 
     text: {
-        title: "hello",
         text: "hello"
+    },
+
+    heading: {
+        text: "Заголовок"
     },
 
     image: {

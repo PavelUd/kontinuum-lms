@@ -1,18 +1,17 @@
 import { useEffect, useRef } from "react"
-import { EditBlockProps, TextBlockContent } from "@/entities/module-block/model/types"
+import { EditBlockProps, HeadingBlockContent } from "@/entities/module-block/model/types"
 
-export function EditTextBlock({
-                                  block,
-                                  isActive,
-                                  updateBlock
-                              }: EditBlockProps<TextBlockContent>) {
+export function EditHeadingBlock({
+                                     block,
+                                     isActive,
+                                     updateBlock
+                                 }: EditBlockProps<HeadingBlockContent>) {
 
-    const ref = useRef<HTMLDivElement>(null)
+    const ref = useRef<HTMLHeadingElement>(null)
 
     const { text } = block.content
 
     function focusEnd(el: HTMLElement | null) {
-
         if (!el) return
 
         el.focus()
@@ -39,7 +38,7 @@ export function EditTextBlock({
 
         if (!ref.current) return
 
-        const newText = ref.current.innerHTML
+        const newText = ref.current.innerText.trim()
 
         if (newText !== text) {
             updateBlock(block.id, { text: newText })
@@ -47,8 +46,9 @@ export function EditTextBlock({
     }
 
     return (
-        <div
+        <h2
             ref={ref}
+            className="text-3xl font-bold"
             contentEditable={isActive}
             suppressContentEditableWarning
             onBlur={handleBlur}

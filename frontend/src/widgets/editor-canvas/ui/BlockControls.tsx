@@ -14,6 +14,11 @@ export const BlockControls: React.FC<BlockControlsProps> = ({onRemove, onMoveUp,
         (handler: () => void) =>
             (e: React.MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation()
+
+                if (document.activeElement instanceof HTMLElement) {
+                    document.activeElement.blur()
+                }
+
                 handler()
             }
 
@@ -23,6 +28,7 @@ export const BlockControls: React.FC<BlockControlsProps> = ({onRemove, onMoveUp,
             <button
                 className={styles.controlBtn}
                 onClick={handleClick(onMoveUp)}
+                onMouseDown={(e) => e.preventDefault()}
                 title="Вверх"
                 type="button"
             >
@@ -32,6 +38,7 @@ export const BlockControls: React.FC<BlockControlsProps> = ({onRemove, onMoveUp,
             <button
                 className={styles.controlBtn}
                 onClick={handleClick(onMoveDown)}
+                onMouseDown={(e) => e.preventDefault()}
                 title="Вниз"
                 type="button"
             >
@@ -40,6 +47,7 @@ export const BlockControls: React.FC<BlockControlsProps> = ({onRemove, onMoveUp,
 
             <button
                 className={`${styles.controlBtn} ${styles.textDanger}`}
+
                 onClick={handleClick(onRemove)}
                 title="Удалить"
                 type="button"

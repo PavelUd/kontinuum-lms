@@ -1,5 +1,19 @@
 import {BlockType} from "@/entities/module-block/model/types";
-import {Music,Image,FileMinus, PlayCircle, Type, Table, Info, Lightbulb, EyeOff, Variable, Code, LucideIcon} from "lucide-react";
+import {
+    Music,
+    Image,
+    FileMinus,
+    PlayCircle,
+    Type,
+    Table,
+    Info,
+    Lightbulb,
+    EyeOff,
+    Variable,
+    Code,
+    LucideIcon,
+    Heading
+} from "lucide-react";
 
 export type BlockLibraryItem = {
     type: BlockType
@@ -10,6 +24,7 @@ export type BlockLibraryItem = {
 
 export const iconMap: Record<BlockType, LucideIcon> = {
     text: Type,
+    heading: Heading,
     image: Image,
     video: PlayCircle,
     audio: Music,
@@ -21,44 +36,3 @@ export const iconMap: Record<BlockType, LucideIcon> = {
     code: Code,
     page_break: FileMinus,
 };
-
-export const defaultBlockContent: Record<BlockType, any> = {
-    audio: undefined,
-    page_break: undefined,
-    table: undefined,
-    text: {
-        title: "",
-        text: ""
-    },
-
-    image: {
-        url: "",
-        caption: ""
-    },
-
-    video: {
-        url: ""
-    },
-
-    note: {
-        text: ""
-    },
-
-    tip: {
-        text: ""
-    },
-
-    spoiler: {
-        title: "",
-        content: ""
-    },
-
-    formula: {
-        formula: ""
-    },
-
-    code: {
-        code: "",
-        language: "javascript"
-    }
-}

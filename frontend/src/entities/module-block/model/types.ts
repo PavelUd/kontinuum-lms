@@ -2,6 +2,7 @@
 
 export type BlockType =
     | "text"
+    | "heading"
     | "image"
     | "note"
     | "tip"
@@ -31,7 +32,10 @@ export type EditBlockProps<T = any> = {
 }
 
 export type TextBlockContent = {
-    title: string
+    text: string
+}
+
+export type HeadingBlockContent = {
     text: string
 }
 

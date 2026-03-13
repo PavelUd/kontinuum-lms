@@ -35,7 +35,6 @@
 .canvasContainer {
     max-width: 800px;
     margin: 4rem auto;
-    padding: 0 1.5rem;
 }
 
 .canvasContent {
@@ -48,12 +47,14 @@
     display: flex;
     flex-direction: column;
     gap: 25px;
+
 }
 
 .editableBlockWrapper {
     position: relative;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 16px;
+    border-radius: 7px;
+    padding: 0 1.5rem;
 }
 
 .blocks blockquote,
@@ -91,11 +92,28 @@
     outline: none;
 }
 
+.editableBlockWrapper:hover,
+.editableBlockWrapper:focus-within {
+    padding: 0.5rem 1.5rem;
+    background: #f1f5f9;
+    border-color: #cbd5e0;
+    z-index: 20;
+}
+
+
+
+.editableBlockWrapper:hover .blockControls,
+.editableBlockWrapper:has(.blockControls:hover) .blockControls {
+    opacity: 1;
+}
+
 .editableBlockWrapper.active {
     z-index: 10;
 }
+
 .editableBlockWrapper:hover .blockControls {
     opacity: 1;
+
 }
 
 .controlBtn {
@@ -120,7 +138,8 @@
 .blockControls {
     position: absolute;
     right: -60px;
-    top: 0;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     flex-direction: column;
     gap: 8px;

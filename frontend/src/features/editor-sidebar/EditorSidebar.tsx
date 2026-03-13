@@ -19,6 +19,7 @@ export function EditorSidebar({ moduleId }: Props) {
 
     const blocks: BlockLibraryItem[] = [
         { type: "text", icon: "type", color: "blue", label: "Текстовый блок" },
+        { type: "heading", icon: "heading", color: "purple", label: "Заголовок" },
         { type: "image", icon: "image", color: "cyan", label: "Изображение" },
         { type: "video", icon: "play-circle", color: "red", label: "Видео" },
         { type: "note", icon: "info", color: "green", label: 'Блок "Внимание"' },
