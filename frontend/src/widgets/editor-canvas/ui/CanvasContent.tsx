@@ -8,21 +8,20 @@ import {
     DndContext,
     closestCenter,
     DragEndEvent,
-    DragOverlay,
     useSensors,
     useSensor,
     PointerSensor,
-    DragStartEvent
+    DragStartEvent, DragOverlay
 } from "@dnd-kit/core"
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import {SortableBlock} from "@/widgets/editor-canvas/ui/SortableBlock";
-import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers"
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers"
 import {useState} from "react";
 import {BlockControls} from "@/widgets/editor-canvas/ui/BlockControls";
+import {BLOCKS_WITHOUT_HOVER} from "@/widgets/editor-canvas/model/types";
 
 
 export function CanvasContent() {
-
     const blockOrder = useLessonBlocksStore(s => s.blockOrder)
     const blocksById = useLessonBlocksStore(s => s.blocksById)
 
@@ -30,7 +29,6 @@ export function CanvasContent() {
     const setActiveBlock = useLessonBlocksStore(s => s.setActiveBlock)
     const moveBlock = useLessonBlocksStore(s => s.moveBlock)
     const removeBlock = useLessonBlocksStore(s => s.removeBlock)
-
     const [draggingId, setDraggingId] = useState<string | null>(null)
 
     const activeBlock = useLessonBlocksStore(s => s.activeBlockId)
@@ -80,6 +78,7 @@ export function CanvasContent() {
                         {blockOrder.map(id => {
 
                             const block = blocksById[id]
+                            const disableHover = BLOCKS_WITHOUT_HOVER.includes(block.type)
                             const BlockComponent = getBlock(block.type, "editor")
                             if (!BlockComponent){
                               return
@@ -89,7 +88,7 @@ export function CanvasContent() {
                                 <SortableBlock key={block.id} id={block.id}>
 
                                     <div
-                                        className={`${styles.editableBlockWrapper} ${activeBlock === block.id ? styles.active : ''}`}
+                                        className={`${styles.editableBlockWrapper} ${activeBlock === block.id ? styles.active : ''} ${disableHover ? styles.disableHover : ''}`}
                                         onClick={(e) => {
                                             e.stopPropagation()
                                             setActiveBlock(block.id)
@@ -111,22 +110,24 @@ export function CanvasContent() {
                         </SortableContext>
 
                         <DragOverlay>
-                            {draggingId ? (
-                                <div className={`${styles.editableBlockOverlay}`}>
-                                    {(() => {
-                                        const block = blocksById[draggingId]
-                                        const BlockComponent = getBlock(block.type, "view")
-                                        if (!BlockComponent){
-                                            return
-                                        }
-                                        return (
-                                            <BlockComponent
-                                                key={block.id} content={block.content}
-                                            />
-                                        )
-                                    })()}
-                                </div>
-                            ) : null}
+                            {draggingId && (() => {
+
+                                const block = blocksById[draggingId]
+                                if (!block) return null
+
+                                const BlockComponent = getBlock(block.type, "view")
+                                if (!BlockComponent) return null
+
+                                const disableHover = BLOCKS_WITHOUT_HOVER.includes(block.type)
+                                return (
+                                    <div className={`${styles.editableBlockOverlay} ${disableHover ? styles.disableHover : ''}`}>
+                                        <BlockComponent
+                                            key={block.id}
+                                            content={block.content}
+                                        />
+                                    </div>
+                                )
+                            })()}
                         </DragOverlay>
                     </DndContext>
                     </div>

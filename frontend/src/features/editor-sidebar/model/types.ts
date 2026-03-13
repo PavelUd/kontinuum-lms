@@ -1,4 +1,4 @@
-import {BlockType} from "@/entities/module-block/model/types";
+import {BlockType, CalloutVariant} from "@/entities/module-block/model/types";
 import {
     Music,
     Image,
@@ -16,13 +16,14 @@ import {
 } from "lucide-react";
 
 export type BlockLibraryItem = {
-    type: BlockType
+    type: BlockType,
+    variant?: CalloutVariant
     icon: string
     color: string
     label: string
 }
 
-export const iconMap: Record<BlockType, LucideIcon> = {
+export const iconMap: Record<string, LucideIcon> = {
     text: Type,
     heading: Heading,
     image: Image,

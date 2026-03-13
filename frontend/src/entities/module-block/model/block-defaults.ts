@@ -1,12 +1,13 @@
-import {BlockType} from "@/entities/module-block/model/types";
+import {
+    BlockType,
+    CalloutBlockContent,
+    HeadingBlockContent,
+    TextBlockContent
+} from "@/entities/module-block/model/types";
 
 export type BlockContentMap = {
-    text: {
-        text: string
-    },
-    heading: {
-        text: "Заголовок"
-    },
+    text: TextBlockContent,
+    heading: HeadingBlockContent,
 
     image: {
         url: string
@@ -17,13 +18,8 @@ export type BlockContentMap = {
         url: string
     }
 
-    note: {
-        text: string
-    }
+    callout: CalloutBlockContent,
 
-    tip: {
-        text: string
-    }
 
     spoiler: {
         title: string
@@ -43,7 +39,7 @@ export type BlockContentMap = {
 export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
 
     text: {
-        text: "hello"
+        text: "Текст"
     },
 
     heading: {
@@ -59,12 +55,9 @@ export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
         url: ""
     },
 
-    note: {
-        text: ""
-    },
-
-    tip: {
-        text: ""
+    callout: {
+        variant: "note",
+        text: "Содержимое..."
     },
 
     spoiler: {

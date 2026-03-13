@@ -1,11 +1,11 @@
 import { create } from "zustand"
-import {BlocksState, BlockType, CreateBlockProps, ModuleBlock} from "@/entities/module-block/model/types";
+import {BlockContent, BlocksState, BlockType, ModuleBlock} from "@/entities/module-block/model/types";
 import {getDefaultBlockContent} from "@/entities/module-block/model/block-defaults";
 import {blockCommandQueue} from "@/entities/module-block/model/block-command-queue";
 
 type BlocksStore = BlocksState & {
 
-    addBlock: (type: BlockType, lessonId: string) => string
+    addBlock : (type: BlockType, lessonId: string, content?: BlockContent) => string
 
     moveBlock: (from: number, to: number, id: string) => void
 
@@ -33,7 +33,7 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
             activeBlockId: id
         }),
 
-    addBlock: (type, lessonId) => {
+    addBlock: (type, lessonId, content) => {
 
         const id = crypto.randomUUID()
 
@@ -41,7 +41,7 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
             id,
             type,
             orderIndex: get().blockOrder.length,
-            content:  getDefaultBlockContent(type),
+            content: content ??  getDefaultBlockContent(type),
         }
 
         set(state => ({
@@ -93,12 +93,10 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
                 ? newOrder[newIndex + 1]
                 : null
 
-            console.log(aboveBlockId, belowBlockId);
-
             blockCommandQueue.enqueue({
                 type: "reorder",
                 id,
-                payload: {belowBlockId : aboveBlockId, aboveBlockId : belowBlockId}
+                payload: {belowBlockId : belowBlockId, aboveBlockId :aboveBlockId}
             })
             return {
                 blockOrder: newOrder,

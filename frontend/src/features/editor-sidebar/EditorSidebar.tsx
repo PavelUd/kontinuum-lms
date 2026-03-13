@@ -1,20 +1,25 @@
 import styles from "./editor-sidebar.module.css"
 import {ArrowLeft} from "lucide-react";
 import {BlockLibraryItem, iconMap} from "@/features/editor-sidebar/model/types";
-import {BlockType} from "@/entities/module-block/model/types";
+import {BlockContent, BlockType} from "@/entities/module-block/model/types";
 import {useLessonBlocksStore} from "@/entities/module-block/model/blocks.store";
+import {DEFAULT_BLOCK_CONTENT, getDefaultBlockContent} from "@/entities/module-block/model/block-defaults";
 
 
 type Props = {
     moduleId: string
 }
 
+
+
 export function EditorSidebar({ moduleId }: Props) {
 
-    const createBlock =(type: BlockType, lessonId: string) => {
-        const { addBlock, setActiveBlock,  } = useLessonBlocksStore.getState()
-        const tempId = addBlock(type, lessonId)
+    const createBlock = (type: BlockType, lessonId: string, content?: BlockContent) => {
+        const { addBlock, setActiveBlock } = useLessonBlocksStore.getState()
+        const tempId = addBlock(type, lessonId, content)
         setActiveBlock(tempId)
+
+        return tempId
     }
 
     const blocks: BlockLibraryItem[] = [
@@ -22,8 +27,8 @@ export function EditorSidebar({ moduleId }: Props) {
         { type: "heading", icon: "heading", color: "purple", label: "Заголовок" },
         { type: "image", icon: "image", color: "cyan", label: "Изображение" },
         { type: "video", icon: "play-circle", color: "red", label: "Видео" },
-        { type: "note", icon: "info", color: "green", label: 'Блок "Внимание"' },
-        { type: "tip", icon: "lightbulb", color: "orange", label: 'Блок "Совет"' },
+        { type: "callout", variant: "note", icon: "info", color: "green", label: 'Блок "Внимание"' },
+        { type: "callout", variant: "tip", icon: "lightbulb", color: "orange", label: 'Блок "Совет"' },
         { type: "spoiler", icon: "eye-off", color: "gray", label: "Скрытый блок" },
         { type: "formula", icon: "variable", color: "blue", label: "Формула (KaTeX)" },
         { type: "code", icon: "code", color: "black", label: "Блок кода" }
@@ -41,13 +46,18 @@ export function EditorSidebar({ moduleId }: Props) {
             </div>
 
             {blocks.map(block => {
-                const BlockIcon = iconMap[block.type];
+                const BlockIcon = iconMap[block.variant ?? block.type];
+
+                const content = !block.variant ? undefined : {
+                    ...getDefaultBlockContent(block.type),
+                    variant: block.variant
+                }
 
                 return (
                     <div
-                        key={block.type}
+                        key={`${block.type}-${block.variant ?? "default"}`}
                         className={styles.blockEntry}
-                        onClick={() => {createBlock(block.type, moduleId)}}
+                        onClick={() => {createBlock(block.type, moduleId, content)}}
                     >
                         <BlockIcon size={20} style={{ color: block.color }}/>
                         {block.label}

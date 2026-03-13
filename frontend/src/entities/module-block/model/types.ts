@@ -1,11 +1,8 @@
-
-
 export type BlockType =
     | "text"
     | "heading"
     | "image"
-    | "note"
-    | "tip"
+    | "callout"
     | "code"
     | "formula"
     | "video"
@@ -14,12 +11,19 @@ export type BlockType =
     | "table"
     | "audio"
 
+export type CalloutVariant = "tip" | "note"
+
 export interface ModuleBlock<T> {
     id: string
     type: BlockType
     orderIndex: number
     content : T
 }
+
+export type BlockContent =
+    | TextBlockContent
+    | CalloutBlockContent
+    | HeadingBlockContent
 
 export type EditBlockProps<T = any> = {
     block: ModuleBlock<T>
@@ -36,6 +40,10 @@ export type TextBlockContent = {
 }
 
 export type HeadingBlockContent = {
+    text: string
+}
+export type CalloutBlockContent = {
+    variant: CalloutVariant
     text: string
 }
 

@@ -46,7 +46,7 @@
 .blocks {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 15px;
 
 }
 
@@ -114,6 +114,14 @@
     z-index: 20;
 }
 
+.editableBlockOverlay.disableHover,
+.editableBlockWrapper.disableHover:hover,
+.editableBlockWrapper.disableHover:focus-within {
+    padding: 0 1.5rem;
+    background: transparent;
+    border-color: inherit;
+    z-index: auto;
+}
 
 
 .editableBlockWrapper:hover .blockControls,

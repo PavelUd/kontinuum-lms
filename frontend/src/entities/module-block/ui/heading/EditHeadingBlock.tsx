@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react"
 import { EditBlockProps, HeadingBlockContent } from "@/entities/module-block/model/types"
+import styles from "@/entities/module-block/ui/heading/heading.module.css"
 
 export function EditHeadingBlock({
                                      block,
@@ -46,6 +47,7 @@ export function EditHeadingBlock({
     }
 
     return (
+        <div className={styles.view}>
         <h2
             ref={ref}
             className="text-3xl font-bold"
@@ -54,5 +56,6 @@ export function EditHeadingBlock({
             onBlur={handleBlur}
             dangerouslySetInnerHTML={{ __html: text }}
         />
+        </div>
     )
 }
