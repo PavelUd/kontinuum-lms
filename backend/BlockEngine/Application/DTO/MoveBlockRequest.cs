@@ -2,5 +2,7 @@ namespace BlockEngine.Application.DTO;
 
 public class MoveBlockRequest
 {
-    public bool MoveUp {get;set;}
+    public Guid? AboveBlockId { get; set; }
+
+    public Guid? BelowBlockId { get; set; }
 }

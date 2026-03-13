@@ -45,9 +45,9 @@ public class LessonBlocksController : Controller
     
     [Authorize]
     [HttpPatch("{id}/order-index")]
-    public async Task<IActionResult> MoveBlock(Guid id, [FromBody] MoveBlockRequest moveUp)
+    public async Task<IActionResult> MoveBlock(Guid id, [FromBody] MoveBlockRequest request)
     {
-        var idResult = await _blockService.MoveBlock(id, moveUp.MoveUp);
+        var idResult = await _blockService.MoveBlock(id,  request.AboveBlockId,request.BelowBlockId);
         if (!idResult.Succeeded)
         {
             return BadRequest(idResult.Errors);

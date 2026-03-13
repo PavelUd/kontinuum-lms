@@ -15,7 +15,7 @@ public class LessonBlock : BaseAuditableEntity
     public Guid LessonId { get; set; }
     
     [Column("order_index")]
-    public int OrderIndex { get; set; }
+    public double OrderIndex { get; set; }
     
     [Column("type")]
     public BlockType  Type { get; set; }
