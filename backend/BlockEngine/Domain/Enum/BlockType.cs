@@ -4,8 +4,7 @@ public enum BlockType
 {
     Text,
     Formula,
-    Tip,
-    Note,
+    Callout,
     Heading,
     Spoiler
 }

@@ -1,5 +1,6 @@
 using System.Reflection;
 using BlockEngine.Application.Interfaces;
+using BlockEngine.Application.Plugins.Callout;
 using BlockEngine.Application.Plugins.Heading;
 using BlockEngine.Application.Plugins.Text;
 using BlockEngine.Application.Services;
@@ -19,9 +20,13 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<BlockRegistry>();
         services.AddScoped<Services.BlockEngine>();
+        services.AddScoped<IBlockOrderService, BlockOrderService>();
+        
         services.AddScoped<IBlockService, BlockService>();
         services.AddScoped<IBlockPlugin, TextBlockPlugin>();
         services.AddScoped<IBlockPlugin, HeadingBlockPlugin>();
+        services.AddScoped<IBlockPlugin, CalloutBlockPlugin>();
+        
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         
         
