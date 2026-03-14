@@ -5,6 +5,7 @@ import {TextBlockContent} from "@/entities/module-block/ui/text/text-block-conte
 import {FormulaBlockContent} from "@/entities/module-block/ui/formula/formula-block-content";
 import {SpoilerBlockContent} from "@/entities/module-block/ui/spoiler/spoiler-block-content";
 import {TableBlockContent} from "@/entities/module-block/ui/table/table-block-content";
+import {CodeBlockContent} from "@/entities/module-block/ui/code/code-block-content";
 
 export type BlockContentMap = {
     text: TextBlockContent,
@@ -13,6 +14,7 @@ export type BlockContentMap = {
     spoiler: SpoilerBlockContent,
     formula: FormulaBlockContent,
     table: TableBlockContent,
+    code: CodeBlockContent,
     image: {
         url: string
         caption: string
@@ -20,11 +22,6 @@ export type BlockContentMap = {
 
     video: {
         url: string
-    }
-
-    code: {
-        code: string
-        language: string
     }
 }
 
@@ -65,8 +62,8 @@ export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
     },
 
     code: {
-        code: "",
-        language: "javascript"
+        code: "print('hello world')",
+        language: "python"
     }
 }
 

@@ -1,9 +1,13 @@
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
+import {DraggableSyntheticListeners} from "@dnd-kit/core";
 
 type SortableBlockProps = {
     id: string
-    children: any
+    children: (props: {
+        listeners?: DraggableSyntheticListeners
+        attributes?: Record<string, any>
+    }) => React.ReactNode
 }
 export const SortableBlock = ({ id, children }: SortableBlockProps) => {
 

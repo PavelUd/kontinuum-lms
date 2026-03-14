@@ -1,0 +1,165 @@
+.codeBlockEditor {
+    margin: 2rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    border: 1px solid;
+}
+
+/* header layout */
+.codeHeader {
+    padding: 8px 16px;
+    border-bottom: 1px solid;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.codeHeaderLeft {
+    display: flex;
+    align-items: center;
+}
+
+.codeLangLabel {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.codeIcon {
+    margin-right: 0.5rem;
+}
+
+.codeContentWrapper {
+    padding: 0;
+}
+
+.codePre {
+    margin: 0;
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    font-family: monospace;
+    overflow-x: auto;
+}
+
+/* ---------------- DARK ---------------- */
+
+.dark {
+    background: #0f172a;
+    border-color: #1e293b;
+}
+
+.dark .codeHeader {
+    background: #1e293b;
+    border-bottom-color: #334155;
+}
+
+.dark .codeLangLabel {
+    color: #94a3b8;
+}
+
+.dark .codeIcon {
+    color: #6b7280;
+}
+
+.dark .codePre {
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
+/* ---------------- LIGHT ---------------- */
+
+.light {
+    background: #ffffff;
+    border-color: #e2e8f0;
+}
+
+.light .codeHeader {
+    background: #f8fafc;
+    border-bottom-color: #e2e8f0;
+}
+
+.light .codeLangLabel {
+    color: #64748b;
+}
+
+.light .codeIcon {
+    color: #94a3b8;
+}
+
+.light .codePre {
+    background: #ffffff;
+    color: #0f172a;
+}
+
+.codeCopyBtn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.codeCopyBtn:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.codeCopyBtn i {
+    margin-right: 4px;
+}
+
+
+.codeLangSelect {
+    background: transparent;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    color: #94a3b8;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 4px;
+    padding: 2px 6px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.codeLangSelect:hover {
+    border-color: rgba(148, 163, 184, 0.6);
+    color: white;
+}
+
+.codeLangSelect option {
+    background: #1e293b;
+    color: white;
+}
+
+.codeCopyBtn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+}
+
+.copyIcon {
+    opacity: 0.8;
+}
+
+.codeTextarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 12px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    resize: vertical;
+    background: transparent;
+    color: inherit;
+}

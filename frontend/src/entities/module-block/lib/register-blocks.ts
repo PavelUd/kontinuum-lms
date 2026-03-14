@@ -12,6 +12,8 @@ import { SpoilerBlock } from "../ui/spoiler/SpoilerBlock";
 import {EditSpoilerBlock} from "@/entities/module-block/ui/spoiler/EditSpoilerBlock";
 import {TableBlock} from "@/entities/module-block/ui/table/TableBlock";
 import {EditTableBlock} from "@/entities/module-block/ui/table/EditTableBlock";
+import {CodeBlock} from "@/entities/module-block/ui/code/CodeBlock";
+import {EditCodeBlock} from "@/entities/module-block/ui/code/EditCodeBlock";
 
 registerBlock("text", {
     view: TextBlock,
@@ -41,4 +43,9 @@ registerBlock("spoiler", {
 registerBlock("table", {
     view: TableBlock,
     editor: EditTableBlock
+})
+
+registerBlock("code", {
+    view: CodeBlock,
+    editor: EditCodeBlock
 })
