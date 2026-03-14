@@ -6,5 +6,6 @@ public enum BlockType
     Formula,
     Callout,
     Heading,
-    Spoiler
+    Spoiler,
+    Table
 }

@@ -1,10 +1,12 @@
 using System.Reflection;
 using Auth.Application.Interfaces;
 using Auth.Infrastructure;
+using BlockEngine.Application.Interfaces;
 using BlockEngine.Infrastructure;
 using Courses.Application.Interfaces;
 using Infrastructure.Hashing;
 using Infrastructure.Persistence;
+using Infrastructure.Sanitizers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +29,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IAuthDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<IUsersDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<IHashingService, HashingService>();
+        services.AddScoped<IContentSanitizer, HtmlSanitizerService>();
     }
 
     private static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
