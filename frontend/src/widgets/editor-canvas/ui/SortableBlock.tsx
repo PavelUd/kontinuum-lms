@@ -1,18 +1,16 @@
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
-import {ReactNode} from "react";
 
 type SortableBlockProps = {
     id: string
-    children: ReactNode
+    children: any
 }
-
-export function SortableBlock({ id, children }: SortableBlockProps) {
+export const SortableBlock = ({ id, children }: SortableBlockProps) => {
 
     const {
-        attributes,
-        listeners,
         setNodeRef,
+        listeners,
+        attributes,
         transform,
         transition,
         isDragging
@@ -25,13 +23,8 @@ export function SortableBlock({ id, children }: SortableBlockProps) {
     }
 
     return (
-        <div
-            ref={setNodeRef}
-            style={style}
-            {...attributes}
-            {...listeners}
-        >
-            {children}
+        <div ref={setNodeRef} style={style}>
+            {children({ listeners, attributes })}
         </div>
     )
 }

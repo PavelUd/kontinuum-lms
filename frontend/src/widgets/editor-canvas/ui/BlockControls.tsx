@@ -4,9 +4,11 @@ import {Trash} from "lucide-react";
 
 type BlockControlsProps = {
     onRemove: () => void
+    dragListeners?: any
+    dragAttributes?: any
 }
 
-export const BlockControls: React.FC<BlockControlsProps> = ({onRemove}) => {
+export const BlockControls: React.FC<BlockControlsProps> = ({onRemove, dragListeners, dragAttributes}) => {
 
     const handleClick =
         (handler: () => void) =>
@@ -22,6 +24,17 @@ export const BlockControls: React.FC<BlockControlsProps> = ({onRemove}) => {
 
     return (
         <div className={styles.blockControls}>
+
+            <button
+                {...dragListeners}
+                {...dragAttributes}
+                className={`${styles.controlBtn} ${styles.dragHandle}`}
+                type="button"
+                title="Переместить"
+            >
+                ☰
+            </button>
+
             <button
                 className={`${styles.controlBtn} ${styles.textDanger}`}
 

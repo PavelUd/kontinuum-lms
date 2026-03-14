@@ -10,8 +10,7 @@ import {
     DragEndEvent,
     useSensors,
     useSensor,
-    PointerSensor,
-    DragStartEvent, DragOverlay
+    DragStartEvent, DragOverlay, PointerSensor
 } from "@dnd-kit/core"
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import {SortableBlock} from "@/widgets/editor-canvas/ui/SortableBlock";
@@ -33,21 +32,29 @@ export function CanvasContent() {
 
     const activeBlock = useLessonBlocksStore(s => s.activeBlockId)
 
+    const [isDragging, setIsDragging] = useState(false)
+
     function handleDragStart(event: DragStartEvent) {
         setDraggingId(event.active.id.toString())
+        setIsDragging(true)
     }
 
     function handleDragEnd(event: DragEndEvent) {
 
         const { active, over } = event
 
-        if (!over || active.id === over.id) return
+        if (!over || active.id === over.id){
+            setIsDragging(false)
+            return
+        }
 
         const oldIndex = blockOrder.indexOf(active.id as string)
         const newIndex = blockOrder.indexOf(over.id as string)
 
         moveBlock(oldIndex, newIndex, draggingId ?? "");
+
         setDraggingId(null)
+        setIsDragging(false)
     }
 
     const sensors = useSensors(
@@ -85,24 +92,31 @@ export function CanvasContent() {
 
                             return (
                                 <SortableBlock key={block.id} id={block.id}>
+                                    {({ listeners, attributes }) => (
+                                        <div
+                                            className={`${styles.editableBlockWrapper} ${
+                                                activeBlock === block.id ? styles.active : ''
+                                            } ${disableHover ? styles.disableHover : ''}`}
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                setActiveBlock(block.id)
+                                            }}
+                                        >
+                                            {!isDragging && (
+                                                <BlockControls
+                                                    onRemove={() => removeBlock(block.id)}
+                                                    dragListeners={listeners}
+                                                    dragAttributes={attributes}
+                                                />
+                                            )}
 
-                                    <div
-                                        className={`${styles.editableBlockWrapper} ${activeBlock === block.id ? styles.active : ''} ${disableHover ? styles.disableHover : ''}`}
-                                        onClick={(e) => {
-                                            e.stopPropagation()
-                                            setActiveBlock(block.id)
-                                        }}
-                                    >
-                                        <BlockControls onRemove={() => removeBlock(block.id)} />
-
-                                        <BlockComponent
-                                            block={block}
-                                            isActive={activeBlock === block.id}
-                                            updateBlock={updateBlock}
-                                        />
-
-                                    </div>
-
+                                            <BlockComponent
+                                                block={block}
+                                                isActive={activeBlock === block.id}
+                                                updateBlock={updateBlock}
+                                            />
+                                        </div>
+                                    )}
                                 </SortableBlock>
                             )
                         })}
