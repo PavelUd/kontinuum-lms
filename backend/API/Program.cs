@@ -11,6 +11,7 @@ using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using Scalar.AspNetCore;
 using Users.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -90,6 +91,10 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+app.MapScalarApiReference(options =>
+{
+    options.WithOpenApiRoutePattern("/swagger/{documentName}/swagger.json");
+});
 app.UseCors("AllowLocalhost3000");
 app.UseAuthentication();
 app.UseHttpsRedirection();
