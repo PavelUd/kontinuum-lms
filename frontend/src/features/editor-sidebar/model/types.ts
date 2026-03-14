@@ -1,4 +1,5 @@
-import {BlockType, CalloutVariant} from "@/entities/module-block/model/types";
+import {BlockType} from "@/entities/module-block/model/types";
+import { CalloutVariant } from "@/entities/module-block/ui/callout/callout-block-content";
 import {
     Music,
     Image,

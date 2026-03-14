@@ -31,6 +31,7 @@ export function EditorSidebar({ moduleId }: Props) {
         { type: "callout", variant: "tip", icon: "lightbulb", color: "orange", label: 'Блок "Совет"' },
         { type: "spoiler", icon: "eye-off", color: "gray", label: "Скрытый блок" },
         { type: "formula", icon: "variable", color: "blue", label: "Формула (KaTeX)" },
+        { type: "table", icon: "table", color: "cyan", label: "Таблица" },
         { type: "code", icon: "code", color: "black", label: "Блок кода" }
     ]
 

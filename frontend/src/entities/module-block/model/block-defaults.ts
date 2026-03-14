@@ -4,6 +4,7 @@ import {HeadingBlockContent} from "@/entities/module-block/ui/heading/heading-bl
 import {TextBlockContent} from "@/entities/module-block/ui/text/text-block-content";
 import {FormulaBlockContent} from "@/entities/module-block/ui/formula/formula-block-content";
 import {SpoilerBlockContent} from "@/entities/module-block/ui/spoiler/spoiler-block-content";
+import {TableBlockContent} from "@/entities/module-block/ui/table/table-block-content";
 
 export type BlockContentMap = {
     text: TextBlockContent,
@@ -11,6 +12,7 @@ export type BlockContentMap = {
     callout: CalloutBlockContent,
     spoiler: SpoilerBlockContent,
     formula: FormulaBlockContent,
+    table: TableBlockContent,
     image: {
         url: string
         caption: string
@@ -31,7 +33,10 @@ export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
     text: {
         text: "Текст"
     },
-
+    table: {
+        columns: [{id: "c1",title: "Загаловок 1"},{id: "c2",title: "Загаловок 2"}],
+        rows: [{id:"r1", cells:["Строка 1", "Строка 2"]}]
+    },
     heading: {
         text: "Заголовок"
     },

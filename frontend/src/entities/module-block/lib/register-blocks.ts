@@ -10,6 +10,8 @@ import {FormulaBlock} from "@/entities/module-block/ui/formula/FormulaBlock";
 import {EditFormulaBlock} from "@/entities/module-block/ui/formula/EditFormulaBlock";
 import { SpoilerBlock } from "../ui/spoiler/SpoilerBlock";
 import {EditSpoilerBlock} from "@/entities/module-block/ui/spoiler/EditSpoilerBlock";
+import {TableBlock} from "@/entities/module-block/ui/table/TableBlock";
+import {EditTableBlock} from "@/entities/module-block/ui/table/EditTableBlock";
 
 registerBlock("text", {
     view: TextBlock,
@@ -34,4 +36,9 @@ registerBlock("formula", {
 registerBlock("spoiler", {
     view: SpoilerBlock,
     editor: EditSpoilerBlock
+})
+
+registerBlock("table", {
+    view: TableBlock,
+    editor: EditTableBlock
 })
