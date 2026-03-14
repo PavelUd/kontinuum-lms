@@ -1,6 +1,7 @@
 'use client'
 
-import {HeadingBlockContent} from "@/entities/module-block/model/types";
+
+import {HeadingBlockContent} from "@/entities/module-block/ui/heading/heading-block-content";
 
 type Props = {
     content: HeadingBlockContent

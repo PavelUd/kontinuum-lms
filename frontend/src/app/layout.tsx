@@ -1,5 +1,6 @@
 import "./globals.css"
 import { Providers } from './providers'
+import "katex/dist/katex.min.css"
 
 export default function RootLayout({children}: { children: React.ReactNode }) {
     return (

@@ -34,7 +34,6 @@ export function CanvasContent() {
     const activeBlock = useLessonBlocksStore(s => s.activeBlockId)
 
     function handleDragStart(event: DragStartEvent) {
-        console.log(event.active.id);
         setDraggingId(event.active.id.toString())
     }
 
@@ -61,7 +60,7 @@ export function CanvasContent() {
     )
 
     return (
-                <div className={styles.canvasContainer}>
+                <div className={styles.canvasContainer} >
                     <div className={styles.blocks}>
                     <DndContext sensors={sensors}
                         collisionDetection={closestCenter}
@@ -115,7 +114,7 @@ export function CanvasContent() {
                                 const block = blocksById[draggingId]
                                 if (!block) return null
 
-                                const BlockComponent = getBlock(block.type, "view")
+                                const BlockComponent = getBlock(block.type, "editor")
                                 if (!BlockComponent) return null
 
                                 const disableHover = BLOCKS_WITHOUT_HOVER.includes(block.type)
@@ -123,7 +122,9 @@ export function CanvasContent() {
                                     <div className={`${styles.editableBlockOverlay} ${disableHover ? styles.disableHover : ''}`}>
                                         <BlockComponent
                                             key={block.id}
-                                            content={block.content}
+                                            block={block}
+                                            isActive={false}
+                                            updateBlock={() =>{}}
                                         />
                                     </div>
                                 )

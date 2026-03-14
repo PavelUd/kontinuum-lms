@@ -1,9 +1,12 @@
 'use client'
 
-import {CalloutBlockContent} from "@/entities/module-block/model/types";
 import {Info} from "lucide-react";
 import styles from "@/entities/module-block/ui/callout/callout.module.css"
-import {CALLOUT_TITLES} from "@/entities/module-block/ui/callout/types";
+import {
+    CALLOUT_TITLES,
+    CalloutBlockContent,
+    CalloutVariant
+} from "@/entities/module-block/ui/callout/callout-block-content";
 
 type Props = {
     content: CalloutBlockContent;
@@ -11,7 +14,7 @@ type Props = {
 
 export function CalloutBlock({ content }: Props) {
 
-    const type = content.variant.toLowerCase();
+    const type = content.variant.toLowerCase() as CalloutVariant;
 
     return (
         <div className={`${styles.calloutBlock} ${styles[`callout-${type}`]}`}>

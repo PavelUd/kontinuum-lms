@@ -1,6 +1,6 @@
 'use client'
 
-import {TextBlockContent} from "@/entities/module-block/model/types";
+import {TextBlockContent} from "@/entities/module-block/ui/text/text-block-content";
 
 type Props = {
     content: TextBlockContent

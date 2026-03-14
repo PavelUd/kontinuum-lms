@@ -13,6 +13,7 @@
 
     --radius: 16px;
     --text-muted: #64748b;
+    --text-main: #1e293b;
     --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.03);
     --shadow-premium: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
     --primary-color: #00ff88;
@@ -46,6 +47,10 @@ html[data-theme="dark"] {
         color: rgb(var(--text));
         overflow-x: hidden;
         transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .katex-mathml {
+        display: none;
     }
 }
 

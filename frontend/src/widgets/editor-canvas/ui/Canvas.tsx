@@ -15,8 +15,10 @@ export function Canvas({ blocks, moduleTitle, moduleId }: Props) {
     const loadBlocks = useLessonBlocksStore(s => s.loadBlocks)
     loadBlocks(blocks)
 
+    const setActiveBlock = useLessonBlocksStore(s => s.setActiveBlock)
+
     return (
-        <div className={styles.editorCanvas}>
+        <div className={styles.editorCanvas} onClick={() => setActiveBlock("")}>
             <CanvasHeader moduleId={moduleId} name={moduleTitle}></CanvasHeader>
             <CanvasContent></CanvasContent>
         </div>

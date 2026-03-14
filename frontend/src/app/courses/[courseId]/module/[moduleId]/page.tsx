@@ -1,5 +1,4 @@
 import ModulePage from "@/pages/module/ModulePage";
-import {getCourseById} from "@/entities/course";
 
 
 type Props = {

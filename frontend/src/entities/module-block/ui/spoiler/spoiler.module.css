@@ -1,0 +1,34 @@
+.spoilerBlockPreview {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.spoilerHeaderPreview {
+    padding: 1rem;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    border-bottom: 1px solid #e2e8f0;
+    justify-content: space-between;
+}
+
+.noBorder {
+    border-bottom: none;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.spoilerContentPreview {
+    padding: 1rem;
+    color: var(--text-main);
+    min-height: 60px;
+}

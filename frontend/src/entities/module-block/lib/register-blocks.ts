@@ -6,6 +6,10 @@ import {HeadingBlock} from "@/entities/module-block/ui/heading/HeadingBlock";
 import {EditHeadingBlock} from "@/entities/module-block/ui/heading/EditHeadingBlock";
 import {CalloutBlock} from "@/entities/module-block/ui/callout/CalloutBlock";
 import {EditCalloutBlock} from "@/entities/module-block/ui/callout/EditCalloutBlock";
+import {FormulaBlock} from "@/entities/module-block/ui/formula/FormulaBlock";
+import {EditFormulaBlock} from "@/entities/module-block/ui/formula/EditFormulaBlock";
+import { SpoilerBlock } from "../ui/spoiler/SpoilerBlock";
+import {EditSpoilerBlock} from "@/entities/module-block/ui/spoiler/EditSpoilerBlock";
 
 registerBlock("text", {
     view: TextBlock,
@@ -20,4 +24,14 @@ registerBlock("heading", {
 registerBlock("callout", {
     view: CalloutBlock,
     editor: EditCalloutBlock
+})
+
+registerBlock("formula", {
+    view: FormulaBlock,
+    editor: EditFormulaBlock
+})
+
+registerBlock("spoiler", {
+    view: SpoilerBlock,
+    editor: EditSpoilerBlock
 })

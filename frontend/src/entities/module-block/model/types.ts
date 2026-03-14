@@ -1,3 +1,7 @@
+import {TextBlockContent} from "@/entities/module-block/ui/text/text-block-content";
+import {CalloutBlockContent} from "@/entities/module-block/ui/callout/callout-block-content";
+import {HeadingBlockContent} from "@/entities/module-block/ui/heading/heading-block-content";
+
 export type BlockType =
     | "text"
     | "heading"
@@ -10,8 +14,6 @@ export type BlockType =
     | "page_break"
     | "table"
     | "audio"
-
-export type CalloutVariant = "tip" | "note"
 
 export interface ModuleBlock<T> {
     id: string
@@ -35,17 +37,6 @@ export type EditBlockProps<T = any> = {
     updateBlock: (id: string, patch: Partial<T>) => void
 }
 
-export type TextBlockContent = {
-    text: string
-}
-
-export type HeadingBlockContent = {
-    text: string
-}
-export type CalloutBlockContent = {
-    variant: CalloutVariant
-    text: string
-}
 
 export type CreateBlockProps = {
     content: any,

@@ -1,14 +1,16 @@
-import {
-    BlockType,
-    CalloutBlockContent,
-    HeadingBlockContent,
-    TextBlockContent
-} from "@/entities/module-block/model/types";
+import { BlockType } from "@/entities/module-block/model/types";
+import {CalloutBlockContent} from "@/entities/module-block/ui/callout/callout-block-content";
+import {HeadingBlockContent} from "@/entities/module-block/ui/heading/heading-block-content";
+import {TextBlockContent} from "@/entities/module-block/ui/text/text-block-content";
+import {FormulaBlockContent} from "@/entities/module-block/ui/formula/formula-block-content";
+import {SpoilerBlockContent} from "@/entities/module-block/ui/spoiler/spoiler-block-content";
 
 export type BlockContentMap = {
     text: TextBlockContent,
     heading: HeadingBlockContent,
-
+    callout: CalloutBlockContent,
+    spoiler: SpoilerBlockContent,
+    formula: FormulaBlockContent,
     image: {
         url: string
         caption: string
@@ -16,18 +18,6 @@ export type BlockContentMap = {
 
     video: {
         url: string
-    }
-
-    callout: CalloutBlockContent,
-
-
-    spoiler: {
-        title: string
-        content: string
-    }
-
-    formula: {
-        formula: string
     }
 
     code: {
@@ -61,12 +51,12 @@ export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
     },
 
     spoiler: {
-        title: "",
-        content: ""
+        title: "Показать подсказку",
+        text: "Здесь находится скрытый контент или ответ на вопрос."
     },
 
     formula: {
-        formula: ""
+        formula: "f'(x_0) = \\lim_{\\Delta x \\to 0} \\frac{f(x_0 + \\Delta x) - f(x_0)}{\\Delta x}"
     },
 
     code: {

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react"
-import { EditBlockProps, TextBlockContent } from "@/entities/module-block/model/types"
+import { EditBlockProps } from "@/entities/module-block/model/types"
+import {TextBlockContent} from "@/entities/module-block/ui/text/text-block-content";
 
 export function EditTextBlock({
                                   block,

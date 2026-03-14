@@ -1,8 +1,12 @@
-import {CalloutBlockContent, EditBlockProps} from "@/entities/module-block/model/types";
+import {EditBlockProps} from "@/entities/module-block/model/types";
 import {useEffect, useRef} from "react";
 import styles from "@/entities/module-block/ui/callout/callout.module.css"
 import {Info} from "lucide-react";
-import { CALLOUT_TITLES } from "./types";
+import {
+    CALLOUT_TITLES,
+    CalloutBlockContent,
+    CalloutVariant
+} from "@/entities/module-block/ui/callout/callout-block-content";
 
 export function EditCalloutBlock({
                                      block,
@@ -47,7 +51,7 @@ export function EditCalloutBlock({
             updateBlock(block.id, { text: newText, variant: block.content.variant })
         }
     }
-    const type = block.content.variant.toLowerCase();
+    const type = block.content.variant.toLowerCase() as CalloutVariant;
     return (
         <div className={`${styles.calloutBlock} ${styles[`callout-${type}`]}`}>
             <div className={styles.calloutTitle}>

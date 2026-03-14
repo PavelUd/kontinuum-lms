@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react"
-import { EditBlockProps, HeadingBlockContent } from "@/entities/module-block/model/types"
+import { EditBlockProps} from "@/entities/module-block/model/types"
 import styles from "@/entities/module-block/ui/heading/heading.module.css"
+import {HeadingBlockContent} from "@/entities/module-block/ui/heading/heading-block-content";
 
 export function EditHeadingBlock({
                                      block,
