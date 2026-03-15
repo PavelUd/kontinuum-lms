@@ -14,6 +14,8 @@ import {TableBlock} from "@/entities/module-block/ui/table/TableBlock";
 import {EditTableBlock} from "@/entities/module-block/ui/table/EditTableBlock";
 import {CodeBlock} from "@/entities/module-block/ui/code/CodeBlock";
 import {EditCodeBlock} from "@/entities/module-block/ui/code/EditCodeBlock";
+import {ImageBlock} from "@/entities/module-block/ui/image/ImageBlock";
+import {EditImageBlock} from "@/entities/module-block/ui/image/EditImageBlock";
 
 registerBlock("text", {
     view: TextBlock,
@@ -48,4 +50,9 @@ registerBlock("table", {
 registerBlock("code", {
     view: CodeBlock,
     editor: EditCodeBlock
+})
+
+registerBlock("image", {
+    view: ImageBlock,
+    editor: EditImageBlock
 })

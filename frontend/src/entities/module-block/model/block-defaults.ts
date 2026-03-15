@@ -6,6 +6,7 @@ import {FormulaBlockContent} from "@/entities/module-block/ui/formula/formula-bl
 import {SpoilerBlockContent} from "@/entities/module-block/ui/spoiler/spoiler-block-content";
 import {TableBlockContent} from "@/entities/module-block/ui/table/table-block-content";
 import {CodeBlockContent} from "@/entities/module-block/ui/code/code-block-content";
+import { ImageBlockContent } from "../ui/image/image-block-content";
 
 export type BlockContentMap = {
     text: TextBlockContent,
@@ -15,10 +16,7 @@ export type BlockContentMap = {
     formula: FormulaBlockContent,
     table: TableBlockContent,
     code: CodeBlockContent,
-    image: {
-        url: string
-        caption: string
-    }
+    image: ImageBlockContent
 
     video: {
         url: string
@@ -40,7 +38,7 @@ export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
 
     image: {
         url: "",
-        caption: ""
+        caption: "надпись"
     },
 
     video: {
