@@ -8,5 +8,6 @@ public enum BlockType
     Heading,
     Spoiler,
     Table,
-    Code
+    Code,
+    Image
 }
