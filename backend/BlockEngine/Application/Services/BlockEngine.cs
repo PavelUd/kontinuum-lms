@@ -25,4 +25,10 @@ public class BlockEngine
 
         return await plugin.RenderAsync(content);
     }
+    
+    public async Task OnRemovingAsync(BlockType type, Guid id, Guid idLesson)
+    {
+        var plugin = _registry.Get(type);
+        await plugin.OnRemoveAsync(id, idLesson);
+    }
 }

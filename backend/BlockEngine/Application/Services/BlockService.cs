@@ -128,6 +128,7 @@ public class BlockService : IBlockService
             }
             _dbContext.LessonBlocks.Remove(block);
             await _dbContext.SaveChangesAsync();
+            await _blockEngine.OnRemovingAsync(block.Type, block.Id, block.LessonId);
             return await Result<None>.SuccessAsync();
         }
         catch (Exception ex)

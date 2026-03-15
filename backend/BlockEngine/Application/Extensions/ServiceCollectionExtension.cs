@@ -23,7 +23,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<BlockRegistry>();
         services.AddScoped<Services.BlockEngine>();
         services.AddScoped<IBlockOrderService, BlockOrderService>();
-        
+        services.AddScoped<IBlockFileService, BlockFileService>();
         services.AddScoped<IBlockService, BlockService>();
         services.Scan(scan => scan
             .FromAssemblyOf<IBlockPlugin>()

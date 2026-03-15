@@ -8,6 +8,7 @@ using BlockEngine.Application.Extensions;
 using Core.Entities.Interfaces;
 using Courses.Extensions;
 using Infrastructure.Extensions;
+using Infrastructure.ObjectStorage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -80,6 +81,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddBlockEnginesModule(builder.Configuration);
 
 builder.Services.Configure<Token>(builder.Configuration.GetSection("token"));
+builder.Services.Configure<S3Options>(builder.Configuration.GetSection("S3"));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IIdentityUser, IdentityUser>();
 

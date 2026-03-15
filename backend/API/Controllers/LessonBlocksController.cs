@@ -13,10 +13,12 @@ public class LessonBlocksController : Controller
 {
     
     private readonly IBlockService _blockService;
+    private readonly IBlockFileService _blockFileService;
 
-    public LessonBlocksController(IBlockService blockService)
+    public LessonBlocksController(IBlockService blockService, IBlockFileService blockFileService)
     {
         _blockService = blockService;
+        _blockFileService = blockFileService;
     }
     
     [Authorize]
@@ -65,5 +67,31 @@ public class LessonBlocksController : Controller
             return BadRequest(idResult.Errors);
         }
         return NoContent();
+    }
+    
+    [Authorize]
+    [HttpPost("{blockId}/file/presigned")]
+    public async Task<ActionResult<PresignedUploadResult>> GetUploadUrl(Guid blockId, [FromBody] GetUploadUrlRequest request)
+    {
+        var result = await _blockFileService.GetUploadUrlAsync(blockId, request.FileName, request.ContentType);
+        if (!result.Succeeded)
+        {
+            return BadRequest(result.Errors);
+        }
+        return Ok(result);
+    }
+    
+    [Authorize]
+    [HttpDelete("{blockId}/file/")]
+    public async Task<ActionResult<PresignedUploadResult>> DeleteFile(Guid blockId)
+    {
+        var result = await _blockFileService.DeleteBlockFile(blockId);
+        
+        if (!result.Succeeded)
+        {
+            return BadRequest(result.Errors);
+        }
+        
+        return Ok(result);
     }
 }

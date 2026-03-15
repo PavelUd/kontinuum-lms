@@ -11,4 +11,9 @@ public interface IBlockPlugin
     Task<Result<None>> ValidateAsync(JsonElement content);
 
     Task<object> RenderAsync(JsonElement content);
+    
+    Task<Result<None>> OnRemoveAsync(Guid id, Guid idLesson)
+    {
+        return Result<None>.SuccessAsync();
+    }
 }
