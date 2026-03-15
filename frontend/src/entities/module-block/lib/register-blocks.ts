@@ -16,6 +16,8 @@ import {CodeBlock} from "@/entities/module-block/ui/code/CodeBlock";
 import {EditCodeBlock} from "@/entities/module-block/ui/code/EditCodeBlock";
 import {ImageBlock} from "@/entities/module-block/ui/image/ImageBlock";
 import {EditImageBlock} from "@/entities/module-block/ui/image/EditImageBlock";
+import {VideoBlock} from "@/entities/module-block/ui/video/VideoBlock";
+import {EditVideoBlock} from "@/entities/module-block/ui/video/EditVideoBlock";
 
 registerBlock("text", {
     view: TextBlock,
@@ -55,4 +57,9 @@ registerBlock("code", {
 registerBlock("image", {
     view: ImageBlock,
     editor: EditImageBlock
+})
+
+registerBlock("video", {
+    view: VideoBlock,
+    editor: EditVideoBlock
 })
