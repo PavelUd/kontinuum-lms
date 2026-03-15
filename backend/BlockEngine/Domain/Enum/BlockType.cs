@@ -9,5 +9,6 @@ public enum BlockType
     Spoiler,
     Table,
     Code,
-    Image
+    Image,
+    Video
 }
