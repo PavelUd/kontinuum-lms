@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace BlockEngine.Application.Plugins.Image;
+namespace BlockEngine.Application.Plugins.Base;
 
-public class ImageBlockContent
+public class BaseFileBlockContent
 {
     [JsonPropertyName("url")]
     public string Url { get; set; }

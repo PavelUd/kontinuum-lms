@@ -10,5 +10,7 @@ public enum BlockType
     Table,
     Code,
     Image,
-    Video
+    Video,
+    File,
+    Audio
 }
