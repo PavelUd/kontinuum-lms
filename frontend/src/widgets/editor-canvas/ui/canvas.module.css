@@ -66,6 +66,21 @@
     padding: 0 1.5rem;
 }
 
+.videoOverlayPlaceholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: black;
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.videoPlayIcon {
+    color: rgba(255,255,255,0.6);
+}
+
 .editableBlockOverlay{
     padding: 0.5rem 1.5rem;
     background: #f1f5f9;

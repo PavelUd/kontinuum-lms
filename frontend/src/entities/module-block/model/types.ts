@@ -28,6 +28,12 @@ export type uploadFileResult = {
     fileUrl : string
 }
 
+export type UploadType =
+    | "image"
+    | "video"
+    | "audio"
+    | "file"
+
 export type uploadFileRequest = {
     fileName: string,
     contentType: string,

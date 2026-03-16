@@ -40,5 +40,6 @@ export function ImageUploadPlaceholder({
                 или кликните для выбора
             </div>
         </div>
+
     )
 }
