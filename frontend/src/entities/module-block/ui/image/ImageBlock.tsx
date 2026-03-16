@@ -10,6 +10,9 @@ export function ImageBlock({ content }: Props) {
     const [isOpen, setIsOpen] = useState(false);
     const {url, caption} = content;
 
+    if(url == "" || url == null){
+        return null
+    }
     return (
         <div className={styles.articleImageWrapper}>
             <img

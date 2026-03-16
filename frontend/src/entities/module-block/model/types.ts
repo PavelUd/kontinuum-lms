@@ -22,6 +22,17 @@ export interface ModuleBlock<T> {
     content : T
 }
 
+export type uploadFileResult = {
+    key: string,
+    uploadUrl: string,
+    fileUrl : string
+}
+
+export type uploadFileRequest = {
+    fileName: string,
+    contentType: string,
+}
+
 export type BlockContent =
     | TextBlockContent
     | CalloutBlockContent
