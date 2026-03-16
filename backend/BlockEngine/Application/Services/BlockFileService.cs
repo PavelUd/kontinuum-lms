@@ -25,7 +25,7 @@ public class BlockFileService : IBlockFileService
             return await Result<PresignedUploadResult>.FailureAsync();
         }
         
-        var prefix = $"lessons/{block.LessonId}/blocks/{blockId}/";
+        var prefix = $"lessons/{block.LessonId}/blocks/{blockId}";
 
         return await _storageService.GetLessonUploadUrlAsync(fileName, contentType, prefix);
     }
@@ -38,7 +38,7 @@ public class BlockFileService : IBlockFileService
                 return await Result<None>.FailureAsync();
             }
             
-            var prefix = $"lessons/{block.LessonId}/blocks/{blockId}/";
+            var prefix = $"lessons/{block.LessonId}/blocks/{blockId}";
     
             return await _storageService.DeleteByPrefixAsync(prefix);
         }

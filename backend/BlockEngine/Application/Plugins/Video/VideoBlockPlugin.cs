@@ -38,7 +38,7 @@ public class VideoBlockPlugin : IBlockPlugin
     
     public async Task<Result<None>> OnRemoveAsync(Guid id, Guid idLesson)
     {
-        var prefix = $"blocks/{idLesson}/{id}/";
+        var prefix = $"lessons/{idLesson}/blocks/{id}/";
         return await _fileService.DeleteByPrefixAsync(prefix);
     }
 }
