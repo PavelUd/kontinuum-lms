@@ -30,6 +30,7 @@ export function EditVideoBlock({ block, updateBlock }: EditBlockProps<VideoBlock
                     onDrop={handleDrop}
                     setIsDragging={setIsDragging}/>
             )} uploadType={"video"}
+            uploadSizeClass={styles.uploadSizeVideo}
         />
         </div>)
 }

@@ -1,12 +1,13 @@
 import styles from "./upload.module.css"
 
 type UploadLoaderProps = {
-    progress: number
+    progress: number,
+    uploadSizeClass : string
 }
 
-export function UploadLoader({ progress }: UploadLoaderProps) {
+export function UploadLoader({ progress, uploadSizeClass }: UploadLoaderProps) {
     return (
-        <div className={styles.uploadingPlaceholder}>
+        <div className={`${styles.uploadZoneBase} ${styles.uploadingPlaceholder} ${uploadSizeClass}`}>
 
             <div className={styles.circleLoader}>
                 <svg className={styles.circleSvg} viewBox="0 0 36 36">

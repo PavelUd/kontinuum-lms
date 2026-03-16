@@ -1,0 +1,89 @@
+.fileDownloadBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+.fileIcon {
+    width: 48px;
+    height: 48px;
+    background: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    color: var(--primary-color);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+.fileCard {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    margin: 0.4rem 0;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: var(--text-main);
+}
+
+.fileCard:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+}
+
+.uploadSizeFile{
+    aspect-ratio: 32/9;
+}
+
+.uploadIcon {
+    margin-bottom: 8px;
+    color: var(--primary-color);
+}
+
+.articleFileWrapper {
+    margin: 2rem 0;
+}
+
+.filePreviewWrapper {
+    margin: 1rem 0;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.fileBlockWrapper{
+    margin: 1rem 0;
+}
+
+.uploadTitle {
+    font-weight: 600;
+}
+
+.uploadHint {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.fileInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.fileCaption {
+    font-weight: 600;
+}
+
+.fileDownloadBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fileDownloadIcon {
+    color: #6b7280;
+}

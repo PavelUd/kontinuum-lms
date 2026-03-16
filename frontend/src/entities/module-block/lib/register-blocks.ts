@@ -18,6 +18,10 @@ import {ImageBlock} from "@/entities/module-block/ui/image/ImageBlock";
 import {EditImageBlock} from "@/entities/module-block/ui/image/EditImageBlock";
 import {VideoBlock} from "@/entities/module-block/ui/video/VideoBlock";
 import {EditVideoBlock} from "@/entities/module-block/ui/video/EditVideoBlock";
+import {AudioBlock} from "@/entities/module-block/ui/audio/AudioBlock";
+import {EditAudioBlock} from "@/entities/module-block/ui/audio/EditAudioBlock";
+import {FileBlock} from "@/entities/module-block/ui/file/FileBlock";
+import {EditFileBlock} from "@/entities/module-block/ui/file/EditFileBlock";
 
 registerBlock("text", {
     view: TextBlock,
@@ -62,4 +66,14 @@ registerBlock("image", {
 registerBlock("video", {
     view: VideoBlock,
     editor: EditVideoBlock
+})
+
+registerBlock("audio", {
+    view: AudioBlock,
+    editor: EditAudioBlock
+})
+
+registerBlock("file", {
+    view: FileBlock,
+    editor: EditFileBlock
 })

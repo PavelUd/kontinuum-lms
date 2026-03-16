@@ -2,11 +2,12 @@ import styles from "./upload.module.css"
 
 type UploadErrorProps = {
     onRetry: () => void
+    uploadSizeClass : string
 }
 
-export function UploadError({ onRetry }: UploadErrorProps) {
+export function UploadError({ onRetry, uploadSizeClass }: UploadErrorProps) {
     return (
-        <div className={styles.errorPlaceholder}>
+        <div className={`${styles.uploadZoneBase} ${styles.errorPlaceholder} ${uploadSizeClass}`}>
             <div className={styles.errorIcon}>⚠</div>
 
             <div className={styles.errorText}>

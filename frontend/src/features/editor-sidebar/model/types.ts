@@ -13,7 +13,8 @@ import {
     Variable,
     Code,
     LucideIcon,
-    Heading
+    Heading,
+    FileDown
 } from "lucide-react";
 
 export type BlockLibraryItem = {
@@ -37,4 +38,5 @@ export const iconMap: Record<string, LucideIcon> = {
     formula: Variable,
     code: Code,
     page_break: FileMinus,
+    file : FileDown
 };

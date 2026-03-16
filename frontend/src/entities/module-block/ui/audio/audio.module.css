@@ -1,0 +1,121 @@
+.icon{
+  color: #FFC107;
+}
+
+.audioPreviewWrapper {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.uploadSizeAudio {
+    aspect-ratio: 16/9;
+}
+
+.audioTitle {
+    margin-top: 12px;
+    font-weight: 700;
+}
+
+.audioHint {
+    font-size: 0.85rem;
+    opacity: 0.5;
+}
+
+.articleAudioWrapper {
+    margin: 2rem 0;
+}
+
+
+.audioPlaceholder {
+    width: 100%;
+    background: #eff6ff;
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: visible !important;
+    color: #1e40af;
+    position: relative;
+}
+
+.audioHeader {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.audioBlockWrapper{
+    margin: 2rem 0;
+}
+
+.audioPlayer :global(.plyr) {
+    background: transparent;
+}
+
+.audioPlayer :global(.plyr__controls) {
+    background: transparent;
+    padding: 0;
+}
+
+.audioPlayer :global(.plyr) {
+    background: transparent;
+}
+
+.audioPlayer :global(.plyr__controls) {
+    background: transparent;
+    padding: 0;
+    gap: 12px;
+}
+
+.audioPlayer :global(.plyr__progress__buffer) {
+    background: #e5e7eb;
+}
+
+.audioPlayer :global(.plyr__progress__played) {
+    background: #3b82f6;
+}
+
+.audioControls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.speedControls {
+    display: flex;
+    gap: 10px;
+}
+
+.speedBtn {
+    background: #dbeafe;
+    color: #1e3a8a;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+}
+
+.speedBtn:hover {
+    background: #3b82f6;
+    color: white;
+}
+
+.speedActive {
+    background: #3b82f6;
+    color: white;
+}
+
+
+
+
+.audioIcon {
+    opacity: 0.5;
+    color: #3b82f6;
+}

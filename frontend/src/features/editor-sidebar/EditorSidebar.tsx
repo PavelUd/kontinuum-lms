@@ -27,12 +27,14 @@ export function EditorSidebar({ moduleId }: Props) {
         { type: "heading", icon: "heading", color: "purple", label: "Заголовок" },
         { type: "image", icon: "image", color: "cyan", label: "Изображение" },
         { type: "video", icon: "play-circle", color: "red", label: "Видео" },
+        { type: "audio", icon: "audio", color: "#FFC107", label: "Аудио" },
         { type: "callout", variant: "note", icon: "info", color: "green", label: 'Блок "Внимание"' },
         { type: "callout", variant: "tip", icon: "lightbulb", color: "orange", label: 'Блок "Совет"' },
         { type: "spoiler", icon: "eye-off", color: "gray", label: "Скрытый блок" },
         { type: "formula", icon: "variable", color: "blue", label: "Формула (KaTeX)" },
         { type: "table", icon: "table", color: "cyan", label: "Таблица" },
-        { type: "code", icon: "code", color: "black", label: "Блок кода" }
+        { type: "code", icon: "code", color: "black", label: "Блок кода" },
+        { type: "file", icon: "file", color: "gray", label: "Файл для скачивания" }
     ]
 
     return (

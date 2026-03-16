@@ -14,6 +14,7 @@ export type BlockType =
     | "page_break"
     | "table"
     | "audio"
+    | "file"
 
 export interface ModuleBlock<T> {
     id: string
@@ -33,6 +34,12 @@ export type UploadType =
     | "video"
     | "audio"
     | "file"
+
+
+export type FileBlockContent = {
+    url?: string
+    caption?: string
+}
 
 export type uploadFileRequest = {
     fileName: string,

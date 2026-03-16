@@ -1,4 +1,4 @@
-import { BlockType } from "@/entities/module-block/model/types";
+import {BlockType, FileBlockContent} from "@/entities/module-block/model/types";
 import {CalloutBlockContent} from "@/entities/module-block/ui/callout/callout-block-content";
 import {HeadingBlockContent} from "@/entities/module-block/ui/heading/heading-block-content";
 import {TextBlockContent} from "@/entities/module-block/ui/text/text-block-content";
@@ -18,7 +18,9 @@ export type BlockContentMap = {
     table: TableBlockContent,
     code: CodeBlockContent,
     image: ImageBlockContent,
-    video: VideoBlockContent
+    video: VideoBlockContent,
+    audio: FileBlockContent,
+    file: FileBlockContent
 }
 
 export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
@@ -38,7 +40,14 @@ export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
         url: "",
         caption: "надпись"
     },
-
+    file: {
+        url: "",
+        caption: "файл не обнаружен"
+    },
+    audio: {
+        caption: "Название аудио",
+        url: ""
+    },
     video: {
         caption: "Название видео",
         url: ""

@@ -1,11 +1,9 @@
-
-
 import {EditBlockProps} from "@/entities/module-block/model/types";
 import {ImageBlockContent} from "@/entities/module-block/ui/image/image-block-content";
 
 import styles from "./image.module.css"
 import {ImageUploadPlaceholder} from "@/entities/module-block/ui/image/ImageUploadPlaceholder";
-
+import baseStyles from "../upload/upload.module.css"
 import {ImagePreview} from "@/entities/module-block/ui/image/ImagePreview";
 import {UploadBlockContainer} from "@/entities/module-block/ui/upload/UploadBlockContainer";
 
@@ -38,9 +36,10 @@ export function EditImageBlock({
                         onDrop={handleDrop}
                         setIsDragging={setIsDragging}/>
                 )} uploadType={"image"}
+                uploadSizeClass={styles.uploadSizeImg}
             />
                 <div
-                    className={`${styles.editorInput} ${styles.editorInputText}`}
+                    className={`${baseStyles.editorInput} ${baseStyles.editorInputText}`}
                     contentEditable={isActive}
                     suppressContentEditableWarning
                     onBlur={(e) =>

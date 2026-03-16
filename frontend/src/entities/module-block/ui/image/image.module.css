@@ -1,5 +1,5 @@
 .articleImageWrapper {
-    margin: 3rem 0;
+    margin: 1rem 0;
 }
 
 .articleImage {
@@ -26,36 +26,6 @@
 .subtitle {
     font-size: 0.875rem;
     color: #6b7280;
-}
-
-.uploadingPlaceholder {
-    width: 100%;
-    aspect-ratio: 16/9;
-    background: #f0fdf4;
-    border: 2px dashed  var(--primary-color);;
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary-color);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    margin-bottom: 1rem;
-}
-
-.progressBar {
-    height: 8px;
-    background: #e5e7eb;
-    border-radius: 8px;
-    margin-top: 12px;
-    overflow: hidden;
-}
-
-.progress {
-    height: 100%;
-    background: #3b82f6;
-    transition: width 0.2s;
 }
 
 .articleImage:hover {
@@ -96,7 +66,7 @@
     width: 100%;
     border-radius: 16px;
     overflow: hidden;
-    margin: 1rem auto;
+    margin: 0 auto;
 }
 
 .imagePreviewContainer img {
@@ -104,18 +74,11 @@
     max-height: 500px;
     object-fit: contain;
     display: block;
-    margin: 1rem auto;
+    margin: 0 auto;
 }
 
-.removeImgBtn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
-    border-radius: 8px;
-    padding: 6px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.uploadSizeImg {
+    aspect-ratio: 16/9;
 }
 
 .uploadZone {
@@ -152,96 +115,10 @@
     margin-bottom: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
-.editorInput {
-    width: 100%;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 0.75rem;
-    margin-bottom: 0.75rem;
-    font-size: 0.9rem;
-}
 
-.editorInputText {
-    text-align: center;
-    font-size: 0.875em;
-    color: #6c757d;
-    min-height: 1em;
-}
 
-.errorPlaceholder {
-    width: 100%;
-    aspect-ratio: 16/9;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-muted);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    margin-bottom: 1rem;
-    width: 100%;
-    border: 2px dashed #ef4444;
-    background: #fef2f2;
-    border-radius: 12px;
-    padding: 24px;
-    text-align: center;
-}
 
-.errorIcon {
-    font-size: 28px;
-    margin-bottom: 8px;
-}
 
-.errorText {
-    color: #b91c1c;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-.retryBtn {
-    background: transparent;
-    border: none;
-    color: #ef4444;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.circleLoader {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 10px auto;
-}
-
-.circleSvg {
-    transform: rotate(-90deg);
-    width: 80px;
-    height: 80px;
-}
-
-.circleBg {
-    fill: none;
-    stroke: #e5e7eb;
-    stroke-width: 3.5;
-}
-
-.circleProgress {
-    fill: none;
-    stroke: var(--primary-color);
-    stroke-width: 3.5;
-    stroke-linecap: round;
-    transition: stroke-dasharray 0.2s ease;
-}
-
-.circleText {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    color: var(--primary-color);
-}
 
 .editorInput:disabled {
     background: #f1f5f9;

@@ -12,6 +12,7 @@ type UploadBlockContainerProps = {
     caption?: string
     updateBlock: (id: string, data: any) => void
     previewContainerClass: string
+    uploadSizeClass : string
     showUrlInput?: boolean
     uploadType : UploadType
     Preview: (props: {
@@ -31,6 +32,7 @@ export function UploadBlockContainer({
                                          caption = "",
                                          updateBlock,
                                          previewContainerClass,
+                                         uploadSizeClass,
                                          showUrlInput = true,
                                          uploadType,
                                          Preview,
@@ -134,7 +136,7 @@ export function UploadBlockContainer({
                 onChange={handleFileSelect}
             />
 
-            {uploading && <UploadLoader progress={progress} />}
+            {uploading && <UploadLoader progress={progress} uploadSizeClass={uploadSizeClass} />}
 
             {!uploading && url && !imgError && (
                 <div className={previewContainerClass}>
@@ -152,7 +154,7 @@ export function UploadBlockContainer({
             )}
 
             {!uploading && imgError && (
-                <UploadError onRetry={triggerUpload} />
+                <UploadError onRetry={triggerUpload}  uploadSizeClass={uploadSizeClass}/>
             )}
 
             {!uploading && !url && !imgError &&
