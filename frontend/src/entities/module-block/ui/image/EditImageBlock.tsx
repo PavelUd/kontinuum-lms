@@ -2,11 +2,14 @@
 
 import {EditBlockProps} from "@/entities/module-block/model/types";
 import {ImageBlockContent} from "@/entities/module-block/ui/image/image-block-content";
-import {UploadCloud, X} from "lucide-react";
 import {useRef, useState} from "react";
 import styles from "./image.module.css"
 import {deleteFile, getUploadUrl} from "@/entities/module-block/api/module-block-files.api";
 import {uploadFileToPresignedUrl} from "@/shared/api/files/file-api";
+import {ImageUploadPlaceholder} from "@/entities/module-block/ui/image/ImageUploadPlaceholder";
+import {UploadError} from "@/entities/module-block/ui/upload/UploadError";
+import {ImagePreview} from "@/entities/module-block/ui/image/ImagePreview";
+import {UploadLoader} from "@/entities/module-block/ui/upload/UploadLoader";
 
 export function EditImageBlock({
                                    block,
@@ -106,100 +109,31 @@ export function EditImageBlock({
             />
 
             {uploading && (
-                <div className={styles.uploadingPlaceholder}>
-
-                    <div className={styles.circleLoader}>
-                        <svg className={styles.circleSvg} viewBox="0 0 36 36">
-
-                            <path
-                                className={styles.circleBg}
-                                d="M18 2.0845
-                                a 15.9155 15.9155 0 0 1 0 31.831
-                                a 15.9155 15.9155 0 0 1 0 -31.831"
-                            />
-
-                            <path
-                                className={styles.circleProgress}
-                                strokeDasharray={`${progress}, 100`}
-                                d="M18 2.0845
-                                a 15.9155 15.9155 0 0 1 0 31.831
-                                a 15.9155 15.9155 0 0 1 0 -31.831"
-                            />
-
-                        </svg>
-
-                        <div className={styles.circleText}>
-                            {Math.round(progress)}%
-                        </div>
-                    </div>
-
-                    <div className={styles.uploadText}>
-                        Загрузка изображения...
-                    </div>
-
-                </div>
+                <UploadLoader progress={progress} />
             )}
 
-            {!uploading && url && !imgError ? (
+            {!uploading && url && !imgError && (
+                <ImagePreview
+                    url={url}
+                    onError={() => setImgError(true)}
+                    onRemove={handleRemoveImage}
+                />
+            )}
 
-                <div className={styles.imagePreviewContainer}>
-                    <img
-                        src={url}
-                        alt="Uploaded"
-                        onError={() => setImgError(true)}
-                    />
+            {!uploading && imgError && (
+                <UploadError
+                    onRetry={triggerFileUpload}
+                />
+            )}
 
-                    <button
-                        className={styles.removeImgBtn}
-                        onClick={handleRemoveImage}>
-                        <X size={18} />
-                    </button>
-                </div>
-
-            ) : !uploading && imgError ? (
-
-                <div className={styles.errorPlaceholder}>
-                    <div className={styles.errorIcon}>⚠</div>
-
-                    <div className={styles.errorText}>
-                        Не удалось загрузить изображение
-                    </div>
-
-                    <button
-                        className={styles.retryBtn}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            triggerFileUpload();
-                        }}
-                    >
-                        Загрузить другое
-                    </button>
-                </div>
-
-            ) : !uploading && (
-
-                <div
-                    className={`${styles.uploadZone} ${
-                        isDragging === block.id ? "active" : ""
-                    }`}
+            {!uploading && !url && !imgError && (
+                <ImageUploadPlaceholder
+                    blockId={block.id}
+                    isDragging={isDragging}
                     onClick={triggerFileUpload}
-                    onDragOver={(e) => e.preventDefault()}
-                    onDragLeave={() => setIsDragging(null)}
                     onDrop={handleDrop}
-                >
-                    <div className={styles.uploadIconWrapper}>
-                        <UploadCloud size={28} className="text-primary" />
-                    </div>
-
-                    <div className="fw-bold text-main">
-                        Перетащите картинку сюда
-                    </div>
-
-                    <div className="small">
-                        или кликните для выбора
-                    </div>
-                </div>
-
+                    setIsDragging={setIsDragging}
+                />
             )}
 
             <input

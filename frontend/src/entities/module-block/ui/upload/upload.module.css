@@ -1,0 +1,94 @@
+.uploadingPlaceholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #f0fdf4;
+    border: 2px dashed  var(--primary-color);;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.circleLoader {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 10px auto;
+}
+
+.circleSvg {
+     transform: rotate(-90deg);
+     width: 80px;
+     height: 80px;
+}
+
+.circleBg {
+    fill: none;
+    stroke: #e5e7eb;
+    stroke-width: 3.5;
+}
+
+.circleProgress {
+    fill: none;
+    stroke: var(--primary-color);
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.2s ease;
+}
+
+.circleText {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+
+/*  ERROR  */
+
+
+.errorPlaceholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    border: 2px dashed #ef4444;
+    background: #fef2f2;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+}
+
+.errorIcon {
+    color: #b91c1c;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.errorText {
+    color: #b91c1c;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.retryBtn {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    font-weight: 600;
+    cursor: pointer;
+}
