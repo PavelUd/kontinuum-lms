@@ -7,4 +7,8 @@ public class ChoiceQuestionContent : BaseQuestionContent
 {
     [JsonPropertyName("options")]
     public string[] Options { get; set; }
+    
+    [JsonPropertyName("variant")]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public ChoiceQuestionVariant Variant { get; set; }
 }

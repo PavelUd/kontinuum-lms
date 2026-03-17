@@ -24,6 +24,8 @@ import {FileBlock} from "@/entities/module-block/ui/upload/file/FileBlock";
 import {EditFileBlock} from "@/entities/module-block/ui/upload/file/EditFileBlock";
 import {OpenQuestionBlock} from "@/entities/module-block/ui/question/openQuestion/OpenQuestionBlock";
 import {EditOpenQuestionBlock} from "@/entities/module-block/ui/question/openQuestion/EditOpenQuestionBlock";
+import {ChoiceQuestionBlock} from "@/entities/module-block/ui/question/choiceQuestion/ChoiceQuestionBlcok";
+import {EditChoiceQuestionBlock} from "@/entities/module-block/ui/question/choiceQuestion/EditChoiceQuestionBlock";
 
 registerBlock("text", {
     view: TextBlock,
@@ -88,4 +90,9 @@ registerBlock("file", {
 registerBlock("openquestion", {
     view: OpenQuestionBlock,
     editor: EditOpenQuestionBlock
+})
+
+registerBlock("choicequestion", {
+    view: ChoiceQuestionBlock,
+    editor: EditChoiceQuestionBlock
 })

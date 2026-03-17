@@ -15,12 +15,13 @@ import {
     LucideIcon,
     Heading,
     FileDown,
-    Edit3
+    Edit3, CircleDot, CheckSquare
 } from "lucide-react";
+import {ChoiceQuestionVariant} from "@/entities/module-block/ui/question/question-content";
 
 export type BlockLibraryItem = {
     type: BlockType,
-    variant?: CalloutVariant
+    variant?: CalloutVariant | ChoiceQuestionVariant
     icon: string
     color: string
     label: string
@@ -41,5 +42,6 @@ export const iconMap: Record<string, LucideIcon> = {
     page_break: FileMinus,
     file : FileDown,
     openquestion: Edit3,
-
+    single: CircleDot,
+    multiple: CheckSquare
 };

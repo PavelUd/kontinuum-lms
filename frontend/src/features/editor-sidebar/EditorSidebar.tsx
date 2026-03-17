@@ -35,7 +35,9 @@ export function EditorSidebar({ moduleId }: Props) {
         { type: "table", icon: "table", color: "cyan", label: "Таблица" },
         { type: "code", icon: "code", color: "black", label: "Блок кода" },
         { type: "file", icon: "file", color: "gray", label: "Файл для скачивания" },
-        { type: "openquestion", icon: "edit3", color: "red", label: "Открытй вопрос" }
+        { type: "openquestion", icon: "edit3", color: "red", label: "Открытй вопрос" },
+        { type: "choicequestion",variant: "single", icon: "edit3", color: "red", label: "Тест (1 выбор)" },
+        { type: "choicequestion",variant:"multiple",  icon: "", color: "red", label: "Тест (мульти)" }
     ]
 
     return (

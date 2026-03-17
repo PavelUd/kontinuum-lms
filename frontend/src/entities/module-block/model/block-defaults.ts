@@ -8,7 +8,7 @@ import {TableBlockContent} from "@/entities/module-block/ui/table/table-block-co
 import {CodeBlockContent} from "@/entities/module-block/ui/code/code-block-content";
 import { ImageBlockContent } from "@/entities/module-block/ui/upload/image/image-block-content";
 import {VideoBlockContent} from "@/entities/module-block/ui/upload/video/video-block-content";
-import {QuestionBlockContent} from "@/entities/module-block/ui/question/question-content";
+import {ChoiceQuestionBlockContent, QuestionBlockContent} from "@/entities/module-block/ui/question/question-content";
 
 export type BlockContentMap = {
     text: TextBlockContent,
@@ -23,6 +23,7 @@ export type BlockContentMap = {
     audio: FileBlockContent,
     file: FileBlockContent
     openquestion: QuestionBlockContent,
+    choicequestion : ChoiceQuestionBlockContent
 }
 
 export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
@@ -77,7 +78,15 @@ export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
         question: "Вопрос",
         description: "",
         correctAnswer: "Ответ"
+    },
+    choicequestion:{
+        variant: "single",
+        question: "Вопрос",
+        description: "",
+        correctAnswer: "1",
+        options: ["Выбор 1", "Выбор 2", "Выбор 3"]
     }
+
 }
 
 export function getDefaultBlockContent(type: BlockType) {

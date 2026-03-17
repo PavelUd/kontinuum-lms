@@ -9,12 +9,13 @@ type Props = {
 
 export function AudioBlock({ content }: Props) {
 
-    const { url} = content
+    const { url, caption} = content
 
     return (
         <div className={styles.audioBlockWrapper}>
         <AudioBlockPreview
             url={url}
+            caption={caption}
             onError={() => {}}
         />
         </div>)

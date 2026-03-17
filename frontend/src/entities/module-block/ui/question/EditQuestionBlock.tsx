@@ -34,7 +34,7 @@ export function EditQuestionBlock({
             />
 
             {/* Описание */}
-            {(isActive || description) && (
+            {(isActive) && (
                 <div
                     className={styles.quizDescription}
                     contentEditable={isActive}
@@ -46,7 +46,7 @@ export function EditQuestionBlock({
                         })
                     }
                     data-placeholder="Добавьте описание (необязательно)..."
-                    dangerouslySetInnerHTML={{ __html: description || "" }}
+                    dangerouslySetInnerHTML={{ __html: description && description !== "<br>" ? description : "" }}
                 />
             )}
 

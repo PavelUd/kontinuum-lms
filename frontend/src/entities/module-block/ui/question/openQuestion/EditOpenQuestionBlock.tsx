@@ -10,10 +10,10 @@ export function EditOpenQuestionBlock({block, isActive,setActiveBlock, updateBlo
 
     return (
         <EditQuestionBlock block={block} isActive={isActive} setActiveBlock={setActiveBlock} updateBlock={updateBlock}>
-            <div className="mt-2">
+            <div className={styles.answerWrapper}>
                 <input className={styles.quizInput} placeholder="Поле для ввода ответа..." disabled />
                 {isActive && (
-                    <div className={styles.answerWrapper}>
+                    <div className={styles.answerWrapperActive}>
                         <div className={styles.answerLabel}>
                             Правильный ответ для проверки:
                         </div>

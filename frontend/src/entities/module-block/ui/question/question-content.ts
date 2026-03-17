@@ -6,4 +6,7 @@ export type QuestionBlockContent = {
 
 export type ChoiceQuestionBlockContent = QuestionBlockContent & {
     options: string[]
+    variant: ChoiceQuestionVariant
 }
+
+export type ChoiceQuestionVariant =  "Single" | "Multiple"
