@@ -1,5 +1,5 @@
-import {VideoBlockContent} from "@/entities/module-block/ui/video/video-block-content";
-import {VideoPreview} from "@/entities/module-block/ui/video/VideoPreview";
+import {VideoBlockContent} from "@/entities/module-block/ui/upload/video/video-block-content";
+import {VideoPreview} from "@/entities/module-block/ui/upload/video/VideoPreview";
 import styles from "./video.module.css"
 
 type Props = {

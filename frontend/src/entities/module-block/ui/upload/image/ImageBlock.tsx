@@ -1,4 +1,4 @@
-import {ImageBlockContent} from "@/entities/module-block/ui/image/image-block-content";
+import {ImageBlockContent} from "@/entities/module-block/ui/upload/image/image-block-content";
 import {useState} from "react";
 import styles from "./image.module.css"
 

@@ -1,4 +1,4 @@
-import commonStyles from '../image/image.module.css'
+import commonStyles from '@/entities/module-block/ui/upload/image/image.module.css'
 import {Video} from "lucide-react";
 
 type VideoPlaceholderProps = {

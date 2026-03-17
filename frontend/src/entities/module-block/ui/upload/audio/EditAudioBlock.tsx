@@ -1,9 +1,9 @@
 import {EditBlockProps, FileBlockContent} from "@/entities/module-block/model/types";
 import styles from "./audio.module.css"
-import baseStyles from "../upload/upload.module.css"
+import baseStyles from "../upload.module.css"
 import {UploadBlockContainer} from "@/entities/module-block/ui/upload/UploadBlockContainer";
-import {AudioBlockPreview} from "@/entities/module-block/ui/audio/AudioPreview";
-import {AudioUploadPlaceholder} from "@/entities/module-block/ui/audio/AudioUploadPlaceholder";
+import {AudioBlockPreview} from "@/entities/module-block/ui/upload/audio/AudioPreview";
+import {AudioUploadPlaceholder} from "@/entities/module-block/ui/upload/audio/AudioUploadPlaceholder";
 
 export function EditAudioBlock({ block,isActive, updateBlock }: EditBlockProps<FileBlockContent>) {
 

@@ -1,8 +1,8 @@
 import {EditBlockProps, FileBlockContent} from "@/entities/module-block/model/types";
 import styles from "./file.module.css"
 import {UploadBlockContainer} from "@/entities/module-block/ui/upload/UploadBlockContainer";
-import {FileUploadPlaceholder} from "@/entities/module-block/ui/file/FileUploadPlaceholder";
-import {FileBlockPreview} from "@/entities/module-block/ui/file/FilePreview";
+import {FileUploadPlaceholder} from "@/entities/module-block/ui/upload/file/FileUploadPlaceholder";
+import {FileBlockPreview} from "@/entities/module-block/ui/upload/file/FilePreview";
 import baseStyles from "@/entities/module-block/ui/upload/upload.module.css";
 
 

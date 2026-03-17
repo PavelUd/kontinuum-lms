@@ -14,14 +14,16 @@ import {TableBlock} from "@/entities/module-block/ui/table/TableBlock";
 import {EditTableBlock} from "@/entities/module-block/ui/table/EditTableBlock";
 import {CodeBlock} from "@/entities/module-block/ui/code/CodeBlock";
 import {EditCodeBlock} from "@/entities/module-block/ui/code/EditCodeBlock";
-import {ImageBlock} from "@/entities/module-block/ui/image/ImageBlock";
-import {EditImageBlock} from "@/entities/module-block/ui/image/EditImageBlock";
-import {VideoBlock} from "@/entities/module-block/ui/video/VideoBlock";
-import {EditVideoBlock} from "@/entities/module-block/ui/video/EditVideoBlock";
-import {AudioBlock} from "@/entities/module-block/ui/audio/AudioBlock";
-import {EditAudioBlock} from "@/entities/module-block/ui/audio/EditAudioBlock";
-import {FileBlock} from "@/entities/module-block/ui/file/FileBlock";
-import {EditFileBlock} from "@/entities/module-block/ui/file/EditFileBlock";
+import {ImageBlock} from "@/entities/module-block/ui/upload/image/ImageBlock";
+import {EditImageBlock} from "@/entities/module-block/ui/upload/image/EditImageBlock";
+import {VideoBlock} from "@/entities/module-block/ui/upload/video/VideoBlock";
+import {EditVideoBlock} from "@/entities/module-block/ui/upload/video/EditVideoBlock";
+import {AudioBlock} from "@/entities/module-block/ui/upload/audio/AudioBlock";
+import {EditAudioBlock} from "@/entities/module-block/ui/upload/audio/EditAudioBlock";
+import {FileBlock} from "@/entities/module-block/ui/upload/file/FileBlock";
+import {EditFileBlock} from "@/entities/module-block/ui/upload/file/EditFileBlock";
+import {OpenQuestionBlock} from "@/entities/module-block/ui/question/openQuestion/OpenQuestionBlock";
+import {EditOpenQuestionBlock} from "@/entities/module-block/ui/question/openQuestion/EditOpenQuestionBlock";
 
 registerBlock("text", {
     view: TextBlock,
@@ -76,4 +78,14 @@ registerBlock("audio", {
 registerBlock("file", {
     view: FileBlock,
     editor: EditFileBlock
+})
+
+registerBlock("file", {
+    view: FileBlock,
+    editor: EditFileBlock
+})
+
+registerBlock("openquestion", {
+    view: OpenQuestionBlock,
+    editor: EditOpenQuestionBlock
 })

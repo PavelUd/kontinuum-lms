@@ -1,9 +1,9 @@
 import {EditBlockProps} from "@/entities/module-block/model/types";
-import {VideoBlockContent} from "@/entities/module-block/ui/video/video-block-content";
+import {VideoBlockContent} from "@/entities/module-block/ui/upload/video/video-block-content";
 import styles from "./video.module.css";
-import {VideoPreview} from "@/entities/module-block/ui/video/VideoPreview";
+import {VideoPreview} from "@/entities/module-block/ui/upload/video/VideoPreview";
 import {UploadBlockContainer} from "@/entities/module-block/ui/upload/UploadBlockContainer";
-import {VideoUploadPlaceholder} from "@/entities/module-block/ui/video/VideoUploadPlaceholder";
+import {VideoUploadPlaceholder} from "@/entities/module-block/ui/upload/video/VideoUploadPlaceholder";
 
 export function EditVideoBlock({ block, updateBlock }: EditBlockProps<VideoBlockContent>) {
 

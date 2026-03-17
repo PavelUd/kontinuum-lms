@@ -1,10 +1,10 @@
 import {EditBlockProps} from "@/entities/module-block/model/types";
-import {ImageBlockContent} from "@/entities/module-block/ui/image/image-block-content";
+import {ImageBlockContent} from "@/entities/module-block/ui/upload/image/image-block-content";
 
 import styles from "./image.module.css"
-import {ImageUploadPlaceholder} from "@/entities/module-block/ui/image/ImageUploadPlaceholder";
-import baseStyles from "../upload/upload.module.css"
-import {ImagePreview} from "@/entities/module-block/ui/image/ImagePreview";
+import {ImageUploadPlaceholder} from "@/entities/module-block/ui/upload/image/ImageUploadPlaceholder";
+import baseStyles from "../upload.module.css"
+import {ImagePreview} from "@/entities/module-block/ui/upload/image/ImagePreview";
 import {UploadBlockContainer} from "@/entities/module-block/ui/upload/UploadBlockContainer";
 
 

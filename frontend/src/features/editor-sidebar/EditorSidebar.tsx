@@ -34,7 +34,8 @@ export function EditorSidebar({ moduleId }: Props) {
         { type: "formula", icon: "variable", color: "blue", label: "Формула (KaTeX)" },
         { type: "table", icon: "table", color: "cyan", label: "Таблица" },
         { type: "code", icon: "code", color: "black", label: "Блок кода" },
-        { type: "file", icon: "file", color: "gray", label: "Файл для скачивания" }
+        { type: "file", icon: "file", color: "gray", label: "Файл для скачивания" },
+        { type: "openquestion", icon: "edit3", color: "red", label: "Открытй вопрос" }
     ]
 
     return (

@@ -1,5 +1,5 @@
 import {FileBlockContent} from "@/entities/module-block/model/types";
-import {FileBlockPreview} from "@/entities/module-block/ui/file/FilePreview";
+import {FileBlockPreview} from "@/entities/module-block/ui/upload/file/FilePreview";
 import styles from "./file.module.css";
 type Props = {
     content: FileBlockContent

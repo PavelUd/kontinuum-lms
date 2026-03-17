@@ -1,5 +1,5 @@
 import {FilePlus} from "lucide-react";
-import commonStyles from '../upload/upload.module.css'
+import commonStyles from '../upload.module.css'
 import styles from "./file.module.css"
 
 type FilePlaceholderProps = {

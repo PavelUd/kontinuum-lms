@@ -15,6 +15,8 @@ export type BlockType =
     | "table"
     | "audio"
     | "file"
+    | "openquestion"
+    | "choicequestion"
 
 export interface ModuleBlock<T> {
     id: string

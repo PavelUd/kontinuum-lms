@@ -6,8 +6,9 @@ import {FormulaBlockContent} from "@/entities/module-block/ui/formula/formula-bl
 import {SpoilerBlockContent} from "@/entities/module-block/ui/spoiler/spoiler-block-content";
 import {TableBlockContent} from "@/entities/module-block/ui/table/table-block-content";
 import {CodeBlockContent} from "@/entities/module-block/ui/code/code-block-content";
-import { ImageBlockContent } from "../ui/image/image-block-content";
-import {VideoBlockContent} from "@/entities/module-block/ui/video/video-block-content";
+import { ImageBlockContent } from "@/entities/module-block/ui/upload/image/image-block-content";
+import {VideoBlockContent} from "@/entities/module-block/ui/upload/video/video-block-content";
+import {QuestionBlockContent} from "@/entities/module-block/ui/question/question-content";
 
 export type BlockContentMap = {
     text: TextBlockContent,
@@ -21,6 +22,7 @@ export type BlockContentMap = {
     video: VideoBlockContent,
     audio: FileBlockContent,
     file: FileBlockContent
+    openquestion: QuestionBlockContent,
 }
 
 export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
@@ -70,6 +72,11 @@ export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
     code: {
         code: "print('hello world')",
         language: "python"
+    },
+    openquestion:{
+        question: "Вопрос",
+        description: "",
+        correctAnswer: "Ответ"
     }
 }
 

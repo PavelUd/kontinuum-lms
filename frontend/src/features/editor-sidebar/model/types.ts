@@ -14,7 +14,8 @@ import {
     Code,
     LucideIcon,
     Heading,
-    FileDown
+    FileDown,
+    Edit3
 } from "lucide-react";
 
 export type BlockLibraryItem = {
@@ -38,5 +39,7 @@ export const iconMap: Record<string, LucideIcon> = {
     formula: Variable,
     code: Code,
     page_break: FileMinus,
-    file : FileDown
+    file : FileDown,
+    openquestion: Edit3,
+
 };
