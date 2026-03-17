@@ -5,8 +5,16 @@ using Core;
 
 namespace BlockEngine.Application.Plugins.Callout;
 
-public class CalloutBlockPlugin : IBlockPlugin
+public class CalloutBlockPlugin : IBlockPlugin, ISafeHtmlPlugin
 {
+    
+    private IContentSanitizer _sanitizer;
+
+    public CalloutBlockPlugin(IContentSanitizer sanitizer)
+    {
+        _sanitizer = sanitizer;
+    }
+
     public BlockType Type => BlockType.Callout;
     public Task<Result<None>> ValidateAsync(JsonElement content)
     {
@@ -25,5 +33,13 @@ public class CalloutBlockPlugin : IBlockPlugin
     {
         var model = content.Deserialize<CalloutBlockContent>();
         return Task.FromResult<object>(model);
+    }
+
+    public JsonElement Sanitize(JsonElement content)
+    {
+        var model = content.Deserialize<CalloutBlockContent>();
+        model.Text = _sanitizer.Sanitize(model.Text);
+        
+        return JsonSerializer.SerializeToElement(model);
     }
 }

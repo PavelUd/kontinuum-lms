@@ -5,9 +5,17 @@ using Core;
 
 namespace BlockEngine.Application.Plugins.Formula;
 
-public class FormulaBlockPlugin : IBlockPlugin
+public class FormulaBlockPlugin : IBlockPlugin, ISafeHtmlPlugin
 {
     public BlockType Type => BlockType.Formula;
+    
+    private IContentSanitizer _sanitizer;
+
+    public FormulaBlockPlugin(IContentSanitizer sanitizer)
+    {
+        _sanitizer = sanitizer;
+    }
+
     public Task<Result<None>> ValidateAsync(JsonElement content)
     {
         var model = content.Deserialize<FormulaBlockContent>();
@@ -22,5 +30,13 @@ public class FormulaBlockPlugin : IBlockPlugin
     {
         var model = content.Deserialize<FormulaBlockContent>();
         return Task.FromResult<object>(model);
+    }
+
+    public JsonElement Sanitize(JsonElement content)
+    {
+        var model = content.Deserialize<FormulaBlockContent>();
+        model.Formula = _sanitizer.Sanitize(model.Formula);
+        
+        return JsonSerializer.SerializeToElement(model);
     }
 }

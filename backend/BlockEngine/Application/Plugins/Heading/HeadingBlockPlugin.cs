@@ -6,8 +6,15 @@ using Core;
 
 namespace BlockEngine.Application.Plugins.Heading;
 
-public class HeadingBlockPlugin  : IBlockPlugin
+public class HeadingBlockPlugin  : IBlockPlugin, ISafeHtmlPlugin
 {
+    private IContentSanitizer _sanitizer;
+
+    public HeadingBlockPlugin(IContentSanitizer sanitizer)
+    {
+        _sanitizer = sanitizer;
+    }
+
     public BlockType Type => BlockType.Heading;
 
     public Task<Result<None>> ValidateAsync(JsonElement content)
@@ -24,5 +31,13 @@ public class HeadingBlockPlugin  : IBlockPlugin
     {
         var model = content.Deserialize<HeadingBlockContent>();
         return Task.FromResult<object>(model);
+    }
+
+    public JsonElement Sanitize(JsonElement content)
+    {
+        var model = content.Deserialize<TextBlockContent>();
+        model.Text = _sanitizer.Sanitize(model.Text);
+        
+        return JsonSerializer.SerializeToElement(model);
     }
 }

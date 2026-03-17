@@ -7,8 +7,16 @@ using Core;
 
 namespace BlockEngine.Application.Plugins.Spoiler;
 
-public class SpoilerBlockPlugin : IBlockPlugin
+public class SpoilerBlockPlugin : IBlockPlugin, ISafeHtmlPlugin
 {
+    
+    private IContentSanitizer _sanitizer;
+
+    public SpoilerBlockPlugin(IContentSanitizer sanitizer)
+    {
+        _sanitizer = sanitizer;
+    }
+
     public BlockType Type => BlockType.Spoiler;
 
     public Task<Result<None>> ValidateAsync(JsonElement content)
@@ -25,5 +33,14 @@ public class SpoilerBlockPlugin : IBlockPlugin
     {
         var model = content.Deserialize<SpoilerBlockContent>();
         return Task.FromResult<object>(model);
+    }
+
+    public JsonElement Sanitize(JsonElement content)
+    {
+        var model = content.Deserialize<SpoilerBlockContent>();
+        model.Text = _sanitizer.Sanitize(model.Text);
+        model.Title = _sanitizer.Sanitize(model.Title);
+        
+        return JsonSerializer.SerializeToElement(model);
     }
 }

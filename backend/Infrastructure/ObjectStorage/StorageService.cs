@@ -22,7 +22,8 @@ public class StorageService : IStorageService
     public async Task<Result<PresignedUploadResult>> GetLessonUploadUrlAsync(string fileName, string contentType, string keyPrefix)
     {
         var extension = Path.GetExtension(fileName);
-        var key = $"{keyPrefix}/{Guid.NewGuid():N}{extension}";
+        var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
+        var key = $"{keyPrefix}/{fileNameWithoutExtension}{extension}";
         var expires = DateTime.UtcNow.AddMinutes(10);
 
         var request = new GetPreSignedUrlRequest

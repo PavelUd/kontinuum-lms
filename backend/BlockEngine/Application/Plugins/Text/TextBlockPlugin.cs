@@ -5,8 +5,15 @@ using Core;
 
 namespace BlockEngine.Application.Plugins.Text;
 
-public class TextBlockPlugin : IBlockPlugin
+public class TextBlockPlugin : IBlockPlugin, ISafeHtmlPlugin
 {
+    private IContentSanitizer _sanitizer;
+
+    public TextBlockPlugin(IContentSanitizer sanitizer)
+    {
+        _sanitizer = sanitizer;
+    }
+
     public BlockType Type => BlockType.Text;
 
     public Task<Result<None>> ValidateAsync(JsonElement content)
@@ -25,4 +32,12 @@ public class TextBlockPlugin : IBlockPlugin
         return Task.FromResult<object>(model);
     }
 
+    public JsonElement Sanitize(JsonElement content)
+    { 
+        var model = content.Deserialize<TextBlockContent>();
+        model.Text = _sanitizer.Sanitize(model.Text);
+        
+        return JsonSerializer.SerializeToElement(model);
+        
+    }
 }

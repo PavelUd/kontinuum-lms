@@ -6,13 +6,15 @@ using Core;
 
 namespace BlockEngine.Application.Plugins.File;
 
-public abstract class BaseFileBlockPlugin<TContent> : IBlockPlugin
+public abstract class BaseFileBlockPlugin<TContent> : IBlockPlugin, ISafeHtmlPlugin where TContent : BaseFileBlockContent
 {
     private readonly IStorageService _fileService;
+    private IContentSanitizer _sanitizer;
 
-    protected BaseFileBlockPlugin(IStorageService fileService)
+    protected BaseFileBlockPlugin(IStorageService fileService, IContentSanitizer sanitizer)
     {
         _fileService = fileService;
+        _sanitizer = sanitizer;
     }
 
     public abstract BlockType Type { get; }
@@ -37,5 +39,13 @@ public abstract class BaseFileBlockPlugin<TContent> : IBlockPlugin
     {
         var prefix = $"lessons/{lessonId}/blocks/{blockId}/";
         return await _fileService.DeleteByPrefixAsync(prefix);
+    }
+
+    public JsonElement Sanitize(JsonElement content)
+    {
+        var model = content.Deserialize<TContent>();
+        model.Caption = _sanitizer.Sanitize(model.Caption);
+        
+        return JsonSerializer.SerializeToElement(model);
     }
 }

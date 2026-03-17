@@ -1,4 +1,5 @@
 using System.Text.Json;
+using BlockEngine.Application.Interfaces;
 using BlockEngine.Domain.Enum;
 using Core;
 
@@ -12,18 +13,31 @@ public class BlockEngine
     {
         _registry = registry;
     }
-    public async Task<Result> ValidateAsync(BlockType type, JsonElement content)
-    {
-        var plugin = _registry.Get(type);
-
-        return await plugin.ValidateAsync(content);
-    }
 
     public async Task<object> RenderAsync(BlockType type, JsonElement content)
     {
         var plugin = _registry.Get(type);
 
         return await plugin.RenderAsync(content);
+    }
+    
+    public async Task<Result<JsonElement>> PreProcessAsync(BlockType type, JsonElement content)
+    {
+        var plugin = _registry.Get(type);
+
+        var validationResult = await plugin.ValidateAsync(content);
+        if (!validationResult.Succeeded)
+        {
+            return await Result<JsonElement>.FailureAsync(validationResult.Errors);
+        }
+
+        var result = content;
+        if (plugin is ISafeHtmlPlugin safeHtmlPlugin)
+        {
+            result = safeHtmlPlugin.Sanitize(content);
+        }
+
+        return await Result<JsonElement>.SuccessAsync(result);
     }
     
     public async Task OnRemovingAsync(BlockType type, Guid id, Guid idLesson)

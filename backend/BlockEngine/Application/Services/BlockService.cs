@@ -61,16 +61,17 @@ public class BlockService : IBlockService
             
             var block = _mapper.Map<LessonBlock>(request);
             block.LessonId = lessonId;
-            var validationResult = await _blockEngine.ValidateAsync(request.Type, block.Content);
-            if(!validationResult.Succeeded)
+            var preProcessResult = await _blockEngine.PreProcessAsync(request.Type, block.Content);
+            if(!preProcessResult.Succeeded)
             {
-                return await Result<Guid>.FailureAsync(string.Join(", ", validationResult.Errors));
+                return await Result<Guid>.FailureAsync(string.Join(", ", preProcessResult.Errors));
             }
 
             var maxOrderIndex = await _dbContext.LessonBlocks
                 .Where(x => x.LessonId == lessonId)
                 .MaxAsync(x => (int?)x.OrderIndex) ?? -1;
             
+            block.Content = preProcessResult.Data;
             block.OrderIndex = maxOrderIndex + 1;
             _dbContext.LessonBlocks.Add(block);
             await _dbContext.SaveChangesAsync();
@@ -99,14 +100,14 @@ public class BlockService : IBlockService
                 return await Result<None>.SuccessAsync();
             }
             
-            var validationResult = await _blockEngine.ValidateAsync(block.Type, block.Content);
+            var preProcessResult = await _blockEngine.PreProcessAsync(block.Type, request.Content);
             
-            if(!validationResult.Succeeded)
+            if(!preProcessResult.Succeeded)
             {
-                return await Result<None>.FailureAsync(string.Join(", ", validationResult.Errors));
+                return await Result<None>.FailureAsync(string.Join(", ",  preProcessResult.Errors));
             }
-            
-            block.Content = request.Content;
+
+            block.Content = preProcessResult.Data;
             await _dbContext.SaveChangesAsync();
             
             return await Result<None>.SuccessAsync();
