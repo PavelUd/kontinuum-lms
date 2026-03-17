@@ -12,5 +12,7 @@ public enum BlockType
     Image,
     Video,
     File,
-    Audio
+    Audio,
+    OpenQuestion,
+    ChoiceQuestion
 }

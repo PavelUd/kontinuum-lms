@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace BlockEngine.Application.Plugins.Base;
+namespace BlockEngine.Application.Plugins.File;
 
 public class BaseFileBlockContent
 {

@@ -1,11 +1,7 @@
-using System.Text.Json;
-using BlockEngine.Application.Interfaces;
-using BlockEngine.Application.Plugins.Base;
 using BlockEngine.Domain.Enum;
 using Contracts.Services;
-using Core;
 
-namespace BlockEngine.Application.Plugins.Image;
+namespace BlockEngine.Application.Plugins.File.Image;
 
 public class ImageBlockPlugin : BaseFileBlockPlugin<BaseFileBlockContent>
 {

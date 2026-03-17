@@ -1,8 +1,7 @@
-using BlockEngine.Application.Plugins.Base;
 using BlockEngine.Domain.Enum;
 using Contracts.Services;
 
-namespace BlockEngine.Application.Plugins.Audio;
+namespace BlockEngine.Application.Plugins.File.Audio;
 
 
 public class AudioBlockPlugin : BaseFileBlockPlugin<BaseFileBlockContent>

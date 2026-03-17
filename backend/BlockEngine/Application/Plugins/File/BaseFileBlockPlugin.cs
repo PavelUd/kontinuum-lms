@@ -4,7 +4,7 @@ using BlockEngine.Domain.Enum;
 using Contracts.Services;
 using Core;
 
-namespace BlockEngine.Application.Plugins.Base;
+namespace BlockEngine.Application.Plugins.File;
 
 public abstract class BaseFileBlockPlugin<TContent> : IBlockPlugin
 {
