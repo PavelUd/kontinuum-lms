@@ -1,0 +1,20 @@
+.container {}
+.animateIn {}
+
+.headerRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.title {
+    font-weight: 500;
+    margin: 0;
+    font-size: 30px;
+}
+
+.subtitle {
+    color: #94a3b8;
+    margin: 0;
+}

@@ -80,6 +80,24 @@ html[data-theme="dark"] {
     }
 }
 
+.animate-in {
+    animation: slideUp 0.4s ease-out;
+}
+
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8fafc;
+    width: 100%;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+    min-width: 0;
+    width: 100%;
+}
+
 /* ===================================== */
 /*            COMPONENT LAYER            */
 /* ===================================== */

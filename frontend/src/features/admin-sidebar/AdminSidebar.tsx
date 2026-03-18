@@ -11,11 +11,10 @@ import {AdminUserAvatar} from "@/entities/user/ui/AdminUserAvatar";
 
 export function AdminSidebar() {
 
-    const DEFAULT_ROUTE = "/dashboard/courses";
     const pathname = usePathname();
     const isActive = (path?: string | null) => {
         const target = path ?? "/dashboard/courses"; // дефолт
-        return path?.startsWith(target);
+        return pathname?.startsWith(target);
     };
 
     return (
@@ -36,7 +35,7 @@ export function AdminSidebar() {
                             key={route.href}
                             href={route.href}
                             className={`${styles.navItem} ${
-                                pathname?.startsWith(route.href) ? styles.active : ""
+                                isActive(route.href) ? styles.active : ""
                             }`}
                         >
                             <div className={styles.iconWrapper}>

@@ -1,0 +1,52 @@
+.wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* скрываем дефолтный checkbox */
+.input {
+    display: none;
+}
+
+/* сам переключатель */
+.slider {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    transition: 0.2s;
+}
+
+/* кружок */
+.slider::before {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    left: 2px;
+    top: 2px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* checked */
+.input:checked + .slider {
+    background: #22c55e;
+}
+
+.input:checked + .slider::before {
+    transform: translateX(16px);
+}
+
+/* label */
+.label {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 500;
+}

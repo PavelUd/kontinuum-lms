@@ -2,12 +2,12 @@ import { Book, Users } from "lucide-react";
 
 export const routes = [
     {
-        href: "/dashboard/courses",
+        href: "/admin/courses",
         label: "Курсы",
         icon: Book,
     },
     {
-        href: "/dashboard/users",
+        href: "/admin/users",
         label: "Пользователи",
         icon: Users,
     },

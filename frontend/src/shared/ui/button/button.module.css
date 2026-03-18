@@ -1,0 +1,72 @@
+/* === BASE === */
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+/* === ICON === */
+.icon {
+    display: flex;
+    align-items: center;
+}
+
+/* === PRIMARY === */
+.primary {
+    background: var(--text-main);
+    color: white;
+    border: none;
+}
+
+.primary:hover {
+    background: #334155;
+    transform: translateY(-1px);
+}
+
+/* === DANGER === */
+.danger {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+.danger:hover {
+    background: #fecaca;
+    color: #991b1b;
+    transform: translateY(-1px);
+}
+
+/* === OUTLINE === */
+.outline {
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+}
+
+.outline:hover {
+    background: #f8fafc;
+    border-color: #cbd5e0;
+    color: var(--text-main);
+}
+
+/* === FULL WIDTH === */
+.fullWidth {
+    width: 100%;
+}
+
+/* === ICON ONLY === */
+.iconOnly {
+    padding: 0.5rem;
+    width: 36px;
+    height: 36px;
+}

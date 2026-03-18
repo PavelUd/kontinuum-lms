@@ -1,0 +1,109 @@
+.courseRow {
+    background: white;
+    border-radius: 16px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.courseRow:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-premium);
+    transform: translateX(4px);
+}
+
+.courseInfo {
+    flex: 1;
+    cursor: pointer;
+}
+
+.courseTitle {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.courseMeta {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+    color: #94a3b8;
+}
+
+.metaItem {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.switchWrapper {
+    margin-right: 16px;
+}
+
+.progress {
+    margin-right: 16px;
+    text-align: right;
+}
+
+.progressLabel {
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.progressValue {
+    font-weight: 400;
+    color: #3b82f6;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 6px 12px;
+    border-radius: 12px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    border: none;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.secondaryButton {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.secondaryButton:hover {
+    background: #e2e8f0;
+}
+
+.dangerButton {
+    background: #fef2f2;
+    color: #ef4444;
+
+    padding: 6px;
+    width: 32px;
+    height: 32px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dangerButton:hover {
+    background: #fee2e2;
+}
