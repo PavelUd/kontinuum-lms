@@ -1,9 +1,8 @@
 'use client'
 
-import {Layers, Plus, Trash2, UserPlus, Users} from "lucide-react";
+import {Plus} from "lucide-react";
 import {useState} from "react";
 import styles from "./admin-course-list.module.css"
-import {Switch} from "@/shared/ui/switch/Switch";
 import {AdminCourseRow} from "@/entities/course/ui/AdminCourseRow";
 import {Button} from "@/shared/ui/button/Button";
 

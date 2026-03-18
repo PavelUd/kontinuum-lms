@@ -1,7 +1,7 @@
 import styles from "./button.module.css";
 import clsx from "clsx";
 
-type Variant = "primary" | "danger" | "outline";
+type Variant = "primary" | "danger" | "outline" | "ghost";
 
 type Props = {
     variant?: Variant;

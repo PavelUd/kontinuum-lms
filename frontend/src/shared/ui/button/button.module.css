@@ -59,6 +59,32 @@
     color: var(--text-main);
 }
 
+.ghost {
+    background: #f1f5f9;              /* как btn-light */
+    border: 1px solid transparent;
+    color: #475569;                   /* slate-600 */
+    padding: 0.35rem 0.9rem;          /* btn-sm */
+    border-radius: 14px;            /* pill */
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ghost:hover {
+    background: #e2e8f0;
+    color: var(--text-main);
+    transform: translateY(-1px);
+}
+
+.ghost:active {
+    transform: translateY(0);
+    background: #cbd5f5;
+}
+
 /* === FULL WIDTH === */
 .fullWidth {
     width: 100%;

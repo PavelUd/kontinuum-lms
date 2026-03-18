@@ -99,6 +99,47 @@ html[data-theme="dark"] {
 }
 
 /* ===================================== */
+/*            DASHBOARD         */
+/* ===================================== */
+
+
+.base-dashboard-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.base-dashboard-table th {
+    padding: 0.5rem 1rem;
+    background-color: #F8FAFC;
+    color: #64748b;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.table-wrapper {
+}
+
+
+.base-dashboard-table td {
+    background: white;
+    padding: 0.8rem 1rem;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.base-dashboard-table tr td:first-child {
+    border-left: 1px solid #f1f5f9;
+    border-radius: 12px 0 0 12px;
+}
+
+.base-dashboard-table tr td:last-child {
+    border-right: 1px solid #f1f5f9;
+    border-radius: 0 12px 12px 0;
+}
+
+/* ===================================== */
 /*            COMPONENT LAYER            */
 /* ===================================== */
 
