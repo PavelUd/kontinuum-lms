@@ -1,6 +1,6 @@
 'use client'
 
-import styles from './UserAvatar.module.css'
+import styles from './user-avatar.module.css'
 
 type Props = {
     name: string
