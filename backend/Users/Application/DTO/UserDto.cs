@@ -1,5 +1,6 @@
 using Contracts.Contracts;
 using Contracts.Contracts.Users;
+using Core.Entities;
 using Users.Domain;
 
 namespace Users.Application.DTO;

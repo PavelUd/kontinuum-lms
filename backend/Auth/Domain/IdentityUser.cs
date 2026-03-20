@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Core.Entities;
 using Core.Entities.Interfaces;
 using Microsoft.AspNetCore.Http;
 
@@ -25,15 +27,21 @@ public class IdentityUser : IIdentityUser
         }
         init { }
     }
-
-    public string? Role
+    
+    public Role? Role
     {
         get
         {
-            return _httpContextAccessor.HttpContext?
+            var roleClaim = _httpContextAccessor.HttpContext?
                 .User
-                .FindFirst("Admin")?
-                .Value;
+                .FindFirst(ClaimTypes.Role)
+                ?.Value;
+
+            if (roleClaim == null) return null;
+
+            if (Enum.TryParse<Role>(roleClaim, true, out var role)) return role;
+
+            return null;
         }
         init { }
     }

@@ -1,5 +1,7 @@
+using Core.Entities;
 using Courses.Application.Interfaces;
 using Courses.Domain.Entities;
+using Courses.Domain.Enums;
 using Courses.DTO;
 using Courses.DTO.Courses;
 using Courses.DTO.Lessons;
@@ -40,6 +42,31 @@ public class CoursesController : Controller
         }
         return Accepted($"/courses/{idResult.Data}", new { idResult.Data });
     }
+    
+    [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)},admin")]
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCourse(Guid id)
+    {
+        var idResult = await _coursesService.DeleteCourse(id);
+        if (!idResult.Succeeded)
+        {
+            return BadRequest(idResult.Errors);
+        }
+        return NoContent();
+    }
+    
+    [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)}")]
+    [HttpPatch("{id}/status")]
+    public async Task<IActionResult> SetStatusCourse(Guid id, SetStatusCourseRequest request)
+    {
+        var idResult = await _coursesService.SetStatus(request.Status, id);
+        if (!idResult.Succeeded)
+        {
+            return BadRequest(idResult.Errors);
+        }
+        return NoContent();
+    }
+    
     
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(Guid id)

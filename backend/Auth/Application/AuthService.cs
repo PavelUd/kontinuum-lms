@@ -5,14 +5,13 @@ using System.Text;
 using Auth.Application.Interfaces;
 using Auth.Domain;
 using Auth.Infrastructure;
-using Contracts.Contracts;
 using Contracts.Contracts.Users;
 using Contracts.Services;
 using Core;
+using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Win32.SafeHandles;
 
 namespace Auth.Application;
 
@@ -118,7 +117,7 @@ public class AuthService : IAuthService
         }
     }
     
-    private async Task<(string, string)> GenerateTokenPairAsync(Credential credentials, string role,  string fingerprint, string? userAgent, string? ip)
+    private async Task<(string, string)> GenerateTokenPairAsync(Credential credentials, Role role,  string fingerprint, string? userAgent, string? ip)
     {
         var accessToken = await GenerateJwtToken(credentials.UserId,role, new TimeSpan(4, 0, 0));
         var refreshToken = GenerateRefreshToken();
@@ -176,7 +175,7 @@ public class AuthService : IAuthService
     
     
     
-    private async Task<string> GenerateJwtToken(Guid userId, string role, TimeSpan lifetime)
+    private async Task<string> GenerateJwtToken(Guid userId, Role role, TimeSpan lifetime)
     {
         var secret = Encoding.ASCII.GetBytes(_token.Secret);
 
@@ -186,7 +185,7 @@ public class AuthService : IAuthService
             Subject = new ClaimsIdentity(new Claim[]
             {
                 new ("Id", userId.ToString()),
-                new (ClaimTypes.Role, role),
+                new (ClaimTypes.Role, role.ToString()),
             }),
             Expires = DateTime.UtcNow.Add(lifetime),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256Signature)

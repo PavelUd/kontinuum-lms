@@ -2,8 +2,11 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Contracts.Query;
 using Core;
+using Core.Entities;
+using Core.Entities.Interfaces;
 using Courses.Application.Interfaces;
 using Courses.Domain.Entities;
+using Courses.Domain.Enums;
 using Courses.DTO;
 using Courses.DTO.Courses;
 using MediatR;
@@ -15,18 +18,68 @@ public class CoursesService : ICoursesService
     
     private  readonly ICoursesDbContext _dbContext;
     private readonly IMapper _mapper;
+    private readonly IIdentityUser _identityUser;
 
-    public CoursesService(ICoursesDbContext dbContext, IMapper mapper, IMediator mediator)
+    public CoursesService(ICoursesDbContext dbContext, IMapper mapper,IIdentityUser identityUser)
     {
         _dbContext = dbContext;
         _mapper = mapper;
+        _identityUser = identityUser;
     }
 
 
     public  Result<List<SummaryCourseDto>> GetCourses()
-    {
-       var result = _dbContext.Courses.ProjectTo<SummaryCourseDto>(_mapper.ConfigurationProvider).ToList();
+    { 
+        var query = _dbContext.Courses.AsQueryable();
+        if(_identityUser.Role == Role.Student)
+        {
+            query = query.Where(c => c.Status == Status.Active);
+        }
+        
+        var result = query.ProjectTo<SummaryCourseDto>(_mapper.ConfigurationProvider).ToList();
        return Result<List<SummaryCourseDto>>.Success(result);
+    }
+
+    public async Task<Result<None>> SetStatus(Status status, Guid idCourse)
+    {
+        var course = _dbContext.Courses.FirstOrDefault(x => x.Id == idCourse);
+        if (course == null)
+        {
+            return await Result<None>.FailureAsync("Course not found");
+        }
+
+        try
+        {
+            course.Status = status;
+            await _dbContext.SaveChangesAsync();
+            return await Result<None>.SuccessAsync();
+        }
+        
+        catch (Exception e)
+        {
+            return await Result<None>.FailureAsync(e.Message);
+        }
+    }
+
+    public async Task<Result<None>> DeleteCourse(Guid idCourse)
+    {
+        var course = _dbContext.Courses.FirstOrDefault(x => x.Id == idCourse);
+        if (course == null)
+        {
+            return await Result<None>.FailureAsync("Course not found");
+        }
+
+        try
+        {
+            _dbContext.Courses.Remove(course);
+            await _dbContext.SaveChangesAsync();
+            return await Result<None>.SuccessAsync();
+        }
+        
+        catch (Exception e)
+        {
+            return await Result<None>.FailureAsync(e.Message);
+        }
     }
 
     public Result<CourseDto> GetCourse(Guid courseId)
