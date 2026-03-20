@@ -13,7 +13,7 @@ public class LessonDto
     
     public string? Title { get; set; }
     
-    public LessonStatus Status { get; set; }
+    public Status Status { get; set; }
     
     public int OrderIndex { get; set; }
 

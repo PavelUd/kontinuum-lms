@@ -10,6 +10,7 @@ using Courses.Domain.Enums;
 using Courses.DTO;
 using Courses.DTO.Courses;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Courses.Application;
 
@@ -51,6 +52,11 @@ public class CoursesService : ICoursesService
         try
         {
             course.Status = status;
+            if (status == Status.Archived)
+            {
+               await ArchiveModulesAsync(course.Id);
+            }
+            
             await _dbContext.SaveChangesAsync();
             return await Result<None>.SuccessAsync();
         }
@@ -101,5 +107,13 @@ public class CoursesService : ICoursesService
         {
             return Result<Guid>.Failure("Failed to create course");
         }
+    }
+    
+    private async Task ArchiveModulesAsync(Guid courseId)
+    {
+        await _dbContext.Lessons
+            .Where(x => x.CourseId == courseId)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(m => m.Status, Status.Archived));
     }
 }

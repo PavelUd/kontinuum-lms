@@ -3,6 +3,7 @@ using Courses.Application.Interfaces;
 using Courses.Domain.Entities;
 using Courses.Domain.Enums;
 using Courses.DTO;
+using Courses.DTO.Common;
 using Courses.DTO.Courses;
 using Courses.DTO.Lessons;
 using Microsoft.AspNetCore.Authorization;
@@ -57,7 +58,7 @@ public class CoursesController : Controller
     
     [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)}")]
     [HttpPatch("{id}/status")]
-    public async Task<IActionResult> SetStatusCourse(Guid id, SetStatusCourseRequest request)
+    public async Task<IActionResult> SetStatusCourse(Guid id,  SetStatusRequest request)
     {
         var idResult = await _coursesService.SetStatus(request.Status, id);
         if (!idResult.Succeeded)

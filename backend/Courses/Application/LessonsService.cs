@@ -4,6 +4,7 @@ using Contracts.Query;
 using Core;
 using Courses.Application.Interfaces;
 using Courses.Domain.Entities;
+using Courses.Domain.Enums;
 using Courses.DTO.Courses;
 using Courses.DTO.Lessons;
 using MediatR;
@@ -84,6 +85,27 @@ public class LessonsService : ILessonsService
         catch
         {
             return Result<None>.Failure("Failed to remove lesson");
+        }
+    }
+
+    public async Task<Result<None>> SetLessonStatus(Guid idLesson, Status status)
+    {
+        var course = _dbContext.Lessons.FirstOrDefault(x => x.Id == idLesson);
+        if (course == null)
+        {
+            return await Result<None>.FailureAsync("Course not found");
+        }
+
+        try
+        {
+            course.Status = status;
+            await _dbContext.SaveChangesAsync();
+            return await Result<None>.SuccessAsync();
+        }
+        
+        catch (Exception e)
+        {
+            return await Result<None>.FailureAsync(e.Message);
         }
     }
     

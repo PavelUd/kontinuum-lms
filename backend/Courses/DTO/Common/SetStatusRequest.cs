@@ -1,8 +1,8 @@
 using Courses.Domain.Enums;
 
-namespace Courses.DTO.Courses;
+namespace Courses.DTO.Common;
 
-public class SetStatusCourseRequest
+public class SetStatusRequest
 {
     public Status Status { get; set; }
 }

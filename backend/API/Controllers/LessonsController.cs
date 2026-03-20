@@ -1,7 +1,10 @@
 using BlockEngine.Application.DTO;
 using BlockEngine.Application.Interfaces;
+using Core.Entities;
 using Courses.Application.Interfaces;
+using Courses.DTO.Common;
 using Courses.DTO.Lessons;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -48,6 +51,18 @@ public class LessonsController : Controller
         if (!result.Succeeded)
         {
             return BadRequest(result.Errors);
+        }
+        return NoContent();
+    }
+    
+    [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)}")]
+    [HttpPatch("{id}/status")]
+    public async Task<IActionResult> SetStatus(Guid id,  SetStatusRequest request)
+    {
+        var idResult = await _lessonsService.SetLessonStatus(id, request.Status);
+        if (!idResult.Succeeded)
+        {
+            return BadRequest(idResult.Errors);
         }
         return NoContent();
     }

@@ -14,7 +14,7 @@ public class Lesson  : BaseAuditableEntity
     public string? Title { get; set; }
     
     [Column("status")]
-    public LessonStatus Status { get; set; }
+    public Status Status { get; set; }
     
     [Column("order_index")]
     public int OrderIndex { get; set; }
