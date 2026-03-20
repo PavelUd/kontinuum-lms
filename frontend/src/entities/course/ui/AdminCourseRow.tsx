@@ -1,28 +1,35 @@
 import styles from "./admin-course-row.module.css"
 import {Layers, Trash2, UserPlus, Users} from "lucide-react";
 import {Switch} from "@/shared/ui/switch/Switch";
+import {CourseSummary} from "@/entities/course";
+import {useCourseStore} from "@/entities/course/model/course.store";
+import {CourseStatus} from "@/entities/course/model/types";
 
 export type Props = {
-    course : any
+    course : CourseSummary
 }
 
 export function AdminCourseRow({course}: Props) {
+
+    const remove = useCourseStore(s => s.removeCourse);
+    const updateStatus = useCourseStore(s => s.updateCourseStatus);
+
     return (
         <div key={course.id} className={styles.courseRow}>
             <div className={styles.courseInfo}>
                 <div className={styles.courseTitle}>
-                    {course.title}
+                    {course.name}
                 </div>
 
                 <div className={styles.courseMeta}>
                         <span className={styles.metaItem}>
                             <Layers size={14} />
-                            {course.modulesCount} модулей
+                            {course.lessonsCount} модулей
                         </span>
 
                     <span className={styles.metaItem}>
                             <Users size={14} />
-                        {course.students} учеников
+                        12 учеников
                         </span>
                 </div>
             </div>
@@ -31,8 +38,9 @@ export function AdminCourseRow({course}: Props) {
                 <Switch
                     checked={course.status === "active"}
                     label="Доступен"
-                    onToggle={(value) => {
-                        console.log("toggle:", value);
+                    onToggle={async (value) => {
+                        const status : CourseStatus = value ? "active" : "archived"
+                        await updateStatus(course.id, status)
                     }}
                 />
             </div>
@@ -42,7 +50,7 @@ export function AdminCourseRow({course}: Props) {
                     Средний прогресс
                 </div>
                 <div className={styles.progressValue}>
-                    {course.avgProgress}%
+                    {12}%
                 </div>
             </div>
 
@@ -61,6 +69,7 @@ export function AdminCourseRow({course}: Props) {
 
                 <button
                     className={`${styles.button} ${styles.dangerButton}`}
+                    onClick={ () => {remove(course.id)}}
                 >
                     <Trash2 size={14} />
                 </button>

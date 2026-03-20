@@ -12,6 +12,7 @@ export interface Module {
     title: string;
     status: number;
     orderIndex: number;
+    courseId: string,
     blocks: ModuleBlock<any>[]
 }
 

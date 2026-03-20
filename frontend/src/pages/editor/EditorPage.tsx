@@ -27,7 +27,7 @@ export function EditorPage({ moduleId }: Props) {
 
     return (
         <div className={styles.editorLayout}>
-        <EditorSidebar moduleId={moduleId}></EditorSidebar>
+        <EditorSidebar moduleId={moduleId} courseId={data?.courseId ?? ""}></EditorSidebar>
         <Canvas blocks={data?.blocks ?? []} moduleId={moduleId} moduleTitle={data?.title ?? ""} />
         </div>
     )

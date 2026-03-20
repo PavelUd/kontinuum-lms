@@ -11,6 +11,9 @@
     align-items: center;
     justify-content: center;
     color: white;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
 }
 
 .removeImgBtn {

@@ -3,16 +3,18 @@ import {ArrowLeft} from "lucide-react";
 import {BlockLibraryItem, iconMap} from "@/features/editor-sidebar/model/types";
 import {BlockContent, BlockType} from "@/entities/module-block/model/types";
 import {useLessonBlocksStore} from "@/entities/module-block/model/blocks.store";
-import {DEFAULT_BLOCK_CONTENT, getDefaultBlockContent} from "@/entities/module-block/model/block-defaults";
+import {getDefaultBlockContent} from "@/entities/module-block/model/block-defaults";
+import Link from "next/link";
 
 
 type Props = {
-    moduleId: string
+    moduleId: string,
+    courseId: string
 }
 
 
 
-export function EditorSidebar({ moduleId }: Props) {
+export function EditorSidebar({ moduleId, courseId }: Props) {
 
     const createBlock = (type: BlockType, lessonId: string, content?: BlockContent) => {
         const { addBlock, setActiveBlock } = useLessonBlocksStore.getState()
@@ -36,17 +38,17 @@ export function EditorSidebar({ moduleId }: Props) {
         { type: "code", icon: "code", color: "black", label: "Блок кода" },
         { type: "file", icon: "file", color: "gray", label: "Файл для скачивания" },
         { type: "openquestion", icon: "edit3", color: "red", label: "Открытй вопрос" },
-        { type: "choicequestion",variant: "single", icon: "edit3", color: "red", label: "Тест (1 выбор)" },
-        { type: "choicequestion",variant:"multiple",  icon: "", color: "red", label: "Тест (мульти)" }
+        { type: "choicequestion",variant: "Single", icon: "edit3", color: "red", label: "Тест (1 выбор)" },
+        { type: "choicequestion",variant:"Multiple",  icon: "", color: "red", label: "Тест (мульти)" }
     ]
 
     return (
         <div className={styles.editorSidebar}>
             <div className={styles.blockLibraryHeader}>
-                <a href="/admin" className={styles.backLink}>
+                <Link href={`/admin/courses/${courseId}`} className={styles.backLink}>
                     <ArrowLeft size={14} className="icon" />
                     Выход в панель
-                </a>
+                </Link>
 
                 <h5 className={styles.title}>Библиотека блоков</h5>
             </div>

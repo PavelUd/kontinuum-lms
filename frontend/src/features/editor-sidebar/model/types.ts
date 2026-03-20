@@ -42,6 +42,6 @@ export const iconMap: Record<string, LucideIcon> = {
     page_break: FileMinus,
     file : FileDown,
     openquestion: Edit3,
-    single: CircleDot,
-    multiple: CheckSquare
+    Single: CircleDot,
+    Multiple: CheckSquare
 };

@@ -33,20 +33,14 @@ export const VideoPreview = React.memo(function VideoPreview({ url = "", onError
     return (
         <div className={styles.videoPreviewWrapper}>
 
-            {!isReady && (
-                <div className={styles.videoPlaceholder}></div>
-            )}
-            { isLocalVideo ? (
-
+            {isLocalVideo ? (
                 <Plyr
-                    onCanPlayThrough ={() => setReady(true)}
+                    onCanPlayThrough={() => setReady(true)}
                     onError={onError}
                     source={source}
                     options={options}
                 />
-
             ) : (
-
                 <div className={styles.videoIframeWrapper}>
                     <iframe
                         onLoad={() => setReady(true)}
@@ -57,6 +51,10 @@ export const VideoPreview = React.memo(function VideoPreview({ url = "", onError
                         frameBorder="0"
                     />
                 </div>
+            )}
+
+            {!isReady && (
+                <div className={styles.videoPlaceholder} />
             )}
         </div>
     );

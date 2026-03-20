@@ -4,6 +4,7 @@ import {BarChart2, Edit3, Eye} from "lucide-react";
 import {Button} from "@/shared/ui/button/Button";
 import {Switch} from "@/shared/ui/switch/Switch";
 import {useState} from "react";
+import Link from "next/link";
 
 type Props = {
     modules: any[]
@@ -91,11 +92,13 @@ export function AdminModulesList({modules}: Props) {
                                         icon={<BarChart2 size={14}/>}>Статистика
                                     </Button>
 
+                                    <Link href={`/admin/modules/${m.id}/editor`}>
                                     <Button
                                         variant="ghost"
                                         icon={<Edit3 size={14}/>}>
                                         Правка
                                     </Button>
+                                    </Link>
 
                                     <Button
                                         variant="ghost"
