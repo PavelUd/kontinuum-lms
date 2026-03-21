@@ -1,20 +1,27 @@
 "use client";
 
-import {BarChart2, Edit3, Eye} from "lucide-react";
+import {BarChart2, Edit3, Eye, Trash2} from "lucide-react";
 import {Button} from "@/shared/ui/button/Button";
 import {Switch} from "@/shared/ui/switch/Switch";
 import {useState} from "react";
 import Link from "next/link";
+import {Status} from "@/entities/course/model/types";
+import {ModuleSummary} from "@/entities/module";
+import {useModulesMutations} from "@/entities/module/model/useModulesMutations";
 
 type Props = {
-    modules: any[]
+    modules: ModuleSummary[]
+    onDelete: (id: string, name: string) => void
+    courseId: string
 }
 
-export function AdminModulesList({modules}: Props) {
+export function AdminModulesList({modules,onDelete, courseId}: Props) {
+
+    const query = useModulesMutations();
+
 
     const [page, setPage] = useState(1);
     const pageSize = 10;
-
     const totalPages = Math.ceil(modules.length / pageSize);
 
     const paginatedModules = modules.slice(
@@ -37,8 +44,8 @@ export function AdminModulesList({modules}: Props) {
                     </thead>
 
                     <tbody>
-                    {modules.map((m, idx) => (
-                        <tr key={m.id}>
+                    {paginatedModules.map((m, idx) => (
+                        <tr key={m.id ?? ""}>
 
                             {/* № */}
                             <td className="pl-4 text-gray-400 text-sm font-semibold">
@@ -58,9 +65,12 @@ export function AdminModulesList({modules}: Props) {
                             {/* Статус */}
                             <td>
                                 <Switch
-                                    checked={m.available}
+                                    checked={m.status === "active"}
                                     label="Доступен"
-                                    onToggle={(value) => console.log("toggle:", value)}
+                                    onToggle={async (value) => {
+                                        const status : Status = value ? "active" : "archived"
+                                        await query.setStatus({id : m.id, status})
+                                    }}
                                 />
                             </td>
 
@@ -69,13 +79,13 @@ export function AdminModulesList({modules}: Props) {
                                 <div className="flex flex-col text-sm">
 
                     <span className="font-semibold text-blue-600">
-                        {m.progress}%{" "}
+                        {12}%{" "}
                         <span className="text-gray-400 font-normal">
                             прогресс
                         </span>
                     </span>
                                     <span className="font-semibold text-green-600">
-                        {m.avgScore}{" "}
+                        {12}{" "}
                                         <span className="text-gray-400 font-normal">
                             ср. балл
                         </span>
@@ -105,7 +115,13 @@ export function AdminModulesList({modules}: Props) {
                                         icon={<Eye size={14}/>}>
                                         Вид
                                     </Button>
-
+                                    <Button
+                                        variant={"ghost"}
+                                        style={{background: "#fef2f2"}}
+                                        onClick={() => { onDelete(m.id, m.title)}}
+                                        icon={<Trash2 className="text-red-500" size={14}>
+                                        </Trash2>}>
+                                    </Button>
                                 </div>
                             </td>
                         </tr>

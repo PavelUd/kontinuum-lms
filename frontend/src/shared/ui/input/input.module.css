@@ -1,0 +1,26 @@
+.formLabelCustom {
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+}
+
+.formInputCustom {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+}
+
+.formInputCustom:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}

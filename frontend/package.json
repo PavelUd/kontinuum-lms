@@ -18,6 +18,7 @@
     "katex": "^0.16.38",
     "lucide-react": "^0.576.0",
     "next": "16.1.6",
+    "pluralize-ru": "^1.0.1",
     "plyr-react": "^6.0.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",

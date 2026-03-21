@@ -1,9 +1,11 @@
 import {ModuleBlock} from "@/entities/module-block/model/types";
+import {Status} from "@/entities/course/model/types";
 
 export interface ModuleSummary {
     id: string
     title: string;
-    status: number | string;
+    status: Status;
+    courseId: string,
     orderIndex: number;
 }
 
@@ -14,6 +16,13 @@ export interface Module {
     orderIndex: number;
     courseId: string,
     blocks: ModuleBlock<any>[]
+}
+
+export interface CreateModuleRequest {
+    courseId: string,
+    title : string,
+    orderIndex : number,
+
 }
 
 export type UpdateTitleBlockProps = {

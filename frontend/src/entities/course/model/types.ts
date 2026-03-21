@@ -4,11 +4,11 @@ export interface CourseSummary {
     id: string
     name: string
     avatarUrl: string
-    status: CourseStatus
+    status: Status
     lessonsCount: number
 }
 
-export type CourseStatus = "active" | "archived"
+export type Status = "active" | "archived"
 
 export type CourseSummaryState = {
     courses: CourseSummary[]
@@ -16,8 +16,13 @@ export type CourseSummaryState = {
     error: string | null
 }
 
-export type SetCourseStatusRequest = {
-    status: CourseStatus
+export type SetStatusRequest = {
+    status: Status
+}
+
+export type CreateCourseRequest = {
+    name: string
+    avatarUrl?: string
 }
 
 export interface Course {

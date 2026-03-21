@@ -8,9 +8,10 @@ type Props = {
     students: number,
     avgProgress : number,
     avgScore : string
+    onCreate: () => void
 }
 
-export function AdminCourseHeader({title, students, avgScore, avgProgress}: Props) {
+export function AdminCourseHeader({onCreate, title, students, avgScore, avgProgress}: Props) {
     return (
         <div>
             <nav aria-label="breadcrumb" className="mb-5">
@@ -44,6 +45,7 @@ export function AdminCourseHeader({title, students, avgScore, avgProgress}: Prop
                         Сводная по ученикам
                     </Button>
                     <Button
+                        onClick={onCreate}
                         variant="primary"
                         icon={<Plus size={18} />}>
                         Добавить модуль

@@ -12,7 +12,9 @@ export function Switch({ checked, label, onToggle }: Props) {
             <input
                 type="checkbox"
                 checked={checked}
-                onChange={(e) => onToggle?.(e.target.checked)}
+                onChange={(e) => {
+                    onToggle?.(e.target.checked)
+                }}
                 className={styles.input}
             />
 

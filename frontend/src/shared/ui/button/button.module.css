@@ -38,6 +38,10 @@
     background: #fee2e2;
     color: #b91c1c;
     border: 1px solid #fecaca;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.2s;
 }
 
 .danger:hover {

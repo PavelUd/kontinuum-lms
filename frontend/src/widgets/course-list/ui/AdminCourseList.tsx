@@ -5,23 +5,27 @@ import styles from "./admin-course-list.module.css"
 import {AdminCourseRow} from "@/entities/course/ui/AdminCourseRow";
 import {Button} from "@/shared/ui/button/Button";
 import {useCoursesQuery} from "@/entities/course";
-import {useCourseStore} from "@/entities/course/model/course.store";
 import {Loader} from "@/shared/ui/loader";
-import {useEffect} from "react";
+import { useState} from "react";
 import Link from "next/link";
+import {CreateCourseForm} from "@/features/create-course/CreateCourseForm";
+import {ConfirmDeleteModal} from "@/features/confirm-delete/ConfirmDeleteModal";
+import {useCourseMutations} from "@/entities/course/model/useCourseMutations";
 
 
 
 export const AdminCourseList = () => {
 
-    const courses = useCourseStore(s => s.courses)
-    const { data,isLoading, isSuccess } = useCoursesQuery()
-    const setCourses = useCourseStore(s => s.setCourses)
+    const { data,isLoading } = useCoursesQuery()
+    const courses = data?.data ?? []
+    const [isOpen, setIsOpen] = useState(false)
+    const [isDeleteOpen, setDeleteIsOpen] = useState(false)
+    const [selectedCourse, setSelectedCourse] = useState<{
+        id: string
+        name: string
+    } | null>(null)
 
-    useEffect(() => {
-        if (!isSuccess) return
-        setCourses(data.data)
-    }, [isSuccess])
+    const mutations = useCourseMutations();
 
     if (isLoading) return <Loader />
 
@@ -37,17 +41,39 @@ export const AdminCourseList = () => {
 
                 <Button
                     variant="primary"
-                    icon={<Plus size={18} />}>
+                    icon={<Plus size={18} />}
+                    onClick={() => setIsOpen(true)}
+                >
                     Создать курс
                 </Button>
+                <CreateCourseForm  isOpen={isOpen} onClose={() => setIsOpen(false)}>
+
+                </CreateCourseForm>
             </div>
 
             <div className={styles.gridList}>
                 {courses.map((course) => (
-                    <Link key={course.id} href={`/admin/courses/${course.id}`}>
-                        <AdminCourseRow course={course} />
+                    <Link key={course.id ?? ""} href={`/admin/courses/${course.id}`}>
+                        <AdminCourseRow
+                            course={course}
+                            onDelete={() => {
+                                setSelectedCourse({
+                                    id: course.id,
+                                    name: course.name
+                                })
+                                setDeleteIsOpen(true)
+                            }}
+                        />
                     </Link>
                 ))}
+                <ConfirmDeleteModal isOpen={isDeleteOpen} onClose={() => setDeleteIsOpen(false)}
+                    onConfirm={() => {
+                    if (selectedCourse) {
+                        mutations.remove(selectedCourse.id)
+                        setDeleteIsOpen(false)
+                    }
+                }}
+                itemName={selectedCourse?.name ?? ""}></ConfirmDeleteModal>
             </div>
         </div>
     )
