@@ -83,10 +83,11 @@ public class CoursesController : Controller
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
     
+    
     [HttpPost("{id}/lessons")]
     public async Task<IActionResult> CreateLesson(Guid id, LessonCreateRequest request)
     {
-        var idResult = _lessonsService.CreateLesson(request, id);
+        var idResult = await _lessonsService.CreateLesson(request, id);
         if (!idResult.Succeeded)
         {
             return BadRequest(idResult.Errors);

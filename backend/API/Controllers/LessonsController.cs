@@ -25,7 +25,7 @@ public class LessonsController : Controller
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteLesson(Guid id)
     {
-        var idResult = _lessonsService.DeleteLesson(id);
+        var idResult = await _lessonsService.DeleteLesson(id);
         if (!idResult.Succeeded)
         {
             return BadRequest(idResult.Errors);

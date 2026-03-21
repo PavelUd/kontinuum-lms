@@ -7,6 +7,8 @@ public class LessonCreateRequest
 {
     public string? Title { get; set; }
     
+    public int OrderIndex { get; set; }
+    
     private class Mapping : Profile
     {
         public Mapping()

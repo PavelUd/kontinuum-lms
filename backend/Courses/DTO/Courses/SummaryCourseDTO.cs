@@ -1,4 +1,5 @@
 using AutoMapper;
+using Courses.Application.Interfaces;
 using Courses.Domain.Entities;
 using Courses.Domain.Enums;
 
