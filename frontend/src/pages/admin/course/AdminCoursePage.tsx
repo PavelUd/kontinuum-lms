@@ -18,7 +18,7 @@ type Props = {
 export function AdminCoursePage({courseId} : Props) {
 
     const { data: query, isLoading: isLoading } = useCourseQuery(courseId)
-    const mutations = useModulesMutations()
+    const mutations = useModulesMutations(courseId)
 
     const [isOpen, setIsOpen] = useState(false)
     const [isDeleteOpen, setDeleteIsOpen] = useState(false)
@@ -34,6 +34,7 @@ export function AdminCoursePage({courseId} : Props) {
 
     const lessons = lessonQuery?.data ?? []
 
+    console.log(lessons)
     const onConfirmCreation = (title : string, orderIndex : number) => {
         mutations.create({courseId : courseId, title, orderIndex})
         setIsOpen(false)
@@ -60,7 +61,7 @@ export function AdminCoursePage({courseId} : Props) {
         <>
         <AdminCourseHeader onCreate={() => setIsOpen(true)} title={course?.name ?? ""} students={12} avgProgress={13} avgScore={"4.8"} />
             <AdminModulesList onDelete={onClickDeleteButton} modules={lessons} courseId={courseId} />
-            <CreateModuleModal onConfirm={onConfirmCreation} modulesCount={lessons.length} isOpen={isOpen} onClose={() => setIsOpen(false)}></CreateModuleModal>
+            <CreateModuleModal onConfirm={onConfirmCreation} modulesCount={lessons.length + 1} isOpen={isOpen} onClose={() => setIsOpen(false)}></CreateModuleModal>
             <ConfirmDeleteModal isOpen={isDeleteOpen} onClose={() => setDeleteIsOpen(false)} onConfirm={onDeleteModule} itemName={selectedModule?.name ?? ""}></ConfirmDeleteModal>
         </>
     );

@@ -1,5 +1,6 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query"
 import {ApiResponse} from "@/shared/api/types/api-response";
+import {Optimistic} from "@/shared/lib/store/types";
 
 
 
@@ -9,6 +10,7 @@ type EntityConfig<T> = {
     deleteFn?: (id: string) => Promise<void>
     updateFn?: (id: string, patch: Partial<T>) => Promise<T>
     setStatusFn?: (id: string, status: any) => Promise<any>
+    sortFn?: (items: T[]) => T[]
 }
 
 export function useEntityMutations<T extends { id: string }>(config: EntityConfig<T>) {
@@ -18,38 +20,41 @@ export function useEntityMutations<T extends { id: string }>(config: EntityConfi
     const create = useMutation({
         mutationFn: config.createFn!,
         onMutate: async (data: Partial<T>) => {
+
+            const applySort = (items: T[]) =>
+                config.sortFn ? config.sortFn(items) : items
+
             await queryClient.cancelQueries({ queryKey: config.queryKey })
 
             const prev = queryClient.getQueryData<any>(config.queryKey)
 
-            const temp: T = {
+            const temp: Optimistic<T> = {
                 id: crypto.randomUUID(),
+                __temp: true,
                 ...data
-            } as T
+            } as Optimistic<T>
 
-            queryClient.setQueryData(config.queryKey, (old: any) => ({
-                ...old,
-                data: [temp, ...old.data]
-            }))
+            queryClient.setQueryData(config.queryKey, (old: any) => {
+                const updated = [...(old?.data ?? []), temp]
+
+                return {
+                    ...old,
+                    data: applySort(updated)
+                }
+            })
 
             return { prev, tempId: temp.id }
-        },
-
-        onSuccess: (created, _vars, ctx) => {
-            queryClient.setQueryData(config.queryKey, (old: any) => ({
-                ...old,
-                data: old.data.map((i: T) =>
-                    i.id === ctx?.tempId ? created.data : i
-                )
-            }))
         },
 
         onError: (_err, _vars, ctx) => {
             queryClient.setQueryData(config.queryKey, ctx?.prev)
         },
 
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: ["courses"] })
+        onSettled: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: config.queryKey,
+                refetchType: "active"
+            })
         }
     })
 
@@ -62,7 +67,6 @@ export function useEntityMutations<T extends { id: string }>(config: EntityConfi
             const prevResponse = queryClient.getQueryData<ApiResponse<any>>(config.queryKey)
             const prev = prevResponse?.data
 
-            console.log(prev)
             queryClient.setQueryData(config.queryKey, (old: any) => ({
                 ...old,
                 data: old.data.filter((i: T) => i.id !== id)
@@ -75,8 +79,11 @@ export function useEntityMutations<T extends { id: string }>(config: EntityConfi
             queryClient.setQueryData(config.queryKey, ctx?.prev)
         },
 
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: ["courses"] })
+        onSettled: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: config.queryKey,
+                refetchType: "active"
+            })
         }
     })
 
@@ -96,6 +103,7 @@ export function useEntityMutations<T extends { id: string }>(config: EntityConfi
                 )
             }))
 
+            console.log(prev);
             return { prev }
         },
 
@@ -103,9 +111,7 @@ export function useEntityMutations<T extends { id: string }>(config: EntityConfi
             queryClient.setQueryData(config.queryKey, ctx?.prev)
         },
 
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: config.queryKey })
-        }
+        onSettled: async () => {}
     })
 
     // UPDATE (например статус)

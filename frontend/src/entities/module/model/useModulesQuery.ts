@@ -13,26 +13,10 @@ export function useModuleQuery(id: string) {
 
 
 export function useModulesQuery(courseId: string) {
-    const queryClient = useQueryClient()
 
     return useQuery<ApiResponse<ModuleSummary[]>>({
-        queryKey: ['modules'],
-
-        queryFn: async () => {
-            // 1. пробуем взять из кеша
-            const cached = queryClient.getQueryData<ApiResponse<ModuleSummary[]>>(
-                ['modules']
-            )
-
-            if (cached) {
-                return cached
-            }
-            console.log(cached)
-            const res = await getModules(courseId)
-
-            return res
-        },
-
+        queryKey: ['modules', courseId],
+        queryFn: () => getModules(courseId),
         enabled: !!courseId
     })
 }

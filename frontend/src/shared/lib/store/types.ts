@@ -23,3 +23,6 @@ export type StoreConfig<T, TStatus> = {
 
     getTempItem: (item: Partial<T>) => T
 }
+export type Optimistic<T> = T & {
+    __temp?: true
+}

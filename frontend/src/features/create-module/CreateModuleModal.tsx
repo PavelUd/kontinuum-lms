@@ -32,7 +32,12 @@ export function CreateModuleModal({ isOpen, onClose, onConfirm, modulesCount }: 
     return (
         <Modal title={<div>Создание курса</div>}
                footer={
-                   <Footer onClick={() => onConfirm(title, Number(orderIndex))}>
+                   <Footer onClick={
+                       () => {
+                           onConfirm(title, Number(orderIndex))
+                           setTitle("")
+                           setOrderIndex("")
+                       }}>
 
                    </Footer>
                }
@@ -41,6 +46,7 @@ export function CreateModuleModal({ isOpen, onClose, onConfirm, modulesCount }: 
                    value={title}
                    onChange={(e) => setTitle(e.target.value)}
             ></Input>
+            <div className={"mt-5"}>
             <Input label={"Порядковый номер"}
                    type={"number"}
                    min={1}
@@ -64,6 +70,7 @@ export function CreateModuleModal({ isOpen, onClose, onConfirm, modulesCount }: 
                        setOrderIndex(String(num));
                    }}
             ></Input>
+            </div>
         </Modal>
     )
 }

@@ -12,12 +12,15 @@ export type Props = {
 export function CreateCourseForm({ isOpen, onClose }: Props){
 
     const [title, setTitle] = useState("");
+
+
     const mutations = useCourseMutations();
     return (
         <Modal title={<div>Создание курса</div>}
                footer={
                 <Footer onClick={ () => {
                        mutations.create({name : title, avatarUrl :""})
+                        setTitle("")
                        onClose();
                    }}>
 

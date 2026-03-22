@@ -17,9 +17,10 @@ type Props = {
 
 export function AdminModulesList({modules,onDelete, courseId}: Props) {
 
-    const query = useModulesMutations();
+    const query = useModulesMutations(courseId);
 
 
+    console.log(modules)
     const [page, setPage] = useState(1);
     const pageSize = 10;
     const totalPages = Math.ceil(modules.length / pageSize);
@@ -44,7 +45,7 @@ export function AdminModulesList({modules,onDelete, courseId}: Props) {
                     </thead>
 
                     <tbody>
-                    {paginatedModules.map((m, idx) => (
+                    {modules.map((m, idx) => (
                         <tr key={m.id ?? ""}>
 
                             {/* № */}
