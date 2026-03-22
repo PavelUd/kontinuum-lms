@@ -4,6 +4,7 @@ import {getBlock} from "@/entities/module-block/lib/block-registry"
 import "@/entities/module-block/lib/register-blocks"
 import styles from "./module.module.css"
 import {useBlocksObserver} from "@/widgets/module/ui/useBlocksObserver";
+
 type Props = {
     blocks: ModuleBlock<any>[]
 }

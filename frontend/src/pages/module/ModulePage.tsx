@@ -11,6 +11,9 @@ import {useModulesQuery} from "@/entities/module/model/useModulesQuery";
 import {useCourseQuery} from "@/entities/course";
 import {useProfileQuery} from "@/entities/user/models/useUsersQuery";
 import {useModuleBlocks} from "@/entities/module-block/model/useModuleBlocks";
+import {Button} from "@/shared/ui/button/Button";
+import Link from "next/link";
+
 type Props = {
         courseId: string
         lessonId: string
@@ -54,6 +57,10 @@ export function ModulePage({ courseId, lessonId }: Props) {
         return null
     }
 
+    const nextLesson = lessons.find(
+        l => l.status === "active" && l.orderIndex > lesson.orderIndex
+    ) ?? null
+
     return (
         <>
         <Header onOpenSidebar={() => setSidebarOpen(true)} profile={profile}></Header>
@@ -63,9 +70,17 @@ export function ModulePage({ courseId, lessonId }: Props) {
             onOpenChange={() => setSidebarOpen(false)} modules={lessons} courseId={courseData?.data.id ?? ""}  />
         <div className={styles.container}>
             <ModuleHero module={lesson.orderIndex} category={courseData?.data?.name ?? ""} title={lesson.title} duration={15} totalSteps={6} currentStep={3} progress={3}></ModuleHero>
-        </div>
-        <div>
             <ModuleContent blocks={blocks}></ModuleContent>
+            <footer className={styles.lessonFooter}>
+                <div></div>
+                {nextLesson && (
+                    <Link href={`${nextLesson.id}`}>
+                        <Button variant="primary">
+                            Завершить урок
+                        </Button>
+                    </Link>
+                )}
+            </footer>
         </div>
         </>
     )
