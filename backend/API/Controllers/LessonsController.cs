@@ -44,10 +44,11 @@ public class LessonsController : Controller
         return Ok(result);
     }
     
-    [HttpPatch("{id}/title")]
-    public async Task<IActionResult> UpdateLessonTitle(Guid id, [FromBody] UpdateTitleRequest request)
+    [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)}")]
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> PatchLesson(Guid id, [FromBody] PatchLessonRequest request)
     {
-        var result = await _lessonsService.UpdateTitle(request.Title, id);
+        var result = await _lessonsService.PatchLesson(id, request);
         if (!result.Succeeded)
         {
             return BadRequest(result.Errors);
@@ -56,7 +57,7 @@ public class LessonsController : Controller
     }
     
     [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)}")]
-    [HttpPatch("{id}/status")]
+    [HttpPost("{id}/status")]
     public async Task<IActionResult> SetStatus(Guid id,  SetStatusRequest request)
     {
         var idResult = await _lessonsService.SetLessonStatus(id, request.Status);

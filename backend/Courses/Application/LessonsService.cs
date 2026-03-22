@@ -26,7 +26,11 @@ public class LessonsService : ILessonsService
     
     public async Task<Result<List<SummaryLessonDto>>> GetLessons(Guid idCourse)
     {
-        var result = _dbContext.Lessons.Where(x => x.CourseId == idCourse).ProjectTo<SummaryLessonDto>(_mapper.ConfigurationProvider).ToList();
+        var result = _dbContext.Lessons
+            .Where(x => x.CourseId == idCourse)
+            .OrderBy(x => x.OrderIndex)
+            .ProjectTo<SummaryLessonDto>(_mapper.ConfigurationProvider)
+            .ToList();
         return await Result<List<SummaryLessonDto>>.SuccessAsync(result);
     }
 
@@ -92,12 +96,36 @@ public class LessonsService : ILessonsService
         }
     }
 
+    public async Task<Result<None>> PatchLesson(Guid idLesson, PatchLessonRequest request)
+    {
+        try
+        {
+            var lesson = _dbContext.Lessons.FirstOrDefault(x => x.Id == idLesson);
+            if (lesson == null)
+            {
+                return await Result<None>.FailureAsync("Lesson not found");
+            }
+            _mapper.Map(request, lesson);
+            await _dbContext.SaveChangesAsync();
+            return await Result<None>.SuccessAsync();
+        }
+        catch (Exception e)
+        {
+            return await Result<None>.FailureAsync(e.Message);
+        }
+    }
+
     public async Task<Result<None>> SetLessonStatus(Guid idLesson, Status status)
     {
         var lesson = _dbContext.Lessons.FirstOrDefault(x => x.Id == idLesson);
         if (lesson == null)
         {
             return await Result<None>.FailureAsync("Lesson not found");
+        }
+        if(status == Status.Active){
+            var course = _dbContext.Lessons.FirstOrDefault(x => x.Id == lesson.CourseId);
+            if (course == null || course.Status == Status.Archived)
+                return await Result<None>.FailureAsync("Cannot activate lesson in archived course");
         }
 
         try

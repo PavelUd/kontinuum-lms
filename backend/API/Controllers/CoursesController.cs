@@ -57,7 +57,7 @@ public class CoursesController : Controller
     }
     
     [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)}")]
-    [HttpPatch("{id}/status")]
+    [HttpPost("{id}/status")]
     public async Task<IActionResult> SetStatusCourse(Guid id,  SetStatusRequest request)
     {
         var idResult = await _coursesService.SetStatus(request.Status, id);
