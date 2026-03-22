@@ -9,7 +9,7 @@ export const getModuleById = async(id: string) : Promise<ApiResponse<Module>> =>
 }
 
 export const updateModuleTitle = async(id: string,content: UpdateTitleBlockProps) : Promise<ApiResponse<null>> => {
-    return await api.patch<ApiResponse<null>>(`/lessons/${id}/title`, content, {auth: true})
+    return await api.patch<ApiResponse<null>>(`/lessons/${id}`, content, {auth: true})
 }
 
 export const getModules = async(id: string) : Promise<ApiResponse<ModuleSummary[]>> => {
@@ -17,7 +17,7 @@ export const getModules = async(id: string) : Promise<ApiResponse<ModuleSummary[
 }
 
 export const setModuleStatus = async(id: string,content: SetStatusRequest) : Promise<void> => {
-    return await api.patch<void>(`/lessons/${id}/status`, content, {auth: true})
+    return await api.post<void>(`/lessons/${id}/status`, content, {auth: true})
 }
 
 export const createModule = async(request : CreateModuleRequest) : Promise<ApiResponse<string>> => {

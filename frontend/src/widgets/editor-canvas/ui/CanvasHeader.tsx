@@ -1,18 +1,15 @@
 import styles from "./canvas.module.css"
 import {useMutation} from "@tanstack/react-query";
 import {updateModuleTitle} from "@/entities/module/api/module.api";
+import {queryClient} from "@/shared/api";
 
 type Props = {
     name: string
     moduleId: string
+    updateModuleTitle: ({ title, id }: { title: string; id: string }) => void
 }
 
-export function CanvasHeader({ name, moduleId }: Props) {
-
-    const updateTitleMutation = useMutation({
-        mutationFn: ({ id, title }: { id: string; title: string }) =>
-            updateModuleTitle(id, {title: title})
-    })
+export function CanvasHeader({ name, moduleId, updateModuleTitle }: Props) {
 
     const handleTextBlur = (e: React.FocusEvent<HTMLDivElement>) => {
 
@@ -20,7 +17,7 @@ export function CanvasHeader({ name, moduleId }: Props) {
 
         if (!newTitle || newTitle === name) return
 
-        updateTitleMutation.mutate({
+        updateModuleTitle({
             id: moduleId,
             title: newTitle
         })

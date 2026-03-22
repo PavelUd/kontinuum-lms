@@ -7,6 +7,8 @@ type BlocksStore = BlocksState & {
 
     addBlock : (type: BlockType, lessonId: string, content?: BlockContent) => string
 
+    moduleId : string | null,
+
     moveBlock: (from: number, to: number, id: string) => void
 
     replaceTempId: (tempId: string, realId: string) => void
@@ -15,7 +17,7 @@ type BlocksStore = BlocksState & {
 
     removeBlock: (id: string) => void
 
-    loadBlocks: (blocks: ModuleBlock<any>[]) => void
+    loadBlocks: (blocks: ModuleBlock<any>[], moduleId : string) => void
 
     setActiveBlock: (id: string | null) => void
 
@@ -27,6 +29,7 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
     blockOrder: [],
     blocksById: {},
     activeBlockId: null,
+    moduleId: null,
 
     setActiveBlock: (id) =>
         set({
@@ -171,9 +174,13 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
         })
     },
 
-    loadBlocks: (blocks) => {
+    loadBlocks: (blocks, moduleId) => {
 
         const order: string[] = []
+
+        set({
+            moduleId: moduleId
+        });
         const map: Record<string,ModuleBlock<any>> = {}
 
         blocks.forEach(b => {

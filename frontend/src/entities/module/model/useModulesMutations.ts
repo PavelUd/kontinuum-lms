@@ -1,15 +1,29 @@
-import {useEntityMutations} from "@/shared/lib/store/useEntityMutations";
+import {useEntityMutations} from "@/shared/lib/mutations/useEntityMutations";
 import {createModule, deleteModule, setModuleStatus} from "@/entities/module/api/module.api";
 import {ModuleSummary} from "@/entities/module";
+import {useChangeStatusMutation} from "@/shared/lib/mutations/useChangeStatusMutation";
+import {CourseSummary} from "@/entities/course";
 
-export const useModulesMutations = (courseId : string) =>
-    useEntityMutations<ModuleSummary>({
+export const useModulesMutations = (courseId : string) => {
+    const baseMutations = useEntityMutations<ModuleSummary>({
         queryKey: ["modules", courseId],
         createFn: createModule,
         deleteFn: deleteModule,
-        setStatusFn: setModuleStatus,
-        sortFn: sortModules
+        sortFn: sortModules,
+
     })
+
+    const changeStatusMutations = useChangeStatusMutation<CourseSummary>({
+        queryKey: ["modules", courseId],
+        mutationFn: setModuleStatus
+    })
+
+    return {
+        ...baseMutations,
+        ...changeStatusMutations,
+    }
+
+}
 
 function sortModules<T extends { orderIndex?: number; __temp?: boolean }>(items: T[]) {
     const getOrder = (m: T) => m.orderIndex ?? Number.MAX_SAFE_INTEGER

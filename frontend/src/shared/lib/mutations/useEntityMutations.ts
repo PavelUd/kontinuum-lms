@@ -1,6 +1,6 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query"
 import {ApiResponse} from "@/shared/api/types/api-response";
-import {Optimistic} from "@/shared/lib/store/types";
+import {Optimistic} from "@/shared/lib/mutations/types";
 
 
 
@@ -8,8 +8,8 @@ type EntityConfig<T> = {
     queryKey: string[]
     createFn?: (data : any) => Promise<ApiResponse<string>>
     deleteFn?: (id: string) => Promise<void>
-    updateFn?: (id: string, patch: Partial<T>) => Promise<T>
-    setStatusFn?: (id: string, status: any) => Promise<any>
+    updateFn?: (id: string, patch: Partial<T>) => Promise<T>,
+    removeCacheKeys?: unknown[][],
     sortFn?: (items: T[]) => T[]
 }
 
@@ -50,6 +50,12 @@ export function useEntityMutations<T extends { id: string }>(config: EntityConfi
             queryClient.setQueryData(config.queryKey, ctx?.prev)
         },
 
+        onSuccess: () => {
+            config.removeCacheKeys?.forEach((key) => {
+                queryClient.removeQueries({ queryKey: key })
+            })
+        },
+
         onSettled: async () => {
             await queryClient.invalidateQueries({
                 queryKey: config.queryKey,
@@ -79,39 +85,18 @@ export function useEntityMutations<T extends { id: string }>(config: EntityConfi
             queryClient.setQueryData(config.queryKey, ctx?.prev)
         },
 
+        onSuccess: () => {
+            config.removeCacheKeys?.forEach((key) => {
+                queryClient.removeQueries({ queryKey: key })
+            })
+        },
+
         onSettled: async () => {
             await queryClient.invalidateQueries({
                 queryKey: config.queryKey,
                 refetchType: "active"
             })
         }
-    })
-
-    const setStatus = useMutation({
-        mutationFn: ({ id, status }: { id: string; status: any }) =>
-            config.setStatusFn!(id, {status: status}),
-
-        onMutate: async ({ id, status }) => {
-            await queryClient.cancelQueries({ queryKey: config.queryKey })
-
-            const prev = queryClient.getQueryData<any>(config.queryKey)
-
-            queryClient.setQueryData(config.queryKey, (old: any) => ({
-                ...old,
-                data: old.data.map((i: T) =>
-                    i.id === id ? { ...i, status } : i
-                )
-            }))
-
-            console.log(prev);
-            return { prev }
-        },
-
-        onError: (_err, _vars, ctx) => {
-            queryClient.setQueryData(config.queryKey, ctx?.prev)
-        },
-
-        onSettled: async () => {}
     })
 
     // UPDATE (например статус)
@@ -147,7 +132,6 @@ export function useEntityMutations<T extends { id: string }>(config: EntityConfi
         create: create.mutateAsync,
         remove: remove.mutateAsync,
         update: update.mutateAsync,
-        setStatus: setStatus.mutateAsync,
 
         isCreating: create.isPending,
         isDeleting: remove.isPending,

@@ -28,13 +28,11 @@ export function AdminCoursePage({courseId} : Props) {
     } | null>(null)
 
     const { data: lessonQuery, isLoading: lessonLoading } = useModulesQuery(courseId)
-    if(!query || isLoading){
-        return
-    }
 
-    const lessons = lessonQuery?.data ?? []
+    if (isLoading && lessonLoading)
+        return <Loader />
+    
 
-    console.log(lessons)
     const onConfirmCreation = (title : string, orderIndex : number) => {
         mutations.create({courseId : courseId, title, orderIndex})
         setIsOpen(false)
@@ -52,10 +50,9 @@ export function AdminCoursePage({courseId} : Props) {
         setDeleteIsOpen(false)
     }
 
-    if (isLoading) return <Loader />
 
     const course= query?.data;
-
+    const lessons = lessonQuery?.data ?? []
 
     return (
         <>

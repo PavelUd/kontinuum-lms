@@ -1,4 +1,4 @@
-import {useQuery, useQueryClient} from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 import {ApiResponse} from "@/shared/api/types/api-response";
 import {getModuleById, getModules} from "@/entities/module/api/module.api";
 import {Module, ModuleSummary} from "@/entities/module";

@@ -123,7 +123,7 @@ public class LessonsService : ILessonsService
             return await Result<None>.FailureAsync("Lesson not found");
         }
         if(status == Status.Active){
-            var course = _dbContext.Lessons.FirstOrDefault(x => x.Id == lesson.CourseId);
+            var course = _dbContext.Courses.FirstOrDefault(x => x.Id == lesson.CourseId);
             if (course == null || course.Status == Status.Archived)
                 return await Result<None>.FailureAsync("Cannot activate lesson in archived course");
         }

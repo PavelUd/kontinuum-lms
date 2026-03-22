@@ -1,7 +1,7 @@
 import {CourseSummary} from "@/entities/course";
 import {Status} from "@/entities/course/model/types";
 import {setStatus} from "@/entities/course/api/course.api";
-import {createEntityStore} from "@/shared/lib/store/createEntityStore";
+import {createEntityStore} from "@/shared/lib/mutations/createEntityStore";
 
 export const useCourseStore = createEntityStore<CourseSummary, Status>({
     create: async () => {},

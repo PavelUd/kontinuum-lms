@@ -34,7 +34,11 @@ export function CreateModuleModal({ isOpen, onClose, onConfirm, modulesCount }: 
                footer={
                    <Footer onClick={
                        () => {
-                           onConfirm(title, Number(orderIndex))
+                           let order = modulesCount;
+                           if(Number(orderIndex) > 0){
+                               order = Number(orderIndex)
+                           }
+                           onConfirm(title, order)
                            setTitle("")
                            setOrderIndex("")
                        }}>
@@ -62,7 +66,7 @@ export function CreateModuleModal({ isOpen, onClose, onConfirm, modulesCount }: 
                        setOrderIndex(normalized);
                    }}
                    onBlur={() => {
-                       let num = Number(orderIndex || 1);
+                       let num = Number(orderIndex || modulesCount);
 
                        if (num < 1) num = 1;
                        if (num > modulesCount) num = modulesCount;

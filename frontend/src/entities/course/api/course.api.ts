@@ -13,7 +13,7 @@ export const getCourseById = async(courseId: string) : Promise<ApiResponse<Cours
 }
 
 export const setStatus = async(courseId: string, content: SetStatusRequest) : Promise<void> => {
-    return await api.patch<void>(`/courses/${courseId}/status`, content, {auth: true})
+    return await api.post<void>(`/courses/${courseId}/status`, content, {auth: true})
 }
 
 export const deleteCourse = async(courseId: string) : Promise<void> => {
