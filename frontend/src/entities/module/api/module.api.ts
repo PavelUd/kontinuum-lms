@@ -4,8 +4,8 @@ import {Module, ModuleSummary} from "@/entities/module";
 import {CreateModuleRequest, UpdateTitleBlockProps} from "@/entities/module/model/types";
 import {SetStatusRequest} from "@/entities/course/model/types";
 
-export const getModuleById = async(id: string) : Promise<ApiResponse<Module>> => {
-    return await api.get<ApiResponse<Module>>(`/lessons/${id}`)
+export const getModuleById = async(id: string) : Promise<ApiResponse<ModuleSummary>> => {
+    return await api.get<ApiResponse<ModuleSummary>>(`/lessons/${id}`)
 }
 
 export const updateModuleTitle = async(id: string,content: UpdateTitleBlockProps) : Promise<ApiResponse<null>> => {

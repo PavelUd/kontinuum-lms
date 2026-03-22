@@ -10,6 +10,7 @@ export const useModulesMutations = (courseId : string) => {
         createFn: createModule,
         deleteFn: deleteModule,
         sortFn: sortModules,
+        removeCacheKeys: [["courses"]]
 
     })
 

@@ -1,10 +1,9 @@
 import {useEffect, useState} from "react"
-import {getModuleById} from "@/entities/module/api/module.api";
-import {Module} from "@/entities/module";
-import {queryClient} from "@/shared/api";
+import {getModuleBlocks} from "@/entities/module-block/api/module-block.api";
+import {ModuleBlock} from "@/entities/module-block/model/types";
 
-export function useManualModule(id: string) {
-    const [data, setData] = useState<Module | null>(null)
+export function useModuleBlocks(id: string) {
+    const [data, setData] = useState<ModuleBlock<any>[]>([])
     const [isLoading, setIsLoading] = useState(false)
     const [isError, setIsError] = useState(false)
 
@@ -16,14 +15,10 @@ export function useManualModule(id: string) {
         setIsLoading(true)
         setIsError(false)
 
-        getModuleById(id)
+        getModuleBlocks(id)
             .then((res) => {
                 if (!isActive) return
-                setData(res?.data)
-                queryClient.removeQueries({
-                    queryKey: ['module', id],
-                    exact: true
-                })
+                setData(res?.data ?? [])
             })
             .catch(() => {
                 if (!isActive) return

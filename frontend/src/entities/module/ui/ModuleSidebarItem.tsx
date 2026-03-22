@@ -14,7 +14,7 @@ export function ModuleSidebarItem({ module, isCurrent }: Props) {
 
 
     const state = isCurrent ? styles.current : "";
-    const locked = state === "locked"
+    const locked = module.status == "archived"
 
     return (
         <div className={`${styles.moduleRow} ${state}`}>
@@ -29,7 +29,7 @@ export function ModuleSidebarItem({ module, isCurrent }: Props) {
                     {module.title}
                 </div>
 
-                {module.status === 3 && (
+                {module.status === "archived" && (
                     <span className={`${styles.badge} ${styles.badgeSuccess}`}>
                         Пройдено
                     </span>
@@ -51,7 +51,7 @@ export function ModuleSidebarItem({ module, isCurrent }: Props) {
 
             <div>
 
-                {module.status === 3 && (
+                {module.status === "archived" && (
                     <CheckCircle size={18} className={styles.iconActive} />
                 )}
 

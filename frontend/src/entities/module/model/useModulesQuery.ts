@@ -4,7 +4,7 @@ import {getModuleById, getModules} from "@/entities/module/api/module.api";
 import {Module, ModuleSummary} from "@/entities/module";
 
 export function useModuleQuery(id: string) {
-    return useQuery<ApiResponse<Module>>({
+    return useQuery<ApiResponse<ModuleSummary>>({
         queryKey: ['module', id],
         queryFn: () => getModuleById(id),
         enabled: !!id

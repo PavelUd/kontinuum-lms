@@ -38,7 +38,7 @@ export function CurriculumSidebar({ open, onOpenChange, modules, courseId, curre
                         {modules.map((module) => {
                             const isCurrent = currentModuleId === module.id;
 
-                            if (module.status === "locked") {
+                            if (module.status === "archived") {
                                 return (
                                     <div key={module.id} className="cursor-not-allowed opacity-60">
                                         <ModuleSidebarItem module={module} isCurrent={isCurrent} />

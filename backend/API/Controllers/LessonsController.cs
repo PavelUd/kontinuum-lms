@@ -76,7 +76,7 @@ public class LessonsController : Controller
     }
     
     
-    [HttpPost("/api/courses{id}/lessons")]
+    [HttpPost("/api/courses/{id}/lessons")]
     public async Task<IActionResult> CreateLesson(Guid id, LessonCreateRequest request)
     {
         var idResult = await _lessonsService.CreateLesson(request, id);

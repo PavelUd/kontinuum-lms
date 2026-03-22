@@ -3,18 +3,18 @@
 import { ModuleSummary } from '../model/types'
 import { ChevronRight, Lock } from 'lucide-react'
 import './ModuleRow.css'
+import {Status} from "@/entities/course/model/types";
 
 interface Props {
     module: ModuleSummary
 }
 
 export function ModuleRow({ module }: Props) {
-    const statusMap: Record<number, "locked" | "current" | "completed"> = {
-        1: "locked",
-        2: "current",
-        3: "completed"
+    const statusMap: Record<Status, "locked" | "current"> = {
+        "archived": "locked",
+        "active": "current"
     }
-    const locked = module.status === 1
+    const locked = module.status === "archived"
     const classAttribute = statusMap[module.status]
     return (
         <div className={`k-module ${classAttribute}`}>
@@ -29,13 +29,13 @@ export function ModuleRow({ module }: Props) {
                     {module.title}
                 </div>
 
-                {module.status === 0 && (
+                {module.status === "active" && (
                     <span className="k-module-badge success">
                         Пройдено
                     </span>
                 )}
 
-                {(
+                {module.status === "active" && (
                     <span className="k-module-badge active">
                         Изучаете сейчас
                     </span>

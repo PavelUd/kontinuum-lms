@@ -9,6 +9,7 @@ import Link from "next/link"
 import {ModulesSkeleton} from "@/features/course-modal/ui/ModulesSkeleton";
 import Skeleton from "react-loading-skeleton"
 import "react-loading-skeleton/dist/skeleton.css"
+import {useModulesQuery} from "@/entities/module/model/useModulesQuery";
 
 interface Props {
     open: boolean
@@ -23,8 +24,9 @@ export function CourseModulesModal({
                                    }: Props) {
 
     const { data: source, isLoading: loading } = useCourseQuery(courseId)
-
+    const { data: modulesData, isLoading: modulesLoading } = useModulesQuery(courseId)
     const course= source?.data;
+    const lessons = modulesData?.data ?? []
 
     return (
         <Transition appear show={open} as={Fragment}>
@@ -92,13 +94,13 @@ export function CourseModulesModal({
 
                             <div className="k-modules-list">
 
-                                {loading ? (
+                                {modulesLoading ? (
                                     <ModulesSkeleton />
                                 ) : (
-                                    course?.lessons?.map((module, index) => (
+                                    lessons.map((module, index) => (
                                         <Link
                                             key={`${module.id}-${index}`}
-                                            href={`/courses/${course.id}/module/${module.id}`}
+                                            href={`/courses/${course?.id}/module/${module.id}`}
                                         >
                                             <ModuleRow module={module} />
                                         </Link>

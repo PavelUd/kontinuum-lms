@@ -13,7 +13,7 @@ export const useCoursesQuery = () => {
 }
 
 export const useCourseQuery = (courseId: string) => {
-    return useQuery<ApiResponse<Course>>({
+    return useQuery<ApiResponse<CourseSummary>>({
         queryKey: ['course', courseId],
         queryFn: () => getCourseById(courseId),
         enabled: !!courseId

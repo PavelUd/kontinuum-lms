@@ -8,8 +8,8 @@ export const courseApi = async (): Promise<ApiResponse<CourseSummary[]>> => {
     return api.get<ApiResponse<CourseSummary[]>>('courses')
 }
 
-export const getCourseById = async(courseId: string) : Promise<ApiResponse<Course>> => {
-    return await api.get<ApiResponse<Course>>(`/courses/${courseId}`)
+export const getCourseById = async(courseId: string) : Promise<ApiResponse<CourseSummary>> => {
+    return await api.get<ApiResponse<CourseSummary>>(`/courses/${courseId}`)
 }
 
 export const setStatus = async(courseId: string, content: SetStatusRequest) : Promise<void> => {

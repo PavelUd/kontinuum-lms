@@ -7,9 +7,10 @@ import {ModuleHero} from "@/widgets/module/ui/ModuleHero";
 import {ModuleContent} from "@/widgets/module/ui/ModuleContent";
 import styles from "@/widgets/module/ui/module.module.css"
 import {Loader} from "@/shared/ui/loader";
-import {useModuleQuery} from "@/entities/module/model/useModulesQuery";
+import {useModulesQuery} from "@/entities/module/model/useModulesQuery";
 import {useCourseQuery} from "@/entities/course";
 import {useProfileQuery} from "@/entities/user/models/useUsersQuery";
+import {useModuleBlocks} from "@/entities/module-block/model/useModuleBlocks";
 type Props = {
         courseId: string
         lessonId: string
@@ -18,12 +19,10 @@ type Props = {
 export function ModulePage({ courseId, lessonId }: Props) {
 
     const {
-        data: moduleData,
-        isLoading: moduleLoading,
-        isError: moduleError
-    } = useModuleQuery(lessonId);
-
-
+        data: modulesData,
+        isLoading: modulesLoading,
+        isError: modulesError
+    } = useModulesQuery(courseId);
 
     const {
             data: profileData,
@@ -37,14 +36,20 @@ export function ModulePage({ courseId, lessonId }: Props) {
         data: courseData,
     } = useCourseQuery(courseId);
 
+    const {
+        isLoading: blocksLoading,
+        data: blocks,
+        isError: isBlocksErrors
+    } = useModuleBlocks(lessonId)
+
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const profile = profileData?.data
-    if (moduleLoading && courseLoading && profileLoading) return <Loader />
-    if (moduleError && profileError) return <div>Ошибка загрузки</div>
+    if (modulesLoading && courseLoading && profileLoading && blocksLoading) return <Loader />
+    if (modulesError && profileError && isBlocksErrors) return <div>Ошибка загрузки</div>
 
 
-    const lesson = moduleData?.data;
-    const lessons = courseData?.data.lessons ?? [];
+    const lessons = modulesData?.data ?? [];
+    const lesson = lessons?.find(m => m.id === lessonId)
     if (!lesson) {
         return null
     }
@@ -60,7 +65,7 @@ export function ModulePage({ courseId, lessonId }: Props) {
             <ModuleHero module={lesson.orderIndex} category={courseData?.data?.name ?? ""} title={lesson.title} duration={15} totalSteps={6} currentStep={3} progress={3}></ModuleHero>
         </div>
         <div>
-            <ModuleContent blocks={lesson?.blocks}></ModuleContent>
+            <ModuleContent blocks={blocks}></ModuleContent>
         </div>
         </>
     )

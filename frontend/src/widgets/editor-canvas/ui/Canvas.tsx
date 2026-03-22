@@ -5,14 +5,24 @@ import {useLessonBlocksStore} from "@/entities/module-block/model/blocks.store";
 import {useMutation} from "@tanstack/react-query";
 import {updateModuleTitle} from "@/entities/module/api/module.api";
 import {queryClient} from "@/shared/api";
+import {ModuleBlock} from "@/entities/module-block/model/types";
+import {useEffect} from "react";
 
 type Props = {
     moduleTitle: string,
     moduleId: string,
-    courseId: string
+    courseId: string,
+    blocks: ModuleBlock<any>[],
 }
 
-export function Canvas({  moduleTitle, moduleId, courseId }: Props) {
+export function Canvas({  moduleTitle, moduleId, courseId, blocks }: Props) {
+    const loadBlocks = useLessonBlocksStore(s => s.loadBlocks)
+
+    useEffect(() => {
+        if (blocks) {
+            loadBlocks(blocks, moduleId)
+        }
+    }, [blocks])
 
     const setActiveBlock = useLessonBlocksStore(s => s.setActiveBlock)
 
