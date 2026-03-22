@@ -7,6 +7,11 @@ type Props = {
 }
 
 export function VideoBlock({ content }: Props) {
+
+    if(content.url == ''){
+        return "<div></div>"
+    }
+
     return (
         <div className={styles.videoBlockWrapper}>
         <VideoPreview

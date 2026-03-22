@@ -3,25 +3,25 @@
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import {useAuth} from "@/shared/lib/auth/AuthProvider";
+import {Role} from "@/entities/user/models/types";
 
 interface Props {
-    roles: string[]
+    roles: Role[]
     children: React.ReactNode
 }
 
 export function RoleGuard({ roles, children }: Props) {
     const { role, loading } = useAuth()
     const router = useRouter()
-
     useEffect(() => {
-        if (!loading && role && !roles.includes(role)) {
+        if (!loading && role && !roles.includes(role.toLowerCase())) {
             router.replace("/")
         }
     }, [role, loading])
 
     if (loading) return null
 
-    if (!role || !roles.includes(role)) {
+    if (!role || !roles.includes(role.toLowerCase())) {
         return null
     }
 

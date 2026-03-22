@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 
 const PUBLIC_ROUTES = [
     "/login",
-    "/admin/login"
+    "/login"
 ]
 
 export function proxy(request: NextRequest) {
@@ -16,7 +16,7 @@ export function proxy(request: NextRequest) {
     if (!token && !isPublicRoute) {
 
         const loginPath = isAdminRoute
-            ? "/admin/login"
+            ? "/login"
             : "/login"
 
         return NextResponse.redirect(new URL(loginPath, request.url))

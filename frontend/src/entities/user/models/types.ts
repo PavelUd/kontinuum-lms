@@ -3,5 +3,14 @@ export interface User {
     fullName: string,
     "phone": string,
     "email": string,
-    "role": string
+    "role": Role
+}
+
+export type Role = "admin" | "student" | "teacher" | "methodist"
+
+export const RoleMap: Record<Role, string> = {
+    admin: "Администратор",
+    student: "Студент",
+    teacher: "Преподаватель",
+    methodist: "Методист"
 }

@@ -27,25 +27,32 @@ export function AuthProvider({ children }: Props) {
         retry: false
     })
 
+
     useEffect(() => {
-        if(isError && !isPublicRoute){
+        if (!isLoading && isError && !isPublicRoute) {
             router.replace("/login")
         }
-        else if (data?.data) {
+
+        else if(data){
             saveToken(data.data)
         }
-    }, [isError, data])
 
+    }, [isLoading, isError,data, isPublicRoute])
+
+
+    if (!isPublicRoute && (isLoading || isError)) {
+        return <Loader/>
+    }
+
+    if(!isLoading && !isPublicRoute && data){
+        saveToken(data.data)
+    }
 
     const user = parseJwt(data?.data ?? "")
     const value: AuthContextType = {
         user: user?.id ?? null,
         role: user?.role ?? null,
         loading: isLoading
-    }
-
-    if (!isPublicRoute && (isLoading || isError)) {
-        return <Loader/>
     }
 
     return (
