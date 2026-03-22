@@ -33,6 +33,18 @@ public class LessonBlocksController : Controller
         return Accepted($"/courses/{idResult.Data}", new { idResult.Data });
     }
     
+    
+    [HttpGet("/api/lessons/{id}/blocks")]
+    public async Task<IActionResult> GetBlocks(Guid id)
+    {
+        var result = await _blockService.GetBlockByLesson(id);
+        if (!result.Succeeded)
+        {
+            return BadRequest(result.Errors);
+        }
+        return Ok(result);
+    }
+    
     [Authorize]
     [HttpPatch("{id}/content")]
     public async Task<IActionResult> UpdateContent(UpdateContentRequest request, Guid id)

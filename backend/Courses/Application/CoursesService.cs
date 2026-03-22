@@ -88,10 +88,10 @@ public class CoursesService : ICoursesService
         }
     }
 
-    public Result<CourseDto> GetCourse(Guid courseId)
+    public Result<SummaryCourseDto> GetCourse(Guid courseId)
     {
-        var course = _dbContext.Courses.Where(x => x.Id == courseId).ProjectTo<CourseDto>(_mapper.ConfigurationProvider).First();
-        return Result<CourseDto>.Success(course);
+        var course = _dbContext.Courses.Where(x => x.Id == courseId).ProjectTo<SummaryCourseDto>(_mapper.ConfigurationProvider).First();
+        return Result<SummaryCourseDto>.Success(course);
     }
     
     public Result<Guid> CreateCourse(CourseCreateRequest request)

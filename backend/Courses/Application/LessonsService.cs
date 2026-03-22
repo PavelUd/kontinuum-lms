@@ -141,32 +141,16 @@ public class LessonsService : ILessonsService
         }
     }
     
-    public async Task<Result<LessonDto>> GetLessonById(Guid idLesson)
+    public async Task<Result<SummaryLessonDto>> GetLessonById(Guid idLesson)
     {
-        var lesson = _dbContext.Lessons.FirstOrDefault(x => x.Id == idLesson);
+        var lesson = _dbContext.Lessons.Where(x => x.Id == idLesson).ProjectTo<SummaryLessonDto>(_mapper.ConfigurationProvider).FirstOrDefault();
         if (lesson == null)
         {
-            return await Result<LessonDto>.SuccessAsync();
+            return await Result<SummaryLessonDto>.SuccessAsync();
         }
-
-        try
-        {
-            var lessonDto = _mapper.Map<LessonDto>(lesson);
-            var block = await _mediator.Send(new GetLessonBlocksQuery(lessonDto.Id));
-
-            if (!block.Succeeded) 
-            {
-                return await Result<LessonDto>.FailureAsync(block.Errors);
-            }
-
-            lessonDto.Blocks = block.Data;
-            return await Result<LessonDto>.SuccessAsync(lessonDto);
-        }
-
-        catch(Exception ex)
-        {
-            return await Result<LessonDto>.FailureAsync(ex.Message);
-        }
+        
+        return await Result<SummaryLessonDto>.SuccessAsync(lesson);
+        
     }
     
     

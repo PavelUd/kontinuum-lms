@@ -75,25 +75,4 @@ public class CoursesController : Controller
         var result = _coursesService.GetCourse(id);
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
-    
-    [HttpGet("{id}/lessons")]
-    public async Task<IActionResult> GetLessons(Guid id)
-    {
-        var result = await _lessonsService.GetLessons(id);
-        return result.Succeeded ? Ok(result) : BadRequest(result);
-    }
-    
-    
-    [HttpPost("{id}/lessons")]
-    public async Task<IActionResult> CreateLesson(Guid id, LessonCreateRequest request)
-    {
-        var idResult = await _lessonsService.CreateLesson(request, id);
-        if (!idResult.Succeeded)
-        {
-            return BadRequest(idResult.Errors);
-        }
-        return Accepted($"/courses/{idResult.Data}", new { idResult.Data });
-    }
-    
-    
 }

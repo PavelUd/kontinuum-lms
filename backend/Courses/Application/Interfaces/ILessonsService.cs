@@ -12,7 +12,6 @@ public interface ILessonsService
 
     public Task<Result<None>> SetLessonStatus(Guid idLesson, Status status);
     public Task<Result<None>> PatchLesson(Guid idLesson, PatchLessonRequest request);
-    
-    public Task<Result<None>> UpdateTitle(string title, Guid id);
-    public Task<Result<LessonDto>> GetLessonById(Guid idLesson);
+
+    public Task<Result<SummaryLessonDto>> GetLessonById(Guid idLesson);
 }

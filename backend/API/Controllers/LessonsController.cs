@@ -34,7 +34,7 @@ public class LessonsController : Controller
     }
     
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetLessonByLesson(Guid id)
+    public async Task<IActionResult> GetLessonById(Guid id)
     {
         var result = await _lessonsService.GetLessonById(id);
         if (!result.Succeeded)
@@ -66,5 +66,24 @@ public class LessonsController : Controller
             return BadRequest(idResult.Errors);
         }
         return NoContent();
+    }
+    
+    [HttpGet("/api/courses/{id}/lessons")]
+    public async Task<IActionResult> GetLessons(Guid id)
+    {
+        var result = await _lessonsService.GetLessons(id);
+        return result.Succeeded ? Ok(result) : BadRequest(result);
+    }
+    
+    
+    [HttpPost("/api/courses{id}/lessons")]
+    public async Task<IActionResult> CreateLesson(Guid id, LessonCreateRequest request)
+    {
+        var idResult = await _lessonsService.CreateLesson(request, id);
+        if (!idResult.Succeeded)
+        {
+            return BadRequest(idResult.Errors);
+        }
+        return Accepted($"/courses/{idResult.Data}", new { idResult.Data });
     }
 }
