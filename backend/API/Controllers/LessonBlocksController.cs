@@ -1,5 +1,8 @@
 using BlockEngine.Application.DTO;
 using BlockEngine.Application.Interfaces;
+using Contracts.Contracts.Files;
+using Coordinator.Activities.Commands;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,11 +17,13 @@ public class LessonBlocksController : Controller
     
     private readonly IBlockService _blockService;
     private readonly IBlockFileService _blockFileService;
+    private readonly IMediator _mediator;
 
-    public LessonBlocksController(IBlockService blockService, IBlockFileService blockFileService)
+    public LessonBlocksController(IBlockService blockService, IBlockFileService blockFileService, IMediator mediator)
     {
         _blockService = blockService;
         _blockFileService = blockFileService;
+        _mediator = mediator;
     }
     
     [Authorize]
@@ -105,5 +110,18 @@ public class LessonBlocksController : Controller
         }
         
         return Ok(result);
+    }
+    
+    [HttpPost("{id}/execute")]
+    public async Task<IActionResult> Execute(Guid id, [FromBody] SubmitBlockRequest request)
+    {
+
+        var command = new SubmitBlockCommand(id,request.Payload);
+        var result = await _mediator.Send(command);
+
+        if (!result.Succeeded)
+            return BadRequest(result.Errors);
+
+        return Ok(result.Data);
     }
 }

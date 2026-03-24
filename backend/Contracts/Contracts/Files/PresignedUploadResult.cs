@@ -1,4 +1,4 @@
-namespace BlockEngine.Application.DTO;
+namespace Contracts.Contracts.Files;
 
 public class PresignedUploadResult
 {

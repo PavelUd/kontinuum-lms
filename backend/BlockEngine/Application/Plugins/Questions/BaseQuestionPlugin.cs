@@ -1,11 +1,12 @@
 using System.Text.Json;
 using BlockEngine.Application.Interfaces;
+using BlockEngine.Application.Plugins.Base.Questions;
 using BlockEngine.Domain.Enum;
 using Core;
 
-namespace BlockEngine.Application.Plugins.Base.Questions;
+namespace BlockEngine.Application.Plugins.Questions;
 
-public abstract class BaseQuestionPlugin<TContent> where TContent : BaseQuestionContent
+public abstract class BaseQuestionPlugin<TContent> : IBlockEvaluator where TContent : BaseQuestionContent
 {
     public abstract BlockType Type { get; }
 
@@ -14,6 +15,8 @@ public abstract class BaseQuestionPlugin<TContent> where TContent : BaseQuestion
         var model = content.Deserialize<TContent>();
         return Task.FromResult<object>(model!);
     }
+    
+    
     
     public async Task<Result<None>> ValidateAsync(TContent model)
     {
@@ -28,5 +31,13 @@ public abstract class BaseQuestionPlugin<TContent> where TContent : BaseQuestion
         }
         
         return await Result<None>.SuccessAsync();
+    }
+
+    public Task<bool> EvaluateAsync(JsonElement payload, JsonElement content)
+    {
+        var model = payload.Deserialize<QuestionPayload>();
+        var correctAnswer = content.Deserialize<TContent>()?.CorrectAnswer;
+        return Task.FromResult(correctAnswer == model?.Answer);
+        
     }
 }

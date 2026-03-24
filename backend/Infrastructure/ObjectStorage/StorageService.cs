@@ -2,6 +2,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using BlockEngine.Application.DTO;
 using BlockEngine.Application.Interfaces;
+using Contracts.Contracts.Files;
 using Contracts.Services;
 using Core;
 using Microsoft.Extensions.Options;

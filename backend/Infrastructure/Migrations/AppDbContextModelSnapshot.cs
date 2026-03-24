@@ -23,6 +23,89 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Analytics.Domain.BlockCompletion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<bool>("AffectsScore")
+                        .HasColumnType("boolean")
+                        .HasColumnName("affect_score");
+
+                    b.Property<Guid>("BlockId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("block_id");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid>("LessonId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("lesson_id");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlockId");
+
+                    b.HasIndex(new[] { "UserId", "BlockId" }, "ux_block_completion_user_block")
+                        .IsUnique();
+
+                    b.ToTable("block_completions");
+                });
+
+            modelBuilder.Entity("Analytics.Domain.LessonProgress", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("course_id");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid>("LessonId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("lesson_id");
+
+                    b.Property<double>("Progress")
+                        .HasColumnType("double precision")
+                        .HasColumnName("progress");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("integer")
+                        .HasColumnName("score");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonId");
+
+                    b.ToTable("lesson_progresses");
+                });
+
             modelBuilder.Entity("Auth.Domain.Credential", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -106,8 +189,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("lesson_id");
 
-                    b.Property<int>("OrderIndex")
-                        .HasColumnType("integer")
+                    b.Property<double>("OrderIndex")
+                        .HasColumnType("double precision")
                         .HasColumnName("order_index");
 
                     b.Property<string>("Type")
@@ -120,6 +203,8 @@ namespace Infrastructure.Migrations
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LessonId");
 
                     b.ToTable("lesson_blocks");
                 });
@@ -169,6 +254,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("course_id");
 
+                    b.Property<Guid?>("CourseId1")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
@@ -193,7 +281,46 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CourseId");
 
+                    b.HasIndex("CourseId1");
+
                     b.ToTable("lessons");
+                });
+
+            modelBuilder.Entity("Tracking.Domain.AnswerAttempt", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("answer");
+
+                    b.Property<DateTime>("AnswerTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("answer_timestamp");
+
+                    b.Property<Guid>("BlockId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("block_id");
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_correct");
+
+                    b.Property<Guid>("LessonId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("lesson_id");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("answer_attempts");
                 });
 
             modelBuilder.Entity("Users.Domain.User", b =>
@@ -236,13 +363,44 @@ namespace Infrastructure.Migrations
                     b.ToTable("users");
                 });
 
+            modelBuilder.Entity("Analytics.Domain.BlockCompletion", b =>
+                {
+                    b.HasOne("BlockEngine.Domain.Entities.LessonBlock", null)
+                        .WithMany()
+                        .HasForeignKey("BlockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Analytics.Domain.LessonProgress", b =>
+                {
+                    b.HasOne("Courses.Domain.Entities.Lesson", null)
+                        .WithMany()
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BlockEngine.Domain.Entities.LessonBlock", b =>
+                {
+                    b.HasOne("Courses.Domain.Entities.Lesson", null)
+                        .WithMany()
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Courses.Domain.Entities.Lesson", b =>
                 {
                     b.HasOne("Courses.Domain.Entities.Course", null)
-                        .WithMany("Lessons")
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Courses.Domain.Entities.Course", null)
+                        .WithMany("Lessons")
+                        .HasForeignKey("CourseId1");
                 });
 
             modelBuilder.Entity("Courses.Domain.Entities.Course", b =>

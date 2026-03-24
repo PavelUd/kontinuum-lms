@@ -6,6 +6,7 @@ using BlockEngine.Application.Plugins.Heading;
 using BlockEngine.Application.Plugins.Spoiler;
 using BlockEngine.Application.Plugins.Text;
 using BlockEngine.Application.Services;
+using Contracts.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +26,8 @@ public static class ServiceCollectionExtension
         services.AddScoped<IBlockOrderService, BlockOrderService>();
         services.AddScoped<IBlockFileService, BlockFileService>();
         services.AddScoped<IBlockService, BlockService>();
+        services.AddScoped<ILessonBlockStatsProvider, BlockService>();
+        
         services.Scan(scan => scan
             .FromAssemblyOf<IBlockPlugin>()
             .AddClasses(classes => classes.AssignableTo<IBlockPlugin>())

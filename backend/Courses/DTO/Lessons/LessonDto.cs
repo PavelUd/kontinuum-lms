@@ -1,5 +1,6 @@
 using AutoMapper;
 using Contracts.Contracts;
+using Contracts.Contracts.Blocks;
 using Courses.Domain.Entities;
 using Courses.Domain.Enums;
 

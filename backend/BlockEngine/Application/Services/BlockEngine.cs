@@ -20,6 +20,16 @@ public class BlockEngine
 
         return await plugin.RenderAsync(content);
     }
+
+    public async Task<bool> CheckAsync(BlockType type, JsonElement content, JsonElement payload)
+    {
+        var plugin = _registry.Get(type);
+        if (plugin is IBlockEvaluator evaluator)
+        {
+            return await evaluator.EvaluateAsync(payload, content);
+        }
+        return true;
+    }
     
     public async Task<Result<JsonElement>> PreProcessAsync(BlockType type, JsonElement content)
     {

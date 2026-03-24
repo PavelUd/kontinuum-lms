@@ -1,6 +1,6 @@
 
 
-namespace Contracts.Contracts;
+namespace Contracts.Contracts.Blocks;
 
 public class LessonBlockDto
 {

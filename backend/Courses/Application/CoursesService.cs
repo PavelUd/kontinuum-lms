@@ -1,6 +1,5 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Contracts.Query;
 using Core;
 using Core.Entities;
 using Core.Entities.Interfaces;

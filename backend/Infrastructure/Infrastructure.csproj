@@ -8,6 +8,8 @@
 
     <ItemGroup>
       <PackageReference Include="AWSSDK.S3" Version="4.0.19" />
+      <PackageReference Include="Hangfire" Version="1.8.23" />
+      <PackageReference Include="Hangfire.PostgreSql" Version="1.21.1" />
       <PackageReference Include="HtmlSanitizer" Version="9.0.892" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3">
         <PrivateAssets>all</PrivateAssets>
@@ -17,9 +19,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Analytics\Analytics.csproj" />
       <ProjectReference Include="..\Auth\Auth.csproj" />
       <ProjectReference Include="..\BlockEngine\BlockEngine.csproj" />
       <ProjectReference Include="..\Courses\Courses.csproj" />
+      <ProjectReference Include="..\Tracking\Tracking.csproj" />
       <ProjectReference Include="..\Users\Users.csproj" />
     </ItemGroup>
 

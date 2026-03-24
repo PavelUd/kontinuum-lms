@@ -1,4 +1,4 @@
-using BlockEngine.Application.DTO;
+using Contracts.Contracts.Files;
 using Core;
 
 namespace Contracts.Services;

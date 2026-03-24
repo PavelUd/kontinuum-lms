@@ -2,17 +2,21 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Analytics.Application.Extensions;
 using Auth.Domain;
 using Auth.Extensions;
 using BlockEngine.Application.Extensions;
+using Coordinator.Extensions;
 using Core.Entities.Interfaces;
 using Courses.Extensions;
+using Hangfire;
 using Infrastructure.Extensions;
 using Infrastructure.ObjectStorage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Scalar.AspNetCore;
+using Tracking.Extensions;
 using Users.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -89,6 +93,10 @@ builder.Services.AddInfrastructureModule(builder.Configuration);
 builder.Services.AddUsersModule(builder.Configuration);
 builder.Services.AddCoursesModule(builder.Configuration);
 builder.Services.AddAuthModule(builder.Configuration);
+builder.Services.AddTrackingModule(builder.Configuration);
+builder.Services.AddAnalyticsModule(builder.Configuration);
+builder.Services.AddCoordinator(builder.Configuration);
+
 var app = builder.Build();
 
 app.UseSwagger();
@@ -98,6 +106,10 @@ app.MapScalarApiReference(options =>
     options.WithOpenApiRoutePattern("/swagger/{documentName}/swagger.json");
 });
 app.UseCors("AllowLocalhost3000");
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    
+});
 app.UseAuthentication();
 app.UseHttpsRedirection();
 

@@ -18,6 +18,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users", "Users\Users.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coordinator", "Coordinator\Coordinator.csproj", "{1C339D62-6AF0-4B87-84B5-EE649893C971}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracking", "Tracking\Tracking.csproj", "{2EAA871E-D642-4F0D-BC82-97E2D2167068}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analytics", "Analytics\Analytics.csproj", "{C4C0C450-F315-460A-94E0-9CB87F606651}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,5 +64,13 @@ Global
 		{1C339D62-6AF0-4B87-84B5-EE649893C971}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C339D62-6AF0-4B87-84B5-EE649893C971}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C339D62-6AF0-4B87-84B5-EE649893C971}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EAA871E-D642-4F0D-BC82-97E2D2167068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EAA871E-D642-4F0D-BC82-97E2D2167068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EAA871E-D642-4F0D-BC82-97E2D2167068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EAA871E-D642-4F0D-BC82-97E2D2167068}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4C0C450-F315-460A-94E0-9CB87F606651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4C0C450-F315-460A-94E0-9CB87F606651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4C0C450-F315-460A-94E0-9CB87F606651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4C0C450-F315-460A-94E0-9CB87F606651}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

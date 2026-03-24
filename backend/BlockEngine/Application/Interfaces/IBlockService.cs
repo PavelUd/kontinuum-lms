@@ -1,5 +1,8 @@
+using System.Text.Json;
 using BlockEngine.Application.DTO;
+using BlockEngine.Domain.Enum;
 using Contracts.Contracts;
+using Contracts.Contracts.Blocks;
 using Core;
 
 namespace BlockEngine.Application.Interfaces;
@@ -11,6 +14,10 @@ public interface IBlockService
     public Task<Result<Guid>> CreateLessonBlock(BlockCreateRequest request, Guid lessonId);
 
     public Task<Result<None>> DeleteLessonBlock(Guid idBlock);
+
+    public Task<bool> CheckBLock(BlockType type, JsonElement content, JsonElement payload);
+
+    public Task<LessonBlockSummary?> GetBlockByIdAsync(Guid id);
 
     public Task<Result<None>> MoveBlock(Guid blockId, Guid? aboveId, Guid? belowId);
 

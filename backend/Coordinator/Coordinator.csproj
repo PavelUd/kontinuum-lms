@@ -11,4 +11,16 @@
       <Folder Include="User\Queries\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Hangfire.Core" Version="1.8.23" />
+      <PackageReference Include="MediatR" Version="14.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Analytics\Analytics.csproj" />
+      <ProjectReference Include="..\BlockEngine\BlockEngine.csproj" />
+      <ProjectReference Include="..\Core\Core.csproj" />
+      <ProjectReference Include="..\Tracking\Tracking.csproj" />
+    </ItemGroup>
+
 </Project>

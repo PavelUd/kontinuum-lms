@@ -1,21 +1,24 @@
 using System.Text.Json;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using BlockEngine.Application.DTO;
 using BlockEngine.Application.Interfaces;
 using BlockEngine.Domain.Entities;
+using BlockEngine.Domain.Enum;
 using BlockEngine.Infrastructure;
-using Contracts.Contracts;
+using Contracts.Contracts.Blocks;
+using Contracts.Services;
 using Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlockEngine.Application.Services;
 
-public class BlockService : IBlockService
+public class BlockService : IBlockService, ILessonBlockStatsProvider
 {
     private readonly ILessonBlockDbContext _dbContext;
     private readonly BlockEngine _blockEngine;
     private readonly IMapper _mapper;
-    public readonly IBlockOrderService _BlockOrderService;
+    public readonly IBlockOrderService _blockOrderService;
 
 
     public BlockService(ILessonBlockDbContext dbContext, BlockEngine blockEngine, IMapper mapper, IBlockOrderService blockOrderService)
@@ -23,7 +26,15 @@ public class BlockService : IBlockService
         _dbContext = dbContext;
         _blockEngine = blockEngine;
         _mapper = mapper;
-        _BlockOrderService = blockOrderService;
+        _blockOrderService = blockOrderService;
+    }
+
+
+    public async Task<LessonBlockSummary?> GetBlockByIdAsync(Guid id)
+    {
+        return await _dbContext.LessonBlocks.Where(x => x.Id == id)
+            .ProjectTo<LessonBlockSummary>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
+        
     }
 
     public async Task<Result<List<LessonBlockDto>>> GetBlockByLesson(Guid lessonId)
@@ -84,9 +95,14 @@ public class BlockService : IBlockService
         }
     }
 
+    public Task<bool> CheckBLock(BlockType type, JsonElement content, JsonElement payload)
+    {
+        return _blockEngine.CheckAsync(type, content, payload);
+    }
+
     public Task<Result<None>> MoveBlock(Guid blockId, Guid? aboveId, Guid? belowId)
     {
-       return _BlockOrderService.MoveBlock(blockId, aboveId, belowId);
+       return _blockOrderService.MoveBlock(blockId, aboveId, belowId);
     }
 
     public async Task<Result<None>> UpdateBlockContent(UpdateContentRequest request, Guid idBlock)
@@ -137,6 +153,16 @@ public class BlockService : IBlockService
             return await Result<None>.FailureAsync(ex.Message);
         }
     }
-    
-    
+
+
+    public async Task<LessonBlockStatsDto> GetByLessonIdAsync(Guid lessonId)
+    {
+        var blocks = _dbContext.LessonBlocks.Where(x => x.LessonId == lessonId);
+
+        return new LessonBlockStatsDto()
+        {
+            TotalBlocks = blocks.Count(),
+            ScoredBlocks = blocks.Count(x => x.Type == BlockType.ChoiceQuestion || x.Type == BlockType.OpenQuestion)
+        };
+    }
 }

@@ -1,6 +1,6 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Contracts.Query;
+using Contracts.Services;
 using Core;
 using Courses.Application.Interfaces;
 using Courses.Domain.Entities;
@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Courses.Application;
 
-public class LessonsService : ILessonsService
+public class LessonsService : ILessonsService, ILessonProvider
 {
     private  readonly ICoursesDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -171,5 +171,10 @@ public class LessonsService : ILessonsService
 
         await query.ExecuteUpdateAsync(s => s
             .SetProperty(x => x.OrderIndex, x => x.OrderIndex + delta));
+    }
+
+    public async Task<Guid?> GetByLessonIdAsync(Guid lessonId)
+    {
+        return (await _dbContext.Lessons.FirstOrDefaultAsync(x => x.Id == lessonId))?.CourseId;
     }
 }

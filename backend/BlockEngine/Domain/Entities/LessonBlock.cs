@@ -4,6 +4,7 @@ using AutoMapper;
 using BlockEngine.Application.DTO;
 using BlockEngine.Domain.Enum;
 using Contracts.Contracts;
+using Contracts.Contracts.Blocks;
 using Core.Entities;
 
 namespace BlockEngine.Domain.Entities;

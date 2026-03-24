@@ -1,11 +1,14 @@
 using System.Reflection;
 using Amazon.S3;
+using Analytics.Infrastructure;
 using Auth.Application.Interfaces;
 using Auth.Infrastructure;
 using BlockEngine.Application.Interfaces;
 using BlockEngine.Infrastructure;
 using Contracts.Services;
 using Courses.Application.Interfaces;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Infrastructure.Hashing;
 using Infrastructure.ObjectStorage;
 using Infrastructure.Persistence;
@@ -14,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Tracking.Infrastructure;
 using Users.Infrastructure;
 
 namespace Infrastructure.Extensions;
@@ -32,6 +36,20 @@ public static class ServiceCollectionExtension
         services.AddScoped<ILessonBlockDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<IAuthDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<IUsersDbContext>(sp => sp.GetRequiredService<AppDbContext>());
+        services.AddScoped<ITrackingDbContext>(sp => sp.GetRequiredService<AppDbContext>());
+        services.AddScoped<IAnalyticsDbContext>(sp => sp.GetRequiredService<AppDbContext>());
+        
+        services.AddHangfire(config =>
+            config.UsePostgreSqlStorage(options =>
+            {
+                options.UseNpgsqlConnection(configuration.GetConnectionString("SqlConnection"));
+            })
+        );
+
+        services.AddHangfireServer(options =>
+        {
+            options.WorkerCount = Environment.ProcessorCount * 2;
+        });
         
         services.AddSingleton<IAmazonS3>(sp =>
         {

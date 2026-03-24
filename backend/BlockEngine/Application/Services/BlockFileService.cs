@@ -1,6 +1,7 @@
 using BlockEngine.Application.DTO;
 using BlockEngine.Application.Interfaces;
 using BlockEngine.Infrastructure;
+using Contracts.Contracts.Files;
 using Contracts.Services;
 using Core;
 

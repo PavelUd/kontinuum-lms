@@ -1,4 +1,5 @@
 using BlockEngine.Application.DTO;
+using Contracts.Contracts.Files;
 using Core;
 
 namespace BlockEngine.Application.Interfaces;
