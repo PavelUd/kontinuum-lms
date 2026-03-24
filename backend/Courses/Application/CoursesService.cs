@@ -1,19 +1,18 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Contracts.Services;
 using Core;
 using Core.Entities;
 using Core.Entities.Interfaces;
 using Courses.Application.Interfaces;
 using Courses.Domain.Entities;
 using Courses.Domain.Enums;
-using Courses.DTO;
 using Courses.DTO.Courses;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Courses.Application;
 
-public class CoursesService : ICoursesService
+public class CoursesService : ICoursesService, ICoursesProvider
 {
     
     private  readonly ICoursesDbContext _dbContext;
@@ -114,5 +113,13 @@ public class CoursesService : ICoursesService
             .Where(x => x.CourseId == courseId)
             .ExecuteUpdateAsync(s => s
                 .SetProperty(m => m.Status, Status.Archived));
+    }
+
+    public Dictionary<Guid, int> GetLessonCountsByCourseIds(List<Guid> courseIds)
+    {
+        return _dbContext.Lessons
+            .Where(x => courseIds.Contains(x.CourseId))
+            .GroupBy(x => x.CourseId)
+            .ToDictionary(x => x.Key, x => x.Count());
     }
 }

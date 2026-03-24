@@ -18,7 +18,7 @@ public class BlockService : IBlockService, ILessonBlockStatsProvider
     private readonly ILessonBlockDbContext _dbContext;
     private readonly BlockEngine _blockEngine;
     private readonly IMapper _mapper;
-    public readonly IBlockOrderService _blockOrderService;
+    private readonly IBlockOrderService _blockOrderService;
 
 
     public BlockService(ILessonBlockDbContext dbContext, BlockEngine blockEngine, IMapper mapper, IBlockOrderService blockOrderService)
@@ -28,14 +28,7 @@ public class BlockService : IBlockService, ILessonBlockStatsProvider
         _mapper = mapper;
         _blockOrderService = blockOrderService;
     }
-
-
-    public async Task<LessonBlockSummary?> GetBlockByIdAsync(Guid id)
-    {
-        return await _dbContext.LessonBlocks.Where(x => x.Id == id)
-            .ProjectTo<LessonBlockSummary>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
-        
-    }
+    
 
     public async Task<Result<List<LessonBlockDto>>> GetBlockByLesson(Guid lessonId)
     {
@@ -94,11 +87,7 @@ public class BlockService : IBlockService, ILessonBlockStatsProvider
             return await Result<Guid>.FailureAsync(ex.Message);
         }
     }
-
-    public Task<bool> CheckBLock(BlockType type, JsonElement content, JsonElement payload)
-    {
-        return _blockEngine.CheckAsync(type, content, payload);
-    }
+    
 
     public Task<Result<None>> MoveBlock(Guid blockId, Guid? aboveId, Guid? belowId)
     {

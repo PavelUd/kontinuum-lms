@@ -1,7 +1,7 @@
 using BlockEngine.Application.DTO;
 using BlockEngine.Application.Interfaces;
 using Contracts.Contracts.Files;
-using Coordinator.Activities.Commands;
+using Coordinator.Activities.AnswerQuestion;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +38,7 @@ public class LessonBlocksController : Controller
         return Accepted($"/courses/{idResult.Data}", new { idResult.Data });
     }
     
-    
+    [Authorize]
     [HttpGet("/api/lessons/{id}/blocks")]
     public async Task<IActionResult> GetBlocks(Guid id)
     {
@@ -112,11 +112,12 @@ public class LessonBlocksController : Controller
         return Ok(result);
     }
     
-    [HttpPost("{id}/execute")]
-    public async Task<IActionResult> Execute(Guid id, [FromBody] SubmitBlockRequest request)
+    [Authorize]
+    [HttpPost("{id}/submit-answer")]
+    public async Task<IActionResult> SubmitAnswer(Guid id, [FromBody] AnswerQuestionRequest request)
     {
 
-        var command = new SubmitBlockCommand(id,request.Payload);
+        var command = new AnswerQuestionCommand(id,request.Payload);
         var result = await _mediator.Send(command);
 
         if (!result.Succeeded)

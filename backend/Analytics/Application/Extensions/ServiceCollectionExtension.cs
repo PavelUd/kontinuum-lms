@@ -1,3 +1,4 @@
+using System.Reflection;
 using Analytics.Application.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,5 +11,7 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<IAnalyticsService, AnalyticsService>();
         services.AddScoped<ILessonContextProvider, LessonContextProvider>();
+        services.AddScoped<IUserProgressService, UserProgressService>();
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
     }
 }

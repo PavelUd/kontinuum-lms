@@ -27,6 +27,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IBlockFileService, BlockFileService>();
         services.AddScoped<IBlockService, BlockService>();
         services.AddScoped<ILessonBlockStatsProvider, BlockService>();
+        services.AddScoped<IBlockEvaluationService, BlockEvaluationService>();
         
         services.Scan(scan => scan
             .FromAssemblyOf<IBlockPlugin>()

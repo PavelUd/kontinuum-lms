@@ -20,6 +20,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<ICoursesService, CoursesService>();
         services.AddScoped<ILessonsService, LessonsService>();
         services.AddScoped<ILessonProvider, LessonsService>();
+        services.AddScoped<ICoursesProvider, CoursesService>();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
     }
 }
