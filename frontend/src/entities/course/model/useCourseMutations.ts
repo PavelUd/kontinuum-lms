@@ -12,7 +12,10 @@ export const useCourseMutations = () => {
 
     const changeStatusMutations = useChangeStatusMutation<CourseSummary>({
         queryKey: ["courses"],
-        mutationFn: setStatus
+        mutationFn: setStatus,
+        removeCacheKeys: ({ id }) => [
+            ["modules", id]
+        ]
     })
 
     return {

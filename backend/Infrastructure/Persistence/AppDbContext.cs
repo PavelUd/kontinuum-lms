@@ -72,17 +72,11 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
             .WithMany()
             .HasForeignKey(bc => bc.LessonId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         modelBuilder.Entity<LessonProgress>()
             .HasOne<Lesson>()
             .WithMany()
             .HasForeignKey(bc => bc.LessonId)
-            .OnDelete(DeleteBehavior.Cascade);
-        
-        modelBuilder.Entity<Lesson>()
-            .HasOne<Course>()
-            .WithMany()
-            .HasForeignKey(bc => bc.CourseId)
             .OnDelete(DeleteBehavior.Cascade);
         
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

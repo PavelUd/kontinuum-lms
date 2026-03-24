@@ -1,8 +1,14 @@
-import {QueryClient, useMutation, useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+
+type RemoveKeysConfig<TVars> =
+    | unknown[][]
+    | ((vars: TVars) => unknown[][])
 
 type StatusMutationConfig<T> = {
     queryKey: unknown[]
     mutationFn: (id: string, status: any) => Promise<any>
+    removeCacheKeys?: RemoveKeysConfig<{ id: string; status: string }>
+
 }
 
 export function useChangeStatusMutation<T extends { id: string }>(
@@ -40,8 +46,18 @@ export function useChangeStatusMutation<T extends { id: string }>(
             }
         },
 
-        onSettled: () => {
+        onSuccess: (_data, vars) => {
+            let keys: unknown[][] = []
 
+            if (Array.isArray(config.removeCacheKeys)) {
+                keys = config.removeCacheKeys
+            } else if (typeof config.removeCacheKeys === "function") {
+                keys = config.removeCacheKeys(vars)
+            }
+
+            keys.forEach((key) => {
+                queryClient.removeQueries({ queryKey: key })
+            })
         }
     })
 

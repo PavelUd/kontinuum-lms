@@ -30,6 +30,7 @@ export function AudioBlockPreview({ url = "", caption, onError }: Props) {
     }), [url])
 
     const options = useMemo(() => ({
+        storage: { enabled: false },
         controls: [
             "progress",
             "current-time",
