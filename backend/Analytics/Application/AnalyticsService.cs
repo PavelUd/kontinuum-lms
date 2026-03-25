@@ -3,6 +3,7 @@ using Analytics.Domain;
 using Analytics.Infrastructure;
 using Contracts.Contracts.StatsEvents;
 using Core;
+using Hangfire;
 using Microsoft.EntityFrameworkCore;
 
 namespace Analytics.Application;
@@ -20,14 +21,16 @@ public class AnalyticsService : IAnalyticsService
         _analyticsDbContext = analyticsDbContext;
     }
 
-    public async Task ProcessBlockCompleted(BlockEvaluatedEvent e)
+    private async Task ProcessInternal(BlockEvaluatedEvent e)
     {
         // 1
         var exists = await _analyticsDbContext.BlockCompletions
             .AnyAsync(x => x.BlockId == e.BlockId && x.UserId == e.UserId);
 
         if (exists)
+        {
             return;
+        }
 
         // 2
         var lessonProgress = await _analyticsDbContext.LessonProgresses
@@ -56,6 +59,18 @@ public class AnalyticsService : IAnalyticsService
         {
             // duplicate insert (unique constraint violation)
             // safe to ignore because operation is idempotent
+        }
+    }
+    
+    
+    public async Task ProcessBlockCompleted(BlockEvaluatedEvent e)
+    {
+        using (var connection = JobStorage.Current.GetConnection())
+        using (connection.AcquireDistributedLock(
+                   $"lesson-progress:{e.UserId}:{e.LessonId}",
+                   TimeSpan.FromSeconds(10)))
+        {
+            await ProcessInternal(e);
         }
     }
 

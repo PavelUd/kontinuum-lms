@@ -10,9 +10,9 @@ using MediatR;
 
 namespace Coordinator.Activities.CompleteBlock;
 
-public abstract record CompleteBlockRequest(Guid Id, JsonElement Payload);
+public record CompleteBlockRequest(Guid Id, JsonElement Payload);
 
-public record CompleteBlockResponse(List<Guid> idBlocks);
+public record CompleteBlockResponse(List<Guid> IdBlocks);
 
 public record CompleteBlocksCommand(List<CompleteBlockRequest> Requests) : IRequest<Result<CompleteBlockResponse>>;
 
@@ -42,12 +42,12 @@ public class CompleteBlocksHandler : IRequestHandler<CompleteBlocksCommand, Resu
                 x.ProcessBlockCompleted(new BlockEvaluatedEvent()
                 {
                     UserId = _identityUser.Id,
-                    AffectsScore = true,
+                    AffectsScore = false,
                     BlockId = result.BlockId,
                     LessonId = result.LessonId,
                 }));
             
-            res.idBlocks.Add(result.BlockId);
+            res.IdBlocks.Add(result.BlockId);
         }
 
         return await Result<CompleteBlockResponse>.SuccessAsync(res);

@@ -26,7 +26,7 @@ public class UserProgressService : IUserProgressService
 
     public List<Guid> GetCompletedBlocksByLesson(Guid idLesson)
     {
-        return _analyticsDbContext.BlockCompletions.Where(x => x.LessonId == idLesson && x.UserId == _user.Id).Select(x => x.Id).ToList();
+        return _analyticsDbContext.BlockCompletions.Where(x => x.LessonId == idLesson && x.UserId == _user.Id).Select(x => x.BlockId).ToList();
     }
 
     private IQueryable<LessonProgress> QueryLessonsProgress(List<Guid> courseIds)

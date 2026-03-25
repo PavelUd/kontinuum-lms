@@ -31,11 +31,11 @@ public class ProgressController : Controller
         if (!result.Succeeded)
             return BadRequest(result.Errors);
 
-        return Ok(result.Data);
+        return Ok(result.Data.IdBlocks);
     }
 
     [Authorize]
-    [HttpGet("/courses")]
+    [HttpGet("courses")]
     public async Task<IActionResult> GetProgressCourse([FromBody] List<Guid> idCourses)
     {
         var courses = _progressService.GetCoursesProgress(idCourses);
@@ -51,10 +51,10 @@ public class ProgressController : Controller
     }
 
     [Authorize]
-    [HttpGet("/lessons/{lessonId}/completed-blocks")]
+    [HttpGet("lessons/{lessonId}/completed-blocks")]
     public async Task<IActionResult> GetCompletedBlocks(Guid lessonId)
     {
-        _progressService.GetCompletedBlocksByLesson(lessonId);
-        return Ok();
+       var blocks = _progressService.GetCompletedBlocksByLesson(lessonId);
+       return Ok(blocks);
     }
 }

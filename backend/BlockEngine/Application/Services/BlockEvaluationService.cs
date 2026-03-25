@@ -22,7 +22,12 @@ public class BlockEvaluationService : IBlockEvaluationService
         List<BlockEvaluateItem> items)
     {
         var results = new List<BlockEvaluationResult>();
-        var payloadMap = items.ToDictionary(x => x.BlockId, x => x.Payload);
+        var payloadMap = items
+            .GroupBy(x => x.BlockId)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Select(x => x.Payload).ToList()
+            );
         var blockIds = items.Select(x => x.BlockId).ToList();
 
         var blocks = await _dbContext.LessonBlocks
@@ -30,8 +35,15 @@ public class BlockEvaluationService : IBlockEvaluationService
             .ToListAsync();
         foreach (var block in  blocks)
         {
-
-            var isCorrect = await _blockEngine.CheckAsync(block.Type, block.Content, payloadMap[block.Id]);
+            var isCorrect = false;
+            foreach (var payload in payloadMap[block.Id])
+            {
+                isCorrect = await _blockEngine.CheckAsync(block.Type, block.Content, payload);
+                if (isCorrect)
+                {
+                    break;
+                }
+            }
 
             results.Add(new BlockEvaluationResult
             {
