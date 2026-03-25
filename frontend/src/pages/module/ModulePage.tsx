@@ -13,6 +13,8 @@ import {useProfileQuery} from "@/entities/user/models/useUsersQuery";
 import {useModuleBlocks} from "@/entities/module-block/model/useModuleBlocks";
 import {Button} from "@/shared/ui/button/Button";
 import Link from "next/link";
+import {useCompletedBlocksQuery} from "@/entities/progress/model/useCompletedBlocksQuery";
+import {useProgressTracker} from "@/entities/progress/model/useProgressTracker";
 
 type Props = {
         courseId: string
@@ -33,6 +35,11 @@ export function ModulePage({ courseId, lessonId }: Props) {
             isError: profileError
         } = useProfileQuery();
 
+    const {
+        data: completedBlockData,
+        isLoading: completedBlockLoading,
+        isError: completedBlockError
+    } = useCompletedBlocksQuery(lessonId);
 
     const {
         isLoading: courseLoading,
@@ -46,11 +53,14 @@ export function ModulePage({ courseId, lessonId }: Props) {
     } = useModuleBlocks(lessonId)
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
+    const { track } = useProgressTracker(lessonId);
+
     const profile = profileData?.data
-    if (modulesLoading && courseLoading && profileLoading && blocksLoading) return <Loader />
-    if (modulesError && profileError && isBlocksErrors) return <div>Ошибка загрузки</div>
 
+    if (modulesLoading && courseLoading && profileLoading && blocksLoading && completedBlockLoading) return <Loader />
+    if (modulesError && profileError && isBlocksErrors && completedBlockError) return <div>Ошибка загрузки</div>
 
+    const completedBlocks = completedBlockData ?? []
     const lessons = modulesData?.data ?? [];
     const lesson = lessons?.find(m => m.id === lessonId)
     if (!lesson) {
@@ -70,7 +80,7 @@ export function ModulePage({ courseId, lessonId }: Props) {
             onOpenChange={() => setSidebarOpen(false)} modules={lessons} courseId={courseData?.data.id ?? ""}  />
         <div className={styles.container}>
             <ModuleHero module={lesson.orderIndex} category={courseData?.data?.name ?? ""} title={lesson.title} duration={15} totalSteps={6} currentStep={3} progress={3}></ModuleHero>
-            <ModuleContent blocks={blocks}></ModuleContent>
+            <ModuleContent blocks={blocks} track={track} completedBlocks={completedBlocks}></ModuleContent>
             <footer className={styles.lessonFooter}>
                 <div></div>
                 {nextLesson && (

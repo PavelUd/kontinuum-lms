@@ -3,27 +3,38 @@ import {  ModuleBlock } from "@/entities/module-block/model/types"
 import {getBlock} from "@/entities/module-block/lib/block-registry"
 import "@/entities/module-block/lib/register-blocks"
 import styles from "./module.module.css"
-import {useBlocksObserver} from "@/widgets/module/ui/useBlocksObserver";
-import {useCallback} from "react";
+import {useBlocksObserver} from "@/widgets/module/models/useBlocksObserver";
+import {useCallback, useEffect, useRef} from "react";
 
 type Props = {
     blocks: ModuleBlock<any>[]
+    completedBlocks: string[],
+    track: (blockId: string, payload: any) => void
+
 }
 
-export function ModuleContent({ blocks }: Props) {
+export function ModuleContent({ blocks,completedBlocks, track }: Props) {
+    const completedRef = useRef<Set<string>>(new Set())
+
+    useEffect(() => {
+        console.log(completedBlocks);
+        completedRef.current = new Set(completedBlocks)
+    }, [completedBlocks])
 
     const { observe, unobserve } = useBlocksObserver((id, duration) => {
+        if (completedRef.current.has(id)){
+            return
+        }
+
         console.log("viewed:", id, duration)
+        track(id, {duration: duration})
     })
 
-    const setRef = useCallback(
-        (el: HTMLElement | null) => {
-            if (el) {
-                observe(el)
-            }
-        },
-        [observe]
-    )
+    const setRef = useCallback((el: HTMLElement | null) => {
+        if (!el) return
+        observe(el)
+        console.log("hello");
+    }, [observe])
 
     return (
         <div className={styles.moduleContent}>
@@ -35,9 +46,9 @@ export function ModuleContent({ blocks }: Props) {
                     <div
                         key={block.id}
                         data-id={block.id}
+                        data-type={block.type}
                         ref={setRef}
                     >
-                        <div>{block.id}</div>
                         <Block content={block.content} />
                     </div>
                 )

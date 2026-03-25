@@ -1,13 +1,25 @@
-import { useEffect, useRef, useCallback } from "react"
+import {useEffect, useRef, useCallback, useMemo} from "react"
 
 type Callback = (id: string, duration: number) => void
 
 export function useBlocksObserver(onViewEnd: Callback) {
     const observerRef = useRef<IntersectionObserver | null>(null)
+    const callbackRef = useRef(onViewEnd)
+
+    const EXCLUDED_TYPES = useMemo(
+        () => new Set(["openquestion", "choicequestion", "video", "audio"]),
+        []
+    )
 
     const visibleMap = useRef<Map<string, number>>(new Map())
     const activeSet = useRef<Set<string>>(new Set())
 
+    // 🔥 обновляем callback
+    useEffect(() => {
+        callbackRef.current = onViewEnd
+    }, [onViewEnd])
+
+    // 🔥 observer создаётся 1 раз
     useEffect(() => {
         observerRef.current = new IntersectionObserver(
             (entries) => {
@@ -15,18 +27,19 @@ export function useBlocksObserver(onViewEnd: Callback) {
 
                 entries.forEach(entry => {
                     const id = entry.target.getAttribute("data-id")
-                    if (!id) return
+                    const type = entry.target.getAttribute("data-type")
+
+                    if (!id || !type) return
+                    if (EXCLUDED_TYPES.has(type)) return
 
                     const isVisible = entry.intersectionRatio >= 0.6
                     const wasVisible = activeSet.current.has(id)
 
-                    // START
                     if (isVisible && !wasVisible) {
                         activeSet.current.add(id)
                         visibleMap.current.set(id, now)
                     }
 
-                    // STOP
                     if (!isVisible && wasVisible) {
                         activeSet.current.delete(id)
 
@@ -36,7 +49,7 @@ export function useBlocksObserver(onViewEnd: Callback) {
                         const duration = now - start
 
                         if (duration > 700) {
-                            onViewEnd(id,  Math.floor((now - start) / 1000))
+                            callbackRef.current(id, Math.floor(duration / 1000))
                         }
 
                         visibleMap.current.delete(id)
@@ -55,22 +68,24 @@ export function useBlocksObserver(onViewEnd: Callback) {
             visibleMap.current.forEach((start, id) => {
                 const duration = now - start
                 if (duration > 500) {
-                    onViewEnd(id, duration)
+                    callbackRef.current(id, duration)
                 }
             })
+
             visibleMap.current.clear()
         }
-    }, [onViewEnd])
-
+    }, []) // ❗ пустой массив
 
     const observe = useCallback((el: HTMLElement | null) => {
-        if (!el || !observerRef.current) return
-        observerRef.current.observe(el)
+        if (el && observerRef.current) {
+            observerRef.current.observe(el)
+        }
     }, [])
 
     const unobserve = useCallback((el: HTMLElement | null) => {
-        if (!el || !observerRef.current) return
-        observerRef.current.unobserve(el)
+        if (el && observerRef.current) {
+            observerRef.current.unobserve(el)
+        }
     }, [])
 
     return { observe, unobserve }

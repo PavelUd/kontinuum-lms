@@ -27,5 +27,5 @@ export const moveBlock = async(id: string, content: MoveBlockProps) : Promise<Ap
 }
 
 export const getModuleBlocks = async(id: string) : Promise<ApiResponse<ModuleBlock<any>[]>> => {
-    return await api.get<ApiResponse<ModuleBlock<any>[]>>(`/lessons/${id}/blocks`)
+    return await api.get<ApiResponse<ModuleBlock<any>[]>>(`/lessons/${id}/blocks`, {auth: true})
 }
