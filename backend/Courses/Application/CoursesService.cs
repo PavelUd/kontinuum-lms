@@ -17,24 +17,17 @@ public class CoursesService : ICoursesService, ICoursesProvider
     
     private  readonly ICoursesDbContext _dbContext;
     private readonly IMapper _mapper;
-    private readonly IIdentityUser _identityUser;
 
-    public CoursesService(ICoursesDbContext dbContext, IMapper mapper,IIdentityUser identityUser)
+    public CoursesService(ICoursesDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;
-        _identityUser = identityUser;
     }
 
 
     public  Result<List<SummaryCourseDto>> GetCourses()
     { 
-        var query = _dbContext.Courses.AsQueryable();
-        if(_identityUser.Role == Role.Student)
-        {
-            query = query.Where(c => c.Status == Status.Active);
-        }
-        
+        var query = _dbContext.Courses.AsQueryable().Where(c => c.Status == Status.Active);
         var result = query.ProjectTo<SummaryCourseDto>(_mapper.ConfigurationProvider).ToList();
        return Result<List<SummaryCourseDto>>.Success(result);
     }
@@ -115,10 +108,10 @@ public class CoursesService : ICoursesService, ICoursesProvider
                 .SetProperty(m => m.Status, Status.Archived));
     }
 
-    public Dictionary<Guid, int> GetLessonCountsByCourseIds(List<Guid> courseIds)
+    public Dictionary<Guid, int> GetLessonCountsByCourseIds(Guid idUser)
     {
         return _dbContext.Lessons
-            .Where(x => courseIds.Contains(x.CourseId))
+            .Where(x => x.Status == Status.Active)
             .GroupBy(x => x.CourseId)
             .ToDictionary(x => x.Key, x => x.Count());
     }

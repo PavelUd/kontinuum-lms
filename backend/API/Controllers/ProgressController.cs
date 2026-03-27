@@ -33,14 +33,6 @@ public class ProgressController : Controller
 
         return Ok(result.Data.IdBlocks);
     }
-
-    [Authorize]
-    [HttpGet("courses")]
-    public async Task<IActionResult> GetProgressCourse([FromBody] List<Guid> idCourses)
-    {
-        var courses = _progressService.GetCoursesProgress(idCourses);
-        return Ok(courses);
-    }
     
     [Authorize]
     [HttpGet("courses/{courseId}/lessons")]

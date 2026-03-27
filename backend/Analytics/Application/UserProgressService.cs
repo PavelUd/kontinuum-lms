@@ -34,28 +34,7 @@ public class UserProgressService : IUserProgressService
         return _analyticsDbContext.LessonProgresses
             .Where(x => courseIds.Contains(x.CourseId) && x.UserId == _user.Id);
     }
-
-    public List<CourseProgressDto> GetCoursesProgress (List<Guid> idCourses)
-    {
-        var lessonCounts = _coursesProvider.GetLessonCountsByCourseIds(idCourses);
-        var progresses = QueryLessonsProgress(idCourses)
-                .GroupBy(x => x.CourseId)
-                .Select(g => new
-                {
-                    CourseId = g.Key,
-                    Sum = g.Sum(x => x.Progress)
-                })
-                .ToList();
-        
-        return progresses.Select(x => new CourseProgressDto
-        {
-            CourseId = x.CourseId,
-            Progress = lessonCounts[x.CourseId] == 0
-                ? 0
-                : x.Sum / lessonCounts[x.CourseId]
-        })
-         .ToList();
-    }
+    
     
     public List<LessonProgressDto> GetLessonsProgressByCourseId(Guid courseId)
     {
