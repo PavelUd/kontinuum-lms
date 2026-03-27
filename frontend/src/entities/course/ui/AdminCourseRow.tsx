@@ -47,15 +47,6 @@ export function AdminCourseRow({course, onDelete}: Props) {
                 />
             </div>
 
-            <div className={styles.progress}>
-                <div className={styles.progressLabel}>
-                    Средний прогресс
-                </div>
-                <div className={styles.progressValue}>
-                    {12}%
-                </div>
-            </div>
-
             <div className={styles.actions}>
                 <button
                     className={`${styles.button} ${styles.secondaryButton}`}

@@ -8,19 +8,20 @@ import Link from "next/link";
 import {Status} from "@/entities/course/model/types";
 import {ModuleSummary} from "@/entities/module";
 import {useModulesMutations} from "@/entities/module/model/useModulesMutations";
+import {LessonAnalyticProgress} from "@/entities/analytic/model/types";
 
 type Props = {
     modules: ModuleSummary[]
+    modulesProgress?: LessonAnalyticProgress[]
     onDelete: (id: string, name: string) => void
     courseId: string
 }
 
-export function AdminModulesList({modules,onDelete, courseId}: Props) {
+export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: Props) {
 
     const query = useModulesMutations(courseId);
 
 
-    console.log(modules)
     const [page, setPage] = useState(1);
     const pageSize = 10;
     const totalPages = Math.ceil(modules.length / pageSize);
@@ -45,7 +46,9 @@ export function AdminModulesList({modules,onDelete, courseId}: Props) {
                     </thead>
 
                     <tbody>
-                    {modules.map((m, idx) => (
+                    {modules.map((m, idx) => {
+                        const progress = modulesProgress?.find(x => x.lessonId == m.id);
+                        return (
                         <tr key={m.id ?? ""}>
 
                             {/* № */}
@@ -80,17 +83,17 @@ export function AdminModulesList({modules,onDelete, courseId}: Props) {
                                 <div className="flex flex-col text-sm">
 
                     <span className="font-semibold text-blue-600">
-                        {12}%{" "}
+                        {progress ? progress.avgProgress : 0}%{" "}
                         <span className="text-gray-400 font-normal">
                             прогресс
                         </span>
-                    </span>
-                                    <span className="font-semibold text-green-600">
-                        {12}{" "}
-                                        <span className="text-gray-400 font-normal">
-                            ср. балл
                         </span>
-                    </span>
+                        <span className="font-semibold text-green-600">
+                            {progress ? `${progress.avgScore}` : 0}{" "}
+                            <span className="text-gray-400 font-normal">
+                                ср. балл
+                            </span>
+                        </span>
                                 </div>
                             </td>
 
@@ -126,7 +129,7 @@ export function AdminModulesList({modules,onDelete, courseId}: Props) {
                                 </div>
                             </td>
                         </tr>
-                    ))}
+                    )})}
                     </tbody>
                 </table>
             </div>

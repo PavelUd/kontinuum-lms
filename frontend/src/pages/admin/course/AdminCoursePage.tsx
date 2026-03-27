@@ -9,6 +9,8 @@ import {ConfirmDeleteModal} from "@/features/confirm-delete/ConfirmDeleteModal";
 import {useModulesQuery} from "@/entities/module/model/useModulesQuery";
 import {useModulesMutations} from "@/entities/module/model/useModulesMutations";
 import {useCourseQuery} from "@/entities/course";
+import {UseCourseProgressAnalyticQuery} from "@/entities/analytic/model/UseCourseProgressAnalyticQuery";
+import {getCourseAvgProgress} from "@/entities/analytic/model/analytic.calc";
 
 type Props = {
     courseId: string
@@ -20,6 +22,8 @@ export function AdminCoursePage({courseId} : Props) {
     const { data: query, isLoading: isLoading } = useCourseQuery(courseId)
     const mutations = useModulesMutations(courseId)
 
+    const { data: progressQuery, isLoading: isProgressLoading } = UseCourseProgressAnalyticQuery(courseId);
+
     const [isOpen, setIsOpen] = useState(false)
     const [isDeleteOpen, setDeleteIsOpen] = useState(false)
     const [selectedModule, setSelectedModule] = useState<{
@@ -29,7 +33,7 @@ export function AdminCoursePage({courseId} : Props) {
 
     const { data: lessonQuery, isLoading: lessonLoading } = useModulesQuery(courseId)
 
-    if (isLoading && lessonLoading)
+    if (isLoading && lessonLoading && isProgressLoading)
         return <Loader />
     
 
@@ -53,11 +57,11 @@ export function AdminCoursePage({courseId} : Props) {
 
     const course= query?.data;
     const lessons = lessonQuery?.data ?? []
-
+    const {progress, score} = getCourseAvgProgress(progressQuery ?? [], lessons.length);
     return (
         <>
-        <AdminCourseHeader onCreate={() => setIsOpen(true)} title={course?.name ?? ""} students={12} avgProgress={13} avgScore={"4.8"} />
-            <AdminModulesList onDelete={onClickDeleteButton} modules={lessons} courseId={courseId} />
+        <AdminCourseHeader onCreate={() => setIsOpen(true)} title={course?.name ?? ""} students={1} avgProgress={progress} avgScore={score} />
+            <AdminModulesList onDelete={onClickDeleteButton} modulesProgress={progressQuery} modules={lessons} courseId={courseId} />
             <CreateModuleModal onConfirm={onConfirmCreation} modulesCount={lessons.length + 1} isOpen={isOpen} onClose={() => setIsOpen(false)}></CreateModuleModal>
             <ConfirmDeleteModal isOpen={isDeleteOpen} onClose={() => setDeleteIsOpen(false)} onConfirm={onDeleteModule} itemName={selectedModule?.name ?? ""}></ConfirmDeleteModal>
         </>

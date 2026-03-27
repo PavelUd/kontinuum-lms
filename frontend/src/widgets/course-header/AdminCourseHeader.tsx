@@ -7,7 +7,7 @@ type Props = {
     title: string,
     students: number,
     avgProgress : number,
-    avgScore : string
+    avgScore : number
     onCreate: () => void
 }
 
