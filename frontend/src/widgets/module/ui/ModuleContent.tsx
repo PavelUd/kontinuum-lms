@@ -21,14 +21,14 @@ export function ModuleContent({ blocks,completedBlocks, track }: Props) {
         completedRef.current = new Set(completedBlocks)
     }, [completedBlocks])
 
-    const { observe, unobserve } = useBlocksObserver((id, duration) => {
+    const { observe, unobserve } = useBlocksObserver((id, duration, isLeave) => {
         if (completedRef.current.has(id)){
             return
         }
 
-        console.log("viewed:", id, duration)
+        console.log("viewed:", id, duration, isLeave)
         track(id, {duration: duration})
-    })
+    }, () => {console.log("hello333")})
 
     const setRef = useCallback((el: HTMLElement | null) => {
         if (!el) return

@@ -25,9 +25,6 @@ export function ModuleHero({
     return (
         <div className={styles.hero}>
             <div className={styles.container}>
-                <div className={`${styles.progress} step`}>
-                  <SteppedProgress total={30} current={12} currentProgress={30}></SteppedProgress>
-              </div>
                 <div className={styles.category}>
                     Модуль {module} • {category}
                 </div>

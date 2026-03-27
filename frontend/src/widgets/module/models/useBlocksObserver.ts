@@ -1,8 +1,8 @@
 import {useEffect, useRef, useCallback, useMemo} from "react"
 
-type Callback = (id: string, duration: number) => void
+type Callback = (id: string, duration: number, isLeave: boolean) => void
 
-export function useBlocksObserver(onViewEnd: Callback) {
+export function useBlocksObserver(onViewEnd: Callback, track : () => void) {
     const observerRef = useRef<IntersectionObserver | null>(null)
     const callbackRef = useRef(onViewEnd)
 
@@ -49,7 +49,8 @@ export function useBlocksObserver(onViewEnd: Callback) {
                         const duration = now - start
 
                         if (duration > 700) {
-                            callbackRef.current(id, Math.floor(duration / 1000))
+                            track();
+                            callbackRef.current(id, Math.floor(duration / 1000), false)
                         }
 
                         visibleMap.current.delete(id)
@@ -68,7 +69,8 @@ export function useBlocksObserver(onViewEnd: Callback) {
             visibleMap.current.forEach((start, id) => {
                 const duration = now - start
                 if (duration > 500) {
-                    callbackRef.current(id, duration)
+                    track();
+                    callbackRef.current(id, duration, true)
                 }
             })
 
@@ -87,6 +89,18 @@ export function useBlocksObserver(onViewEnd: Callback) {
             observerRef.current.unobserve(el)
         }
     }, [])
+    const getActiveBlocks = useCallback(() => {
+        const now = Date.now()
 
-    return { observe, unobserve }
+        return Array.from(activeSet.current).map(id => {
+            const start = visibleMap.current.get(id)
+            if (!start) return null
+
+            return {
+                id,
+                duration: Math.floor((now - start) / 1000)
+            }
+        }).filter(Boolean)
+    }, [])
+    return { observe, unobserve, getActiveBlocks }
 }

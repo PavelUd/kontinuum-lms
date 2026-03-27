@@ -15,7 +15,6 @@ export class ProgressQueue {
 
     add(event: BlockEvent) {
         this.queue.push(event)
-        console.log(event);
         this.flushDebounced()
     }
 
@@ -25,8 +24,28 @@ export class ProgressQueue {
     private flushDebounced() {
         if (this.queue.length >= 10) {
             this.flush()
+            this.clearTimer()
             return
         }
+        if (this.timer) return
+
+        this.timer = setTimeout(() => {
+            this.timer = null
+            this.flush()
+        }, 1000) // например 2 секунды
+    }
+
+    private clearTimer() {
+        if (this.timer) {
+            clearTimeout(this.timer)
+            this.timer = null
+        }
+    }
+
+    forceEnqueueAndSend(events: BlockEvent[]) {
+        if (!events?.length) return
+        this.queue.push(...events)
+        this.flush()
     }
 
     async flush() {

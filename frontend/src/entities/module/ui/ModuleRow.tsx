@@ -7,15 +7,20 @@ import {Status} from "@/entities/course/model/types";
 
 interface Props {
     module: ModuleSummary
+    progress?: number
 }
 
-export function ModuleRow({ module }: Props) {
-    const statusMap: Record<Status, "locked" | "current"> = {
+export function ModuleRow({ module, progress }: Props) {
+    const statusMap: Record<Status, "locked" | "current" | "completed"> = {
         "archived": "locked",
-        "active": "current"
+        "active": "current",
+
     }
     const locked = module.status === "archived"
-    const classAttribute = statusMap[module.status]
+    let classAttribute =  statusMap[module.status]
+    if(module.status == "active" && progress && progress > 79){
+        classAttribute = "completed"
+    }
     return (
         <div className={`k-module ${classAttribute}`}>
 
@@ -29,13 +34,13 @@ export function ModuleRow({ module }: Props) {
                     {module.title}
                 </div>
 
-                {module.status === "active" && (
+                {progress && progress > 79 && (
                     <span className="k-module-badge success">
                         Пройдено
                     </span>
                 )}
 
-                {module.status === "active" && (
+                {module.status === "active" && (!progress || progress < 79) && (
                     <span className="k-module-badge active">
                         Изучаете сейчас
                     </span>

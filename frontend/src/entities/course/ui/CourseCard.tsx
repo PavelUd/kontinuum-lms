@@ -3,6 +3,10 @@
 import { CourseSummary } from '../model/types'
 import { SteppedProgress } from '@/shared/ui/stepped-progress/'
 import {BookOpen } from 'lucide-react'
+import { plural } from "@/shared/lib/plural/plural";
+import Skeleton from "react-loading-skeleton";
+import {useCourseProgressQuery} from "@/entities/progress/model/useProggressQuery";
+import {Progress} from "@/entities/progress/model/progress.service";
 
 interface Props {
     course: CourseSummary,
@@ -11,10 +15,10 @@ interface Props {
 
 export function CourseCard({ course, onOpen }: Props) {
 
-
-    const percent = Math.round(
-        ((1) / course.lessonsCount) * 100
-    )
+    const {data: progressData, isLoading: isProgressLoading} = useCourseProgressQuery(course.id);
+    const progress = !isProgressLoading && progressData
+        ? Progress.getCourseProgress(progressData, course.lessonsCount)
+        : null
 
     return (
         <div className="k-course-card cursor-pointer" onClick={onOpen}>
@@ -24,20 +28,21 @@ export function CourseCard({ course, onOpen }: Props) {
 
             <h3 className="k-course-title">{course.name}</h3>
 
-            <div>
-                <div className="k-progress-info">
-                  <span>
-                    Модуль {1} из {course.lessonsCount}
-                  </span>
-                  <span className="font-bold text-text">{percent}%</span>
-                </div>
-
-                <SteppedProgress
-                    total={100}
-                    current={9}
-                    currentProgress={30}
-                />
-            </div>
+                {isProgressLoading ? (
+                    <Skeleton className="k-progress-info" />
+                ) : (
+                    <div>
+                        <div className="k-progress-info">
+                          <span>
+                            {course.lessonsCount} {plural(course.lessonsCount, "модуль", "модуля", "модулей")}
+                          </span>
+                            <span className="font-bold text-text">{Math.round(progress ?? 0)}%</span>
+                        </div>
+                    <SteppedProgress
+                        progress={progress ?? 0}
+                    />
+                    </div>
+                )}
         </div>
     )
 }

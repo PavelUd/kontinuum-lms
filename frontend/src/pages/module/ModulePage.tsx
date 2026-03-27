@@ -15,6 +15,7 @@ import {Button} from "@/shared/ui/button/Button";
 import Link from "next/link";
 import {useCompletedBlocksQuery} from "@/entities/progress/model/useCompletedBlocksQuery";
 import {useProgressTracker} from "@/entities/progress/model/useProgressTracker";
+import {usePageLeave} from "@/widgets/module/models/useModuleLeave";
 
 type Props = {
         courseId: string
@@ -52,14 +53,18 @@ export function ModulePage({ courseId, lessonId }: Props) {
         isError: isBlocksErrors
     } = useModuleBlocks(lessonId)
 
+    usePageLeave(() => {
+        console.log("module leave");
+    })
     const [sidebarOpen, setSidebarOpen] = useState(false)
-    const { track } = useProgressTracker(lessonId);
+
+
+    const { track } = useProgressTracker(lessonId, courseId, blocks?.length);
 
     const profile = profileData?.data
 
     if (modulesLoading && courseLoading && profileLoading && blocksLoading && completedBlockLoading) return <Loader />
     if (modulesError && profileError && isBlocksErrors && completedBlockError) return <div>Ошибка загрузки</div>
-
     const completedBlocks = completedBlockData ?? []
     const lessons = modulesData?.data ?? [];
     const lesson = lessons?.find(m => m.id === lessonId)
@@ -70,7 +75,6 @@ export function ModulePage({ courseId, lessonId }: Props) {
     const nextLesson = lessons.find(
         l => l.status === "active" && l.orderIndex > lesson.orderIndex
     ) ?? null
-
     return (
         <>
         <Header onOpenSidebar={() => setSidebarOpen(true)} profile={profile}></Header>

@@ -10,7 +10,6 @@ type Props = {
 
 export const CourseList = ({ courses } : Props) => {
 
-
     const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null)
     const [isOpen, setIsOpen] = useState(false)
 
@@ -31,13 +30,15 @@ export const CourseList = ({ courses } : Props) => {
         <>
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ">
 
-                {courses.map((course) => (
+                {courses.map((course) => {
+
+                    return (
                     <CourseCard
                         key={course.id}
                         course={course}
                         onOpen={() => openModal(course.id)}
                     />
-                ))}
+                )})}
 
             </div>
 

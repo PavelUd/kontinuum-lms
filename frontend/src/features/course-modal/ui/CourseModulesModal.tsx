@@ -10,6 +10,7 @@ import {ModulesSkeleton} from "@/features/course-modal/ui/ModulesSkeleton";
 import Skeleton from "react-loading-skeleton"
 import "react-loading-skeleton/dist/skeleton.css"
 import {useModulesQuery} from "@/entities/module/model/useModulesQuery";
+import { useCourseProgressQuery } from "@/entities/progress/model/useProggressQuery"
 
 interface Props {
     open: boolean
@@ -25,6 +26,7 @@ export function CourseModulesModal({
 
     const { data: source, isLoading: loading } = useCourseQuery(courseId)
     const { data: modulesData, isLoading: modulesLoading } = useModulesQuery(courseId)
+    const {data: progressData, isLoading: progressLoading} =  useCourseProgressQuery(courseId);
     const course= source?.data;
     const lessons = modulesData?.data ?? []
 
@@ -94,17 +96,20 @@ export function CourseModulesModal({
 
                             <div className="k-modules-list">
 
-                                {modulesLoading ? (
+                                {modulesLoading && progressLoading ? (
                                     <ModulesSkeleton />
                                 ) : (
-                                    lessons.map((module, index) => (
+                                    lessons.map((module, index) => {
+                                        const progress = progressData?.find(x => x.lessonId == module.id);
+                                        return (
                                         <Link
                                             key={`${module.id}-${index}`}
                                             href={`/courses/${course?.id}/module/${module.id}`}
                                         >
-                                            <ModuleRow module={module} />
+                                            <ModuleRow progress={progress?.progress} module={module} />
                                         </Link>
-                                    ))
+                                    )}
+                                    )
                                 )}
 
                             </div>
