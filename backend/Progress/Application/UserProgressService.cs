@@ -13,15 +13,13 @@ public class UserProgressService : IUserProgressService
 {
     private readonly IAnalyticsDbContext _analyticsDbContext;
     private readonly IIdentityUser _user;
-    private readonly ICoursesProvider _coursesProvider;
     private readonly IMapper _mapper;
 
-    public UserProgressService(IAnalyticsDbContext analyticsDbContext, IIdentityUser user, IMapper mapper, ICoursesProvider coursesProvider)
+    public UserProgressService(IAnalyticsDbContext analyticsDbContext, IIdentityUser user, IMapper mapper)
     {
         _analyticsDbContext = analyticsDbContext;
         _user = user;
         _mapper = mapper;
-        _coursesProvider = coursesProvider;
     }
 
     public List<Guid> GetCompletedBlocksByLesson(Guid idLesson)

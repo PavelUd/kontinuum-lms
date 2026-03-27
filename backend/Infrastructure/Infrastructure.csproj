@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Analytics\Analytics.csproj" />
+      <ProjectReference Include="..\Progress\Progress.csproj" />
       <ProjectReference Include="..\Auth\Auth.csproj" />
       <ProjectReference Include="..\BlockEngine\BlockEngine.csproj" />
       <ProjectReference Include="..\Courses\Courses.csproj" />

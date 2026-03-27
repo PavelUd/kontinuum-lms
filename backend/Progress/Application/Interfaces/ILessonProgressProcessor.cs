@@ -2,7 +2,7 @@ using Contracts.Contracts.StatsEvents;
 
 namespace Analytics.Application.Interfaces;
 
-public interface IAnalyticsService
+public interface ILessonProgressProcessor
 {
     public Task ProcessBlockCompleted(BlockEvaluatedEvent evaluatedEvent);
 }

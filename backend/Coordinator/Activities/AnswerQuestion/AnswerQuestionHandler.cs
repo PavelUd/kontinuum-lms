@@ -47,7 +47,7 @@ public class AnswerQuestionHandler: IRequestHandler<AnswerQuestionCommand, Resul
         var attempt = CreateAttempt(request.BlockId,result.LessonId, request.Payload, result.IsCorrect);
         await _trackingService.SaveAttempt(attempt);
 
-        _jobs.Enqueue<IAnalyticsService>(x =>
+        _jobs.Enqueue<ILessonProgressProcessor>(x =>
             x.ProcessBlockCompleted(new BlockEvaluatedEvent()
             {
                 UserId = _identityUser.Id,

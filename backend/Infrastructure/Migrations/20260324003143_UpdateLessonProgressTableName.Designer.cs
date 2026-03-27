@@ -26,7 +26,7 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Analytics.Domain.BlockCompletion", b =>
+            modelBuilder.Entity("Progress.Domain.BlockCompletion", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -65,7 +65,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("block_completions");
                 });
 
-            modelBuilder.Entity("Analytics.Domain.LessonProgress", b =>
+            modelBuilder.Entity("Progress.Domain.LessonProgress", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

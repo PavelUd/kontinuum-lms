@@ -8,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Analytics.Application;
 
-public class AnalyticsService : IAnalyticsService
+public class LessonProgressProcessor : ILessonProgressProcessor
 {
     private readonly ILessonContextProvider _lessonContextProvider;
     private readonly IAnalyticsDbContext _analyticsDbContext;
 
-    public AnalyticsService(
+    public LessonProgressProcessor(
         ILessonContextProvider lessonContextProvider,
         IAnalyticsDbContext analyticsDbContext)
     {

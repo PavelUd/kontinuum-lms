@@ -38,7 +38,7 @@ public class CompleteBlocksHandler : IRequestHandler<CompleteBlocksCommand, Resu
 
         foreach (var result in evaluationResult.Where(x=>x.IsCorrect))
         {
-            _jobs.Enqueue<IAnalyticsService>(x =>
+            _jobs.Enqueue<ILessonProgressProcessor>(x =>
                 x.ProcessBlockCompleted(new BlockEvaluatedEvent()
                 {
                     UserId = _identityUser.Id,

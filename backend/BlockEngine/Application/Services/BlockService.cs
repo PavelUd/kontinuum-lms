@@ -154,4 +154,22 @@ public class BlockService : IBlockService, ILessonBlockStatsProvider
             ScoredBlocks = blocks.Count(x => x.Type == BlockType.ChoiceQuestion || x.Type == BlockType.OpenQuestion)
         };
     }
+
+    public async Task<List<LessonBlockStatsDto>> GetByLessonsIdAsync(List<Guid> lessonIds)
+    {
+        var result = await _dbContext.LessonBlocks
+            .Where(x => lessonIds.Contains(x.LessonId))
+            .GroupBy(x => x.LessonId)
+            .Select(g => new LessonBlockStatsDto
+            {
+                LessonId = g.Key,
+                TotalBlocks = g.Count(),
+                ScoredBlocks = g.Count(x =>
+                    x.Type == BlockType.ChoiceQuestion ||
+                    x.Type == BlockType.OpenQuestion)
+            })
+            .ToListAsync();
+
+        return result;
+    }
 }

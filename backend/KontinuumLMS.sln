@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coordinator", "Coordinator\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracking", "Tracking\Tracking.csproj", "{2EAA871E-D642-4F0D-BC82-97E2D2167068}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analytics", "Analytics\Analytics.csproj", "{C4C0C450-F315-460A-94E0-9CB87F606651}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progress", "Progress\Progress.csproj", "{C4C0C450-F315-460A-94E0-9CB87F606651}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

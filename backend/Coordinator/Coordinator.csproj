@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Analytics\Analytics.csproj" />
+      <ProjectReference Include="..\Progress\Progress.csproj" />
       <ProjectReference Include="..\BlockEngine\BlockEngine.csproj" />
       <ProjectReference Include="..\Core\Core.csproj" />
       <ProjectReference Include="..\Tracking\Tracking.csproj" />

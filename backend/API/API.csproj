@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Analytics\Analytics.csproj" />
+      <ProjectReference Include="..\Progress\Progress.csproj" />
       <ProjectReference Include="..\Coordinator\Coordinator.csproj" />
       <ProjectReference Include="..\Courses\Courses.csproj" />
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
