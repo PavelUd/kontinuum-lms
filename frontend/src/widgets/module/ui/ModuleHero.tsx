@@ -1,10 +1,9 @@
-import { Clock } from "lucide-react"
 import styles from "./module.module.css"
-import {SteppedProgress} from "@/shared/ui/stepped-progress";
+
 
 type Props = {
     module: number
-    category: string
+    category?: string
     title: string
 }
 

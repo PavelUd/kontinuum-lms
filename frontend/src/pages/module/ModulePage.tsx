@@ -83,7 +83,7 @@ export function ModulePage({ courseId, lessonId }: Props) {
             currentModuleId={lesson.id}
             onOpenChange={() => setSidebarOpen(false)} modules={lessons} courseId={courseData?.data.id ?? ""}  />
         <div className={styles.container}>
-            <ModuleHero module={lesson.orderIndex} category={courseData?.data?.name ?? ""} title={lesson.title} duration={15} totalSteps={6} currentStep={3} progress={3}></ModuleHero>
+            <ModuleHero module={lesson.orderIndex} category={courseData?.data?.name ?? ""} title={lesson.title}></ModuleHero>
             <ModuleContent blocks={blocks} track={track} completedBlocks={completedBlocks}></ModuleContent>
             <footer className={styles.lessonFooter}>
                 <div></div>

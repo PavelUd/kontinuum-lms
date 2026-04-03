@@ -108,12 +108,13 @@ export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: 
                                         Правка
                                     </Button>
                                     </Link>
-
+                                    <Link href={`/admin/modules/${m.id}/preview`}>
                                     <Button
                                         variant="ghost"
                                         icon={<Eye size={14}/>}>
                                         Вид
                                     </Button>
+                                    </Link>
                                     <Button
                                         variant={"ghost"}
                                         style={{background: "#fef2f2"}}

@@ -1,10 +1,9 @@
-import {ModuleBlock} from "@/entities/module-block/model/types";
 import styles from "@/widgets/module/ui/module.module.css";
 import {getBlock} from "@/entities/module-block/lib/block-registry";
 import "@/entities/module-block/lib/register-blocks"
 
 type Props = {
-    blocks: ModuleBlock<any>[]
+    blocks: any[]
 }
 
 export function PreviewModuleContent({ blocks }: Props) {
