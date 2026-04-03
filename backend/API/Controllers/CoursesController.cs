@@ -57,7 +57,7 @@ public class CoursesController : Controller
     }
     
     [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)}")]
-    [HttpPost("{id}/status")]
+    [HttpPatch("{id}/status")]
     public async Task<IActionResult> SetStatusCourse(Guid id,  SetStatusRequest request)
     {
         var idResult = await _coursesService.SetStatus(request.Status, id);
@@ -68,6 +68,17 @@ public class CoursesController : Controller
         return NoContent();
     }
     
+    [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)}")]
+     [HttpPatch("{id}")]
+    public async Task<IActionResult> Patch(Guid id,  SetStatusRequest request)
+    {
+        var idResult = await _coursesService.SetStatus(request.Status, id);
+        if (!idResult.Succeeded)
+        {
+            return BadRequest(idResult.Errors);
+        }
+        return NoContent();
+    }
     
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(Guid id)

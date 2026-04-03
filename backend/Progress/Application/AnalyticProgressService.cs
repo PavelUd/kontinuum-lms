@@ -37,15 +37,15 @@ public class AnalyticProgressService : IAnalyticProgressService
 
         var result = progresses.Select(x =>
         {
-            var totalQuestions = stats.TryGetValue(x.LessonId, out var q) ? q.ScoredBlocks : 0;
+            var totalQuestions = stats.TryGetValue(x.LessonId, out var q) ? q.ScoredBlocks : 1;
 
             double avgScore = 0;
             double avgProgress = 0;
-            if (totalQuestions > 0 && x.UsersCount > 0)
+            if (x.UsersCount > 0)
             {
-                avgProgress = (x.SumProgress / x.UsersCount);
-                avgScore = ((double)x.SumScore / (x.UsersCount * totalQuestions)) * 5;
+                avgScore = ((double)x.SumScore / (x.UsersCount * 5)) * 5;
             }
+            avgProgress = (x.SumProgress / x.UsersCount);
 
             return new LessonAnalyticsDto
             {

@@ -27,7 +27,7 @@ public class CoursesService : ICoursesService, ICoursesProvider
 
     public  Result<List<SummaryCourseDto>> GetCourses()
     { 
-        var query = _dbContext.Courses.AsQueryable().Where(c => c.Status == Status.Active);
+        var query = _dbContext.Courses.AsQueryable();
         var result = query.ProjectTo<SummaryCourseDto>(_mapper.ConfigurationProvider).ToList();
        return Result<List<SummaryCourseDto>>.Success(result);
     }
