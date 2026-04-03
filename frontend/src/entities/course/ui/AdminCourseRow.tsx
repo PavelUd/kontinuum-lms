@@ -31,7 +31,7 @@ export function AdminCourseRow({course, onDelete}: Props) {
 
                     <span className={styles.metaItem}>
                             <Users size={14} />
-                        12 учеников
+                        1 ученик
                         </span>
                 </div>
             </div>

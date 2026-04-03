@@ -65,7 +65,7 @@ export function LoginForm() {
                 type="submit"
                 disabled={loginMutation.isPending}
             >
-                {loginMutation.isPending ? "Вход..." : "Войти в панель"}
+                {loginMutation.isPending ? "Вход..." : "Войти"}
             </AuthButton>
         </form>
     );

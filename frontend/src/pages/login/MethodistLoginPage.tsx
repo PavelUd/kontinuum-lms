@@ -7,19 +7,13 @@ export default function MethodistLoginPage() {
             <div className={styles.card}>
                 <a className={styles.logo}>Континуум</a>
 
-                <h2 className={styles.title}>Вход для методистов</h2>
+                <h2 className={styles.title}>Вход</h2>
 
                 <p className={styles.subtitle}>
-                    Используйте ваш номер телефона и пароль для доступа к панели управления
+                    Используйте ваш номер телефона и пароль
                 </p>
 
                 <LoginForm />
-
-                <div className={styles.bottom}>
-                    <a href="/login" className={styles.studentLink}>
-                        Я ученик, хочу войти в кабинет
-                    </a>
-                </div>
             </div>
         </div>
     );

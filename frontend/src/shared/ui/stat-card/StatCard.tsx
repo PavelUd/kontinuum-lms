@@ -7,11 +7,11 @@ type StatCardProps = {
     valueClassName?: string;
 };
 
-export function StatCard({label, value}: StatCardProps) {
+export function StatCard({label, value, valueClassName}: StatCardProps) {
     return (
         <div className={styles.statCard}>
             <div className={styles.statLabel}>{label}</div>
-            <div className={styles.statValue}>
+            <div className={`${valueClassName} ${styles.statValue}`}>
                 {value}
             </div>
         </div>

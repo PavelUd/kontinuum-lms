@@ -6,20 +6,12 @@ type Props = {
     module: number
     category: string
     title: string
-    duration: number
-    totalSteps: number
-    currentStep: number
-    progress: number
 }
 
 export function ModuleHero({
                                module,
                                category,
                                title,
-                               duration,
-                               totalSteps,
-                               currentStep,
-                               progress
                            }: Props) {
 
     return (
@@ -32,11 +24,6 @@ export function ModuleHero({
                 <h1 className={styles.title}>
                     {title}
                 </h1>
-
-                <div className={styles.meta}>
-                    <Clock size={16} />
-                    Время на изучение: {duration} минут
-                </div>
 
             </div>
         </div>

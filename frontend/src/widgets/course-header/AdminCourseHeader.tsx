@@ -40,11 +40,6 @@ export function AdminCourseHeader({onCreate, title, students, avgScore, avgProgr
                         Аналитика модулей
                     </Button>
                     <Button
-                        variant="outline"
-                        icon={<Users size={18}/>}>
-                        Сводная по ученикам
-                    </Button>
-                    <Button
                         onClick={onCreate}
                         variant="primary"
                         icon={<Plus size={18} />}>
@@ -67,7 +62,7 @@ export function AdminCourseHeader({onCreate, title, students, avgScore, avgProgr
 
                 <StatCard
                     label="Средний балл"
-                    value={avgScore}
+                    value={`${4} / 5`}
                     valueClassName="text-green-600"
                 />
 

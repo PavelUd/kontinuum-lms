@@ -101,11 +101,6 @@ export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: 
                             <td className="text-right pr-4">
                                 <div className="flex gap-1 justify-end">
 
-                                    <Button
-                                        variant="ghost"
-                                        icon={<BarChart2 size={14}/>}>Статистика
-                                    </Button>
-
                                     <Link href={`/admin/modules/${m.id}/editor`}>
                                     <Button
                                         variant="ghost"
