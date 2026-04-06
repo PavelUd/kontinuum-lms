@@ -1,5 +1,6 @@
-import {AdminCourseList} from "@/widgets/course-list/ui/AdminCourseList";
+import {AdminCoursesPage} from "@/pages/admin/courses/AdminCoursesPage";
 
-export default function AdminCoursesPage() {
-return (<AdminCourseList></AdminCourseList>)
+
+export default function Page() {
+return (<AdminCoursesPage></AdminCoursesPage>)
 }

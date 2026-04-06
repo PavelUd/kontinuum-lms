@@ -1,4 +1,4 @@
-import styles from "@/entities/user/ui/user-avatar.module.css";
+import styles from "@/entities/user/ui/avatar/user-avatar.module.css";
 
 type Props = {
     name: string

@@ -6,6 +6,13 @@ export interface User {
     "role": Role
 }
 
+export type UserRequest = {
+    fullName: string,
+    "phone": string,
+    "email": string,
+    "role": Role
+}
+
 export type Role = "admin" | "student" | "teacher" | "methodist"
 
 export const RoleMap: Record<Role, string> = {

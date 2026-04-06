@@ -1,0 +1,17 @@
+.row {
+    background: white;
+    border-radius: 16px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.row:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-premium);
+    transform: translateX(4px);
+}

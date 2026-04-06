@@ -4,8 +4,8 @@ import {LogOut, Settings} from "lucide-react";
 import styles from "./admin-sidebar.module.css";
 import {usePathname} from "next/navigation";
 import Link from "next/link";
-import {routes} from "@/features/admin-sidebar/model/types";
-import {AdminUserAvatar} from "@/entities/user/ui/AdminUserAvatar";
+import {NavigationConfig} from "@/features/admin-sidebar/model/types";
+import {AdminUserAvatar} from "@/entities/user/ui/avatar/AdminUserAvatar";
 import {useProfileQuery} from "@/entities/user/models/useUsersQuery";
 import {Loader} from "@/shared/ui/loader";
 import {RoleMap} from "@/entities/user/models/types";
@@ -49,22 +49,30 @@ export function AdminSidebar() {
 
             {/* NAV */}
             <nav className={styles.nav}>
-                {routes.map((route) => {
-                    const Icon = route.icon;
+                {NavigationConfig.map((navigationItem) => {
 
                     return (
-                        <Link
-                            key={route.href}
-                            href={route.href}
-                            className={`${styles.navItem} ${
-                                isActive(route.href) ? styles.active : ""
-                            }`}
-                        >
-                            <div className={styles.iconWrapper}>
-                                <Icon size={18} />
-                            </div>
-                            {route.label}
-                        </Link>
+                        <div key={navigationItem.name}>
+                        <div className={styles.sidebarSectionLabel}>{navigationItem.name}</div>
+                            {navigationItem.routes.map((route) => {
+
+                              const Icon = route.icon;
+
+                               return (
+                                <Link
+                                    key={route.href}
+                                    href={route.href}
+                                    className={`${styles.navItem} ${
+                                        isActive(route.href) ? styles.active : ""
+                                    }`}
+                                >
+                                    <div className={styles.iconWrapper}>
+                                        <Icon size={18} />
+                                    </div>
+                                    {route.label}
+                                </Link>
+                            )})}
+                        </div>
                     );
                 })}
             </nav>

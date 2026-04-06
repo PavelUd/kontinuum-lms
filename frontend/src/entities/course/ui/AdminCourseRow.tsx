@@ -5,6 +5,7 @@ import {CourseSummary} from "@/entities/course";
 import {Status} from "@/entities/course/model/types";
 import {plural} from "@/shared/lib/plural/plural";
 import {useCourseMutations} from "@/entities/course/model/useCourseMutations";
+import {Row} from "@/shared/ui/row/Row";
 
 export type Props = {
     course : CourseSummary
@@ -16,7 +17,7 @@ export function AdminCourseRow({course, onDelete}: Props) {
     const mutations = useCourseMutations();
 
     return (
-        <div key={course.id} className={styles.courseRow}>
+        <Row key={course.id}>
             <div className={styles.courseInfo}>
                 <div className={styles.courseTitle}>
                     {course.name}
@@ -71,6 +72,6 @@ export function AdminCourseRow({course, onDelete}: Props) {
                     <Trash2 size={14} />
                 </button>
             </div>
-        </div>
+        </Row>
     )
 }

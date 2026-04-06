@@ -3,7 +3,7 @@
 import { Menu, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { Settings, LogOut, Command } from 'lucide-react'
-import { UserAvatar } from '@/entities/user/ui/UserAvatar'
+import { UserAvatar } from '@/entities/user/ui/avatar/UserAvatar'
 import styles from '@/shared/ui/dropdown/Dropdown.module.css'
 import {useLogout} from "@/features/auth/model/useLogout";
 
