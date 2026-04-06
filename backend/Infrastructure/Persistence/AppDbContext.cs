@@ -59,6 +59,10 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
             .Property(x => x.Role)
             .HasConversion<string>();
         
+        modelBuilder.Entity<User>()
+            .Property(x => x.Status)
+            .HasConversion<string>();
+        
         base.OnModelCreating(modelBuilder);
         
         modelBuilder.Entity<BlockCompletion>()

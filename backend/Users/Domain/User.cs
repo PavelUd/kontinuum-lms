@@ -15,6 +15,9 @@ public class User : BaseAuditableEntity
     [Column("email")]
     public string Email {get; set;}
     
+    [Column("status")]
+    public UserStatus Status {get; set;}
+    
     [Column("role")]
     public Role Role {get; set;}
     

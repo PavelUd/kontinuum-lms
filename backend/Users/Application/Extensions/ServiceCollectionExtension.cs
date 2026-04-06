@@ -11,6 +11,7 @@ public static class ServiceCollectionExtension
     public static void AddUsersModule(this IServiceCollection services,IConfiguration configuration)
     {
         services.AddScoped<IUsersService, UsersService>();
+        services.AddScoped<IEmployeeService, EmployeeService>();
         services.AddScoped<IUserQueryService, UsersService>();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
     }
