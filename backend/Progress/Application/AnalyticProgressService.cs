@@ -56,5 +56,5 @@ public class AnalyticProgressService : IAnalyticProgressService
         }).ToList();
 
         return result;
-    }
+    } 
 }
