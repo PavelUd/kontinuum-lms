@@ -1,5 +1,4 @@
 import {User} from "@/entities/user/models/types";
-import styles from "./employee.module.css"
 import avatarStyles from "../avatar/user-avatar.module.css"
 import {RoleBadge} from "@/entities/user/ui/employee/RoleBadge";
 import {Edit2, Trash2} from "lucide-react";

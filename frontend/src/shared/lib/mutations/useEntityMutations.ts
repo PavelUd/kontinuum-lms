@@ -1,17 +1,7 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query"
 import {ApiResponse} from "@/shared/api/types/api-response";
-import {Optimistic} from "@/shared/lib/mutations/types";
+import {EntityConfig, Optimistic} from "@/shared/lib/mutations/types";
 
-
-
-type EntityConfig<T> = {
-    queryKey: string[]
-    createFn?: (data : any) => Promise<ApiResponse<string>>
-    deleteFn?: (id: string) => Promise<void>
-    updateFn?: (id: string, patch: Partial<T>) => Promise<T>,
-    removeCacheKeys?: unknown[][],
-    sortFn?: (items: T[]) => T[]
-}
 
 export function useEntityMutations<T extends { id: string }>(config: EntityConfig<T>) {
     const queryClient = useQueryClient()
@@ -72,6 +62,7 @@ export function useEntityMutations<T extends { id: string }>(config: EntityConfi
 
             const prevResponse = queryClient.getQueryData<ApiResponse<any>>(config.queryKey)
             const prev = prevResponse?.data
+
 
             queryClient.setQueryData(config.queryKey, (old: any) => ({
                 ...old,

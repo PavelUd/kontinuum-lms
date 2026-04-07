@@ -6,10 +6,19 @@ import {UserPlus} from "lucide-react";
 import {EmployeeList} from "@/widgets/employees-list/EmployeeList";
 import {useState} from "react";
 import {CreateEmployeeModal} from "@/features/create-employee/CreateEmployeeModal";
+import {useEmployeeMutations} from "@/entities/user/models/useEmployeesMutations";
+import {UserRequest} from "@/entities/user/models/types";
 
 export function EmployeesPage(){
 
     const [isOpen, setIsOpen] = useState(false)
+
+    const mutations = useEmployeeMutations(1, 2);
+
+    const onConfirmCreation = (request :  UserRequest) => {
+        mutations.create(request)
+        setIsOpen(false)
+    }
 
     return (
         <>
@@ -28,7 +37,7 @@ export function EmployeesPage(){
         </AdminSectionHeader>
         <EmployeeList>
         </EmployeeList>
-            <CreateEmployeeModal onConfirm={() => {}} isOpen={isOpen} onClose={() => setIsOpen(false)}></CreateEmployeeModal>
+            <CreateEmployeeModal onConfirm={onConfirmCreation} isOpen={isOpen} onClose={() => setIsOpen(false)}></CreateEmployeeModal>
         </>
     )
 }

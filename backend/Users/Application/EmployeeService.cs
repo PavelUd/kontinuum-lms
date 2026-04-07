@@ -24,7 +24,7 @@ public class EmployeeService : IEmployeeService
     public async Task<PagedResult<UserDto>> GetEmployees(PagedQuery query)
     {
         var employees = _context.Users.Where(u => u.Role != Role.Student)
-            .OrderBy(u => u.CreatedDate) 
+            .OrderByDescending(u => u.CreatedDate) 
             .ProjectTo<UserDto>(_mapper.ConfigurationProvider);
 
         return await employees.ToPagedResultAsync(query.Page, query.PageSize);

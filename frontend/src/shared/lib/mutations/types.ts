@@ -26,3 +26,12 @@ export type StoreConfig<T, TStatus> = {
 export type Optimistic<T> = T & {
     __temp?: true
 }
+
+export type EntityConfig<T> = {
+    queryKey: any[]
+    createFn?: (data : any) => Promise<ApiResponse<string>>
+    deleteFn?: (id: string) => Promise<void>
+    updateFn?: (id: string, patch: Partial<T>) => Promise<T>,
+    removeCacheKeys?: unknown[][],
+    sortFn?: (items: T[]) => T[]
+}

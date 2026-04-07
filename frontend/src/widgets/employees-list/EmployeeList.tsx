@@ -2,10 +2,14 @@
 
 import styles from "./employees-list.module.css";
 import {EmployeeRow} from "@/entities/user/ui/employee/EmployeeRow";
-import {User, UserRequest} from "@/entities/user/models/types";
 import {ConfirmDeleteModal} from "@/features/confirm-delete/ConfirmDeleteModal";
 import {useState} from "react";
 import {EditEmployeeModal} from "@/features/edit-employee/EditEmployeeModal";
+import {useEmployeesQuery} from "@/entities/user/models/useEmployeesQuery";
+import {Loader} from "@/shared/ui/loader";
+import {Pagination} from "@/shared/ui/pagination/Pagination";
+import {useEmployeeMutations} from "@/entities/user/models/useEmployeesMutations";
+import {useSafePagination} from "@/shared/ui/pagination/useSafePagination";
 
 export function EmployeeList() {
     const [isDeleteOpen, setDeleteIsOpen] = useState(false)
@@ -14,27 +18,37 @@ export function EmployeeList() {
         id: string
         name: string
     } | null>(null)
-    const employees: User[] = [
-        {
-            id: "1",
-            fullName: "Employee 1",
-            phone: "+37100000001",
-            email: "employee1@test.com",
-            role: "teacher",
-        },
-        {
-            id: "2",
-            fullName: "Employee 2",
-            phone: "+37100000002",
-            email: "employee2@test.com",
-            role: "admin",
-        },
-    ]
+
+    const pageSize = 2;
+    const [page, setPage] = useState(1);
+
+
+    const mutations = useEmployeeMutations(page, pageSize);
+    const { isLoading, data } = useEmployeesQuery(page, pageSize);
+
+    const { stableTotalPages, markDeleting } = useSafePagination({
+        data,
+        isLoading,
+        page,
+        setPage
+    })
+
+    if (isLoading) return <Loader />
+
+    const employees = data;
+
+    const ROW_HEIGHT = 100;
+    const GAP = 12;
+
+    const minHeight = ROW_HEIGHT * pageSize  + GAP * (pageSize  - 1);
 
     return (
         <>
-            <div className={styles.gridList}>
-                {employees.map((employee) => {
+            <div className={styles.gridList} style={{
+                gridAutoRows: `${ROW_HEIGHT}px`,
+                minHeight: `${minHeight}px`
+            }}>
+                {employees?.items?.map((employee) => {
                     return (
                         <EmployeeRow user={employee} key={employee.id} onDelete={() => {
                             setSelectedEmployee({
@@ -49,8 +63,21 @@ export function EmployeeList() {
                 })
                 }
             </div>
-            <ConfirmDeleteModal isOpen={isDeleteOpen} onClose={() => setDeleteIsOpen(false)} onConfirm={() => {
-            }} itemName={selectedEmployee?.name ?? ""}></ConfirmDeleteModal>
+            {stableTotalPages && stableTotalPages  > 1 && (
+                <Pagination
+                    page={page}
+                    totalPages={stableTotalPages}
+                    onChange={setPage}
+                />
+            )}
+            <ConfirmDeleteModal isOpen={isDeleteOpen} onClose={() => setDeleteIsOpen(false)}
+                                onConfirm={() => {
+                                    if (selectedEmployee) {
+                                        mutations.remove(selectedEmployee.id)
+                                        setDeleteIsOpen(false)
+                                        markDeleting()
+                                    }}}
+                                itemName={selectedEmployee?.name ?? ""}></ConfirmDeleteModal>
             <EditEmployeeModal onConfirm={(from) =>{}} isOpen={isEditOpen} onClose={() =>setEditIsOpen(false)} id={""} initialData={{
                 fullName: "",
                 phone: "",

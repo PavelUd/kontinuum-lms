@@ -1,0 +1,16 @@
+import {ApiResponse} from "@/shared/api/types/api-response";
+import {api} from "@/shared/api";
+import {User, UserRequest} from "@/entities/user/models/types";
+import {PagedResult} from "@/shared/ui/pagination/types";
+
+export const getEmployees = async(page : number, pageSize: number) : Promise<PagedResult<User>> => {
+    return await api.get<PagedResult<User>>(`/employees?Page=${page}&PageSize=${pageSize}`, {auth: true})
+}
+
+export const createEmployee = async(request : UserRequest) : Promise<ApiResponse<string>> => {
+    return await api.post<ApiResponse<string>>(`/employees`,request, {auth: true})
+}
+
+export const deleteEmployee = async(id: string) : Promise<void> => {
+    return await api.delete<void>(`/employees/${id}`, {auth: true})
+}
