@@ -31,6 +31,14 @@ public class EmployeeController : ControllerBase
     }
     
     [Authorize(Roles = $"{nameof(Role.Admin)}")]
+    [HttpGet("lookup")]
+    public async Task<IActionResult> GetEmployeesLookup()
+    {
+        var employees = await _employeeService.GetEmployeesLookup();
+        return Ok(employees);
+    }
+    
+    [Authorize(Roles = $"{nameof(Role.Admin)}")]
     [HttpPost]
     public async Task<IActionResult>  CreateEmployee([FromBody] CreateUserDto request)
     {

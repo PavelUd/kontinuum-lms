@@ -86,4 +86,12 @@ public class CoursesController : Controller
         var result = _coursesService.GetCourse(id);
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
+    
+    [Authorize(Roles = $"{nameof(Role.Admin)}")]
+    [HttpGet("lookup")]
+    public async Task<IActionResult> GetCoursesLookup()
+    {
+        var employees = await _coursesService.GetCourseLookup();
+        return Ok(employees);
+    }
 }

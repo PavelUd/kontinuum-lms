@@ -13,5 +13,6 @@ public class UsersMappingProfile : Profile
             CreateMap<User, UserAuthDto>();
             CreateMap<User, UserDto>();
             CreateMap<CreateUserDto, User>();
+            CreateMap<User, UserLookup>();
         }
 }

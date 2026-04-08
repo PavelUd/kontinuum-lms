@@ -13,4 +13,5 @@ public interface ICoursesService
     public Result<Guid> CreateCourse(CourseCreateRequest request);
     public Task<Result<None>> SetStatus(Status status, Guid idCourse);
     public Task<Result<None>> DeleteCourse(Guid idCourse);
+    public Task<List<CourseLookup>> GetCourseLookup();
 }

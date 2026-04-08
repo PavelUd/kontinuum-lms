@@ -100,6 +100,12 @@ public class CoursesService : ICoursesService, ICoursesProvider
             return Result<Guid>.Failure("Failed to create course");
         }
     }
+
+    public async Task<List<CourseLookup>> GetCourseLookup()
+    {
+        var query = _dbContext.Courses.Where(c => c.Status == Status.Active).AsQueryable();
+        return await query.ProjectTo<CourseLookup>(_mapper.ConfigurationProvider).ToListAsync();
+    }
     
     private async Task ArchiveModulesAsync(Guid courseId)
     {

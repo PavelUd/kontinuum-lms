@@ -6,4 +6,6 @@ namespace Users.Application.Interfaces;
 public interface IEmployeeService
 {
     public Task<PagedResult<UserDto>> GetEmployees(PagedQuery query);
+
+    public Task<List<UserLookup>> GetEmployeesLookup();
 }
