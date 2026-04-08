@@ -5,9 +5,15 @@ import {useGroupsQuery} from "@/entities/group/module/useGroupsQuery";
 import {useSafePagination} from "@/shared/ui/pagination/useSafePagination";
 import {Loader} from "@/shared/ui/loader";
 import {Pagination} from "@/shared/ui/pagination/Pagination";
+import {ConfirmDeleteModal} from "@/features/confirm-delete/ConfirmDeleteModal";
 
 export function GroupsList() {
 
+    const [isDeleteOpen, setDeleteIsOpen] = useState(false)
+    const [selectedGroup, setSelectedGroup] = useState<{
+        id: string
+        name: string
+    } | null>(null)
 
     const ROW_HEIGHT = 100;
     const GAP = 12;
@@ -37,7 +43,13 @@ export function GroupsList() {
             }}>
                 {groups?.items.map((group) => {
                     return (
-                        <GroupRow key={group.id} group={group} onDelete={() => {}} onEdit={() => {}}></GroupRow>
+                        <GroupRow key={group.id} group={group} onDelete={() => {
+                            setSelectedGroup({
+                                id: group.id,
+                                name: group.title
+                            })
+                            setDeleteIsOpen(true)
+                        }}></GroupRow>
                     )
                 })}
             </div>
@@ -48,6 +60,13 @@ export function GroupsList() {
                     onChange={setPage}
                 />
             )}
+            <ConfirmDeleteModal isOpen={isDeleteOpen} onClose={() => setDeleteIsOpen(false)}
+                                onConfirm={() => {
+                                    if (selectedGroup) {
+                                        setDeleteIsOpen(false)
+                                        markDeleting()
+                                    }}}
+                                itemName={selectedGroup?.name ?? ""}></ConfirmDeleteModal>
         </>
     )
 }

@@ -4,3 +4,7 @@ export interface Group {
     studentsCount: string,
     courseId: string
 }
+
+export interface GroupRequest {
+    title: string
+}
