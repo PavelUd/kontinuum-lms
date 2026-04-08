@@ -6,6 +6,8 @@ import {useSafePagination} from "@/shared/ui/pagination/useSafePagination";
 import {Loader} from "@/shared/ui/loader";
 import {Pagination} from "@/shared/ui/pagination/Pagination";
 import {ConfirmDeleteModal} from "@/features/confirm-delete/ConfirmDeleteModal";
+import {EmptyGroupList} from "@/widgets/groups-list/EmptyGroupList";
+import {useGroupMutations} from "@/entities/group/module/useGroupsMutations";
 
 type Props = {
     courseId : string,
@@ -22,8 +24,13 @@ export function GroupsList({courseId, teacherId} : Props) {
 
     const ROW_HEIGHT = 100;
     const GAP = 12;
-
     const pageSize = 2;
+
+    useEffect(() => {
+        setPage(1)
+    }, [courseId, teacherId])
+
+    const mutations = useGroupMutations();
     const [page, setPage] = useState(1);
 
     const { isLoading, data } = useGroupsQuery(page, pageSize, courseId, teacherId);
@@ -40,6 +47,10 @@ export function GroupsList({courseId, teacherId} : Props) {
     const groups = data;
 
     const minHeight = ROW_HEIGHT * pageSize  + GAP * (pageSize  - 1);
+
+    if(!data?.totalPages){
+        return <EmptyGroupList></EmptyGroupList>
+    }
 
     return (
         <>
@@ -69,6 +80,7 @@ export function GroupsList({courseId, teacherId} : Props) {
             <ConfirmDeleteModal isOpen={isDeleteOpen} onClose={() => setDeleteIsOpen(false)}
                                 onConfirm={() => {
                                     if (selectedGroup) {
+                                        mutations.remove(selectedGroup.id)
                                         setDeleteIsOpen(false)
                                         markDeleting()
                                     }}}

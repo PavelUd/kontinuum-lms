@@ -8,6 +8,7 @@ export const useCourseMutations = () => {
         queryKey: ["courses"],
         createFn: createCourse,
         deleteFn: deleteCourse,
+        removeCacheKeys: [['courses_lookup']]
     })
 
     const changeStatusMutations = useChangeStatusMutation<CourseSummary>({

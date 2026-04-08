@@ -46,7 +46,7 @@ export function usePaginatedEntityMutations<T extends { id: string }>(
 
             const prev = queryClient.getQueryData<PagedResult<T>>(config.queryKey)
 
-            queryClient.setQueryData(config.queryKey, (old : any) => {
+            queryClient.setQueryData(config.queryKey, (old : PagedResult<any>) => {
                 if (!old) return old
 
                 return {

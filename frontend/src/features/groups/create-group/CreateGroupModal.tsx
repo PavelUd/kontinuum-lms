@@ -2,6 +2,10 @@ import {GroupRequest} from "@/entities/group/module/types";
 import {Button} from "@/shared/ui/button/Button";
 import {Modal} from "@/shared/ui/modal/ui/Modal";
 import {Input} from "@/shared/ui/input/Input";
+import {useEmployeesLookupQuery} from "@/entities/user/models/useEmployeesQuery";
+import {useCoursesLookupQuery} from "@/entities/course/model/useCoursesQuery";
+import {Select} from "@/shared/ui/input/Select";
+import { useState } from "react";
 
 
 export type Props = {
@@ -11,6 +15,31 @@ export type Props = {
 }
 
 export function CreateGroupModal({ isOpen, onClose, onConfirm }: Props){
+
+    const {data} = useEmployeesLookupQuery();
+    const {data: coursesData} = useCoursesLookupQuery();
+
+    const initialForm: GroupRequest = {
+        title: "",
+        courseId: "",
+        teacherId: ""
+    }
+
+    const [form, setForm] = useState<GroupRequest>(initialForm)
+
+    const handleChange = <K extends keyof GroupRequest>(key: K, value: GroupRequest[K]) => {
+        setForm(prev => ({
+            ...prev,
+            [key]: value
+        }))
+    }
+
+    const handleSubmit = () => {
+        onConfirm(form)
+        setForm(initialForm)
+    }
+
+
     return (
         <Modal
             title="Создание группы"
@@ -22,7 +51,7 @@ export function CreateGroupModal({ isOpen, onClose, onConfirm }: Props){
                     <Button variant="outline" onClick={onClose}>
                         Отмена
                     </Button>
-                    <Button variant="primary" onClick={() => {}}>
+                    <Button variant="primary" onClick={handleSubmit}>
                         Создать
                     </Button>
                 </div>
@@ -33,21 +62,32 @@ export function CreateGroupModal({ isOpen, onClose, onConfirm }: Props){
                 className={"mb-5"}
                 label="Название группы"
                 fullWidth={true}
-                value={"hello"}
-                onChange={e => {}}
+                value={form.title}
+                onChange={e => handleChange("title", e.target.value)}
             />
-            <Input
-                className={"mb-5"}
-                label="Курс"
-                fullWidth={true}
-                value={"hello"}
-                onChange={e => {}}
-            />
-            <Input
+            <Select className={"mb-5"}
+                    label={"Курс"}
+                    fullWidth={true}
+                    value={form.courseId}
+                    onChange={e => handleChange("courseId", e.target.value)}
+                    options={coursesData?.map(item => ({
+                        value: item.id,
+                        label: item.name
+                    })) ?? []}>
+            </Select>
+            <Select
+                className="mb-5"
                 label="Преподаватель"
-                fullWidth={true}
-                value={"hello"}
-                onChange={e => {}}
+                fullWidth
+                value={form.teacherId}
+                onChange={e => handleChange("teacherId", e.target.value)}
+                options={[
+                    { value: "", label: "Без преподавателя" },
+                    ...(data?.map(item => ({
+                        value: item.id,
+                        label: item.fullname
+                    })) ?? [])
+                ]}
             />
         </div>
         </Modal>

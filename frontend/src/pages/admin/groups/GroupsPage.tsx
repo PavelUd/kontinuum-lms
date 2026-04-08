@@ -5,6 +5,8 @@ import {GroupsList} from "@/widgets/groups-list/GroupsList";
 import {GroupFilters} from "@/features/groups/filters/GroupFilters";
 import {CreateGroupModal} from "@/features/groups/create-group/CreateGroupModal";
 import {useState} from "react";
+import {useGroupMutations} from "@/entities/group/module/useGroupsMutations";
+import {GroupRequest} from "@/entities/group/module/types";
 
 export function GroupsPage() {
 
@@ -12,6 +14,13 @@ export function GroupsPage() {
 
     const [courseId, setCourseId] = useState<string>("")
     const [teacherId, setTeacherId] = useState<string>("")
+
+    const mutations = useGroupMutations();
+
+    const onConfirmCreation = (request :  GroupRequest) => {
+        mutations.create(request)
+        setIsOpen(false)
+    }
 
     return (
         <>
@@ -40,7 +49,7 @@ export function GroupsPage() {
             />
             <GroupsList courseId={courseId} teacherId={teacherId}></GroupsList>
             <CreateGroupModal isOpen={isOpen} onClose={() => setIsOpen(false)}
-                              onConfirm={() => setIsOpen(false)}></CreateGroupModal>
+                              onConfirm={onConfirmCreation}></CreateGroupModal>
         </>
     )
 }

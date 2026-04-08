@@ -20,8 +20,7 @@ export function useSafePagination<T>({
 
 
     useEffect(() => {
-
-        if (!isLoading) {
+        if (!isLoading && data?.totalPages) {
             setStableTotalPages(data.totalPages)
         }
     }, [data?.totalPages, isLoading])

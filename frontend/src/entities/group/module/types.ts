@@ -6,5 +6,8 @@ export interface Group {
 }
 
 export interface GroupRequest {
-    title: string
+    title: string,
+    courseId: string,
+    teacherId? : string,
+
 }

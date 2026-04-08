@@ -7,5 +7,6 @@ export const useEmployeeMutations = (page : number, pageSize: number) => {
         queryKey: ['employees'],
         createFn: createEmployee,
         deleteFn: deleteEmployee,
+        removeCacheKeys: [["employees_lookup"]]
     })
 }
