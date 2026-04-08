@@ -9,6 +9,7 @@ using BlockEngine.Application.Extensions;
 using Coordinator.Extensions;
 using Core.Entities.Interfaces;
 using Courses.Extensions;
+using Groups.Extensions;
 using Hangfire;
 using Infrastructure.Extensions;
 using Infrastructure.ObjectStorage;
@@ -95,6 +96,7 @@ builder.Services.AddCoursesModule(builder.Configuration);
 builder.Services.AddAuthModule(builder.Configuration);
 builder.Services.AddTrackingModule(builder.Configuration);
 builder.Services.AddAnalyticsModule(builder.Configuration);
+builder.Services.AddGroupsModule(builder.Configuration);
 builder.Services.AddCoordinator(builder.Configuration);
 
 var app = builder.Build();

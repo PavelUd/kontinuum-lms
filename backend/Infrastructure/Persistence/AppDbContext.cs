@@ -7,6 +7,9 @@ using BlockEngine.Domain.Entities;
 using BlockEngine.Infrastructure;
 using Courses.Application.Interfaces;
 using Courses.Domain.Entities;
+using Courses.Infrastructure.Interfaces;
+using Groups.Domain;
+using Groups.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Tracking.Domain;
@@ -16,7 +19,7 @@ using Users.Infrastructure;
 
 namespace Infrastructure.Persistence;
 
-public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext, IAuthDbContext , IUsersDbContext, ITrackingDbContext, IAnalyticsDbContext
+public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext, IAuthDbContext , IUsersDbContext, ITrackingDbContext, IAnalyticsDbContext, IGroupsDbContext
 {
     public DbSet<Course> Courses { get; set; }
     public DbSet<RefreshSession> RefreshSessions { get; set; }
@@ -30,6 +33,10 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
     public DbSet<BlockCompletion> BlockCompletions { get; set; }
     
     public DbSet<LessonProgress> LessonProgresses { get; set; }
+    
+    public DbSet<Group> Groups { get; set; }
+    
+    public DbSet<GroupMember> GroupMembers { get; set; }
     
     
     public AppDbContext(DbContextOptions<AppDbContext> options)
@@ -50,6 +57,14 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
             .WithOne()
             .HasForeignKey(l => l.CourseId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Group>()
+            .HasMany(g => g.Members)
+            .WithOne()
+            .HasForeignKey(m => m.GroupId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        
         
         modelBuilder.Entity<LessonBlock>()
             .Property(x => x.Type)
@@ -63,7 +78,10 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
             .Property(x => x.Status)
             .HasConversion<string>();
         
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<GroupMember>()
+            .Property(x => x.Role)
+            .HasConversion<string>();
+        
         
         modelBuilder.Entity<BlockCompletion>()
             .HasOne<LessonBlock>()
@@ -76,12 +94,26 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
             .WithMany()
             .HasForeignKey(bc => bc.LessonId)
             .OnDelete(DeleteBehavior.Cascade);
-
+        
         modelBuilder.Entity<LessonProgress>()
             .HasOne<Lesson>()
             .WithMany()
             .HasForeignKey(bc => bc.LessonId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<Group>()
+            .HasOne<Course>()
+            .WithMany()
+            .HasForeignKey(bc => bc.CourseId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<GroupMember>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(bc => bc.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        base.OnModelCreating(modelBuilder);
         
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }

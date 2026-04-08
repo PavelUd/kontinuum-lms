@@ -1,7 +1,7 @@
 using Courses.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Courses.Application.Interfaces;
+namespace Courses.Infrastructure.Interfaces;
 
 public interface ICoursesDbContext
 {

@@ -8,6 +8,7 @@ using Courses.Application.Interfaces;
 using Courses.Domain.Entities;
 using Courses.Domain.Enums;
 using Courses.DTO.Courses;
+using Courses.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Courses.Application;

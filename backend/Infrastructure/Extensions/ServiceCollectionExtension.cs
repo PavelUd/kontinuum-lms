@@ -7,6 +7,8 @@ using BlockEngine.Application.Interfaces;
 using BlockEngine.Infrastructure;
 using Contracts.Services;
 using Courses.Application.Interfaces;
+using Courses.Infrastructure.Interfaces;
+using Groups.Infrastructure;
 using Hangfire;
 using Hangfire.PostgreSql;
 using Infrastructure.Hashing;
@@ -38,6 +40,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IUsersDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<ITrackingDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<IAnalyticsDbContext>(sp => sp.GetRequiredService<AppDbContext>());
+        services.AddScoped<IGroupsDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         
         services.AddHangfire(config =>
             config.UsePostgreSqlStorage(options =>
