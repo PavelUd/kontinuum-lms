@@ -91,4 +91,14 @@ public class UsersService : IUsersService, IUserQueryService
         }
     }
     
+    public async Task<Dictionary<Guid, string>> GetUsersDictionary(List<Guid> ids)
+    {
+        if (ids == null || ids.Count == 0)
+            return new Dictionary<Guid, string>();
+
+        return await _context.Users
+            .Where(x => ids.Contains(x.Id))
+            .ToDictionaryAsync(x => x.Id, x => x.FullName);
+    }
+    
 }

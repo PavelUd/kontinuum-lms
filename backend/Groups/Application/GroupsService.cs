@@ -1,5 +1,6 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Contracts.Services;
 using Core;
 using Core.Common.Extensions;
 using Core.Common.Pagination;
@@ -16,11 +17,15 @@ public class GroupsService : IGroupsService
     
     private  readonly IGroupsDbContext _dbContext;
     private readonly IMapper _mapper;
+    private readonly ICoursesProvider _coursesProvider;
+    private readonly IUserQueryService _userQueryService;
 
-    public GroupsService(IGroupsDbContext dbContext, IMapper mapper)
+    public GroupsService(IGroupsDbContext dbContext, IMapper mapper, ICoursesProvider coursesProvider, IUserQueryService userQueryService)
     {
         _dbContext = dbContext;
         _mapper = mapper;
+        _coursesProvider = coursesProvider;
+        _userQueryService = userQueryService;
     }
     
     public async Task<PagedResult<GroupDto>> GetGroups(GetGroupsQuery request, CancellationToken ct)
@@ -42,11 +47,34 @@ public class GroupsService : IGroupsService
                     m.Role == GroupRole.Teacher));
         }
 
-        var result = query
+        var items = query
             .OrderByDescending(u => u.CreatedDate)
-            .ProjectTo<GroupDto>(_mapper.ConfigurationProvider);
+            .ProjectTo<GroupDto>(_mapper.ConfigurationProvider)
+            .ToPagedResultAsync(request.Page, request.PageSize, ct: ct);
+        
+        var courseIds = items.Result.Items
+            .Select(x => x.CourseId)
+            .Distinct()
+            .ToList();
 
-        return await result.ToPagedResultAsync(request.Page, request.PageSize, ct: ct);
+        var teacherIds = items.Result.Items
+            .Where(x => x.TeacherId.HasValue)
+            .Select(x => x.TeacherId!.Value)
+            .Distinct()
+            .ToList();
+        
+        var courses = await _coursesProvider.GetCourseDictionary(courseIds);
+        var teachers = await _userQueryService.GetUsersDictionary(teacherIds);
+        foreach (var item in items.Result.Items)
+        {
+            if (courses.TryGetValue(item.CourseId, out var courseName))
+                item.CourseName = courseName;
+
+            if (item.TeacherId.HasValue &&
+                teachers.TryGetValue(item.TeacherId.Value, out var teacherName))
+                item.TeacherName = teacherName;
+        }
+        return await items;
     }
 
     
@@ -78,6 +106,12 @@ public class GroupsService : IGroupsService
         {
             var group = _mapper.Map<Group>(request);
             _dbContext.Groups.Add(group);
+            _dbContext.GroupMembers.Add(new GroupMember()
+            {
+                GroupId = group.Id,
+                UserId = request.TeacherId,
+                Role = GroupRole.Teacher
+            });
             await _dbContext.SaveChangesAsync();
 
             return await Result<Guid>.SuccessAsync(group.Id);

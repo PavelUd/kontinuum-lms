@@ -107,6 +107,13 @@ public class CoursesService : ICoursesService, ICoursesProvider
         return await query.ProjectTo<CourseLookup>(_mapper.ConfigurationProvider).ToListAsync();
     }
     
+    public async Task<Dictionary<Guid, string>> GetCourseDictionary(List<Guid> ids)
+    {
+        return await _dbContext.Courses
+            .Where(c => ids.Contains(c.Id))
+            .ToDictionaryAsync(x => x.Id, x => x.Name);
+    }
+    
     private async Task ArchiveModulesAsync(Guid courseId)
     {
         await _dbContext.Lessons

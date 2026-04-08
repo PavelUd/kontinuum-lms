@@ -8,4 +8,5 @@ public interface IUserQueryService
 {
     Task<Result<UserAuthDto>> GetAuthUserByPhoneAsync(string phone);
     public Task<Result<T>> GetUserById<T>(Guid idUser) where T : IUserDto;
+    public Task<Dictionary<Guid, string>> GetUsersDictionary(List<Guid> ids);
 }
