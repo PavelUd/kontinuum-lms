@@ -11,12 +11,13 @@ type Props = SelectHTMLAttributes<HTMLSelectElement> & {
     label?: string;
     error?: string;
     hint?: string;
+    selectClassName?: string;
     options: Option[];
     fullWidth?: boolean;
 };
 
 export const Select = forwardRef<HTMLSelectElement, Props>(
-    ({ label, error, hint, className, options, fullWidth = true, ...props }, ref) => {
+    ({ label, error, hint, className, options,selectClassName, fullWidth = true, ...props }, ref) => {
         return (
             <div className={clsx("flex flex-col mb-1", className)}>
 
@@ -29,6 +30,7 @@ export const Select = forwardRef<HTMLSelectElement, Props>(
                 <select
                     ref={ref}
                     className={clsx(
+                        selectClassName,
                         styles.formInputCustom,
                         "transition rounded-lg px-3 py-2 border",
                         error
