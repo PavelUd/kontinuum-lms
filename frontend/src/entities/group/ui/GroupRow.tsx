@@ -17,12 +17,12 @@ export function GroupRow({group, onDelete}: Props) {
 
                 <div className="flex-1">
                     <div className="font-semibold text-base">{group.title}</div>
-                    <div className="text-gray-500 text-sm">{group.courseId}</div>
+                    <div className="text-gray-500 text-sm">{group.courseName}</div>
                 </div>
 
                 <div className="mr-4 text-left w-[150px]">
                     <div className="text-sm text-gray-500 mb-1">Преподаватель</div>
-                    <div className="font-semibold text-sm">Нет преподавателя</div>
+                    <div className="font-semibold text-sm">{group.teacherName ?? "Нет преподавателя"}</div>
                 </div>
 
                 <div className="mr-4 text-right w-[100px]">

@@ -26,7 +26,7 @@ export function CreateGroupModal({ isOpen, onClose, onConfirm }: Props){
     }
 
     const [form, setForm] = useState<GroupRequest>(initialForm)
-
+    const [errors, setErrors] = useState<{ courseId?: string }>({})
     const handleChange = <K extends keyof GroupRequest>(key: K, value: GroupRequest[K]) => {
         setForm(prev => ({
             ...prev,
@@ -34,9 +34,21 @@ export function CreateGroupModal({ isOpen, onClose, onConfirm }: Props){
         }))
     }
 
-    const handleSubmit = () => {
-        onConfirm(form)
+    const handleSubmit = async () => {
+        const newErrors: typeof errors = {}
+
+        if (!form.courseId) {
+            newErrors.courseId = "Выберите курс"
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors)
+            return
+        }
+
+        await onConfirm(form)
         setForm(initialForm)
+        setErrors({})
     }
 
 
@@ -65,16 +77,21 @@ export function CreateGroupModal({ isOpen, onClose, onConfirm }: Props){
                 value={form.title}
                 onChange={e => handleChange("title", e.target.value)}
             />
-            <Select className={"mb-5"}
-                    label={"Курс"}
-                    fullWidth={true}
-                    value={form.courseId}
-                    onChange={e => handleChange("courseId", e.target.value)}
-                    options={coursesData?.map(item => ({
+            <Select
+                className="mb-5"
+                label="Курс"
+                fullWidth
+                error={errors.courseId}
+                value={form.courseId}
+                onChange={(e) => handleChange("courseId", e.target.value)}
+                options={[
+                    { value: "", label: "Выберите курс" },
+                    ...(coursesData?.map(item => ({
                         value: item.id,
                         label: item.name
-                    })) ?? []}>
-            </Select>
+                    })) ?? [])
+                ]}
+            />
             <Select
                 className="mb-5"
                 label="Преподаватель"

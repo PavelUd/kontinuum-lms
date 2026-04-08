@@ -18,10 +18,10 @@ type Props = SelectHTMLAttributes<HTMLSelectElement> & {
 export const Select = forwardRef<HTMLSelectElement, Props>(
     ({ label, error, hint, className, options, fullWidth = true, ...props }, ref) => {
         return (
-            <div className={styles.inputWrapper}>
+            <div className={clsx("flex flex-col mb-1", className)}>
 
                 {label && (
-                    <label className={styles.formLabelCustom}>
+                    <label className="mb-2 text-sm font-medium text-gray-600">
                         {label}
                     </label>
                 )}
@@ -30,8 +30,10 @@ export const Select = forwardRef<HTMLSelectElement, Props>(
                     ref={ref}
                     className={clsx(
                         styles.formInputCustom,
-                        error && "k-input-error",
-                        className
+                        "transition rounded-lg px-3 py-2 border",
+                        error
+                            ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                            : "border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20",
                     )}
                     {...props}
                 >
@@ -43,15 +45,19 @@ export const Select = forwardRef<HTMLSelectElement, Props>(
                 </select>
 
                 {hint && !error && (
-                    <div>{hint}</div>
+                    <span className="mt-1 text-sm text-gray-500">
+                        {hint}
+                    </span>
                 )}
 
                 {error && (
-                    <div>{error}</div>
+                    <span className="mt-1 text-sm text-red-500">
+                        {error}
+                    </span>
                 )}
 
             </div>
-        );
+        )
     }
 );
 
