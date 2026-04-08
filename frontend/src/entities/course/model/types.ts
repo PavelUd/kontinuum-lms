@@ -16,6 +16,11 @@ export type CourseSummaryState = {
     error: string | null
 }
 
+export interface CourseLookup {
+    id: string
+    name: string
+}
+
 export type SetStatusRequest = {
     status: Status
 }

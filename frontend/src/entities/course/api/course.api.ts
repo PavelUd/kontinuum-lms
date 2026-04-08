@@ -1,5 +1,5 @@
 import {api} from '@/shared/api'
-import {Course, CourseSummary, CreateCourseRequest, SetStatusRequest} from '../model/types'
+import {Course, CourseLookup, CourseSummary, CreateCourseRequest, SetStatusRequest} from '../model/types'
 import {ApiResponse} from "@/shared/api/types/api-response";
 
 
@@ -22,4 +22,8 @@ export const deleteCourse = async(courseId: string) : Promise<void> => {
 
 export const createCourse = async(body : CreateCourseRequest) : Promise<ApiResponse<string>> => {
     return await api.post<ApiResponse<string>>(`/courses`, body, {auth: true})
+}
+
+export const getCoursesLookup = async() : Promise<CourseLookup[]> => {
+    return await api.get<CourseLookup[]>(`/courses/lookup`, {auth: true})
 }

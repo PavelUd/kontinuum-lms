@@ -6,6 +6,11 @@ export interface User {
     "role": Role
 }
 
+export interface UserLookup {
+    id: string,
+    fullname: string,
+}
+
 export type UserRequest = {
     fullName: string,
     "phone": string,

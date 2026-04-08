@@ -1,7 +1,7 @@
 import {useQuery} from '@tanstack/react-query'
-import {getEmployees} from "@/entities/user/api/employee.api";
+import {getEmployees, getEmployeesLookup} from "@/entities/user/api/employee.api";
 import {PagedResult} from "@/shared/ui/pagination/types";
-import {User} from "@/entities/user/models/types";
+import {User, UserLookup} from "@/entities/user/models/types";
 import {keepPreviousData} from "@tanstack/query-core";
 
 export const useEmployeesQuery = (page :  number, pageSize : number) => {
@@ -10,4 +10,11 @@ export const useEmployeesQuery = (page :  number, pageSize : number) => {
         queryFn: () => getEmployees(page, pageSize),
         placeholderData: keepPreviousData
     });
+}
+
+export const useEmployeesLookupQuery = () => {
+    return useQuery<UserLookup[]>({
+        queryKey: ['employees_lookup'],
+        queryFn: getEmployeesLookup,
+    })
 }

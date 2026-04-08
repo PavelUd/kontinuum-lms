@@ -1,13 +1,18 @@
 import styles from "@/widgets/employees-list/employees-list.module.css";
 import {GroupRow} from "@/entities/group/ui/GroupRow";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useGroupsQuery} from "@/entities/group/module/useGroupsQuery";
 import {useSafePagination} from "@/shared/ui/pagination/useSafePagination";
 import {Loader} from "@/shared/ui/loader";
 import {Pagination} from "@/shared/ui/pagination/Pagination";
 import {ConfirmDeleteModal} from "@/features/confirm-delete/ConfirmDeleteModal";
 
-export function GroupsList() {
+type Props = {
+    courseId : string,
+    teacherId : string,
+}
+
+export function GroupsList({courseId, teacherId} : Props) {
 
     const [isDeleteOpen, setDeleteIsOpen] = useState(false)
     const [selectedGroup, setSelectedGroup] = useState<{
@@ -20,7 +25,8 @@ export function GroupsList() {
 
     const pageSize = 2;
     const [page, setPage] = useState(1);
-    const { isLoading, data } = useGroupsQuery(page, pageSize, "", "");
+
+    const { isLoading, data } = useGroupsQuery(page, pageSize, courseId, teacherId);
 
     const { stableTotalPages, markDeleting } = useSafePagination({
         data,
