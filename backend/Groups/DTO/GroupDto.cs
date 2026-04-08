@@ -5,6 +5,7 @@ namespace Groups.DTO;
 
 public class GroupDto
 {
+    public Guid Id { get; set; }
     public Guid CourseId { get; set; }
     
     public string Title { get; set; }
