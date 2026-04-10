@@ -39,20 +39,20 @@ public class UsersService : IUsersService, IUserQueryService
         return await Result<T>.SuccessAsync(user);
     }
 
-    public async Task<Result<Guid>> CreateUser(CreateUserDto request)
+    public async Task<Result<Guid>> CreateUser<T>(T request) where T : IUserCreateRequest
     {
         try
         {
-            var normalizedPhone = PhoneHelper.NormalizePhone(request.Phone);
+            var user = _mapper.Map<User>(request);
+            var normalizedPhone = PhoneHelper.NormalizePhone(user.Phone);
             var exists = await _context.Users
-                .AnyAsync(x => x.Phone == request.Phone);
+                .AnyAsync(x => x.Phone == user.Phone);
 
             if (exists)
             {
                 return await Result<Guid>.FailureAsync("Пользователь с таким номером уже существует");
             }
             
-            var user = _mapper.Map<User>(request);
             user.Status = UserStatus.Invited;
             user.Phone = normalizedPhone;
             _context.Users.Add(user);
@@ -67,6 +67,26 @@ public class UsersService : IUsersService, IUserQueryService
         catch (Exception e)
         {
             return await Result<Guid>.FailureAsync(e.Message);
+        }
+        
+    }
+    
+    public async Task<Result<None>> SetStatus (Guid idUser, UserStatus status)
+    {
+        try
+        {
+            var user = _context.Users.FirstOrDefault(x => x.Id == idUser);
+            if (user == null)
+            {
+                return await Result<None>.FailureAsync("Пользователь не найден");
+            }
+            user.Status = status;
+            await _context.SaveChangesAsync();
+            return await Result<None>.SuccessAsync();
+        }
+        catch (DbUpdateException)
+        {
+            return await Result<None>.FailureAsync("Ошибка бд");
         }
         
     }

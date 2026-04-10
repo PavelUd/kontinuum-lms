@@ -17,4 +17,6 @@ public class GroupMember : BaseEntity
     
     [Column("joined_at")]
     public DateTime? JoinedAt { get; set; } = DateTime.Now.ToUniversalTime();
+    
+    public Group Group { get; set; }
 }

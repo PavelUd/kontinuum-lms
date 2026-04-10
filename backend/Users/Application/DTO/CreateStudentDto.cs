@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using Core.Entities;
 
 namespace Users.Application.DTO;
 
-public class CreateUserDto
+public class CreateStudentRequest : IUserCreateRequest
 {
     [Required]
     public string FullName {get; set; }
@@ -16,5 +15,5 @@ public class CreateUserDto
     public string Email {get; set;}
     
     [Required]
-    public Role Role {get; set;}
+    public int Class { get; set; }
 }

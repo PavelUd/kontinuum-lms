@@ -6,8 +6,8 @@ export function StudentsList(){
     const users : User[] = [
         {
             id: "1",
-            fullName: "name",
-            phone: "phone phone phone",
+            fullName: "Мария Сидорова",
+            phone: "+7(913)6359263",
             email: "email",
             role: "student",
         }

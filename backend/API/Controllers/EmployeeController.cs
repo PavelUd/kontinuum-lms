@@ -40,7 +40,7 @@ public class EmployeeController : ControllerBase
     
     [Authorize(Roles = $"{nameof(Role.Admin)}")]
     [HttpPost]
-    public async Task<IActionResult>  CreateEmployee([FromBody] CreateUserDto request)
+    public async Task<IActionResult>  CreateEmployee([FromBody] CreateEmployeeDto request)
     {
         var result = await _usersService.CreateUser(request);
         return result.Succeeded ? Accepted(result) : BadRequest(result);

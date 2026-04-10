@@ -1,10 +1,8 @@
-using Core.Common.Pagination;
 using Core.Entities;
+using Groups.Application.DTO;
 using Groups.Application.Interfaces;
-using Groups.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Users.Application.DTO;
 
 namespace API.Controllers;
 
@@ -16,10 +14,12 @@ namespace API.Controllers;
 public class GroupsController : ControllerBase
 {
     private readonly IGroupsService _service;
+    private readonly IGroupMembersService _groupMembersService;
 
-    public GroupsController(IGroupsService service)
+    public GroupsController(IGroupsService service, IGroupMembersService groupMembersService)
     {
         _service = service;
+        _groupMembersService = groupMembersService;
     }
     
     [Authorize(Roles = $"{nameof(Role.Admin)}")]
@@ -43,6 +43,14 @@ public class GroupsController : ControllerBase
     public async Task<IActionResult> DeleteGroup(Guid id)
     {
         var result = await _service.DeleteGroup(id, CancellationToken.None);
+        return result.Succeeded ? Accepted(result) : BadRequest(result);
+    }
+    
+    [Authorize(Roles = $"{nameof(Role.Admin)}")]
+    [HttpPost("{id}/members")]
+    public async Task<IActionResult> AddGroupMember([FromBody] CreateGroupMemberRequest request)
+    {
+        var result = await _groupMembersService.CreateGroupMember(request);
         return result.Succeeded ? Accepted(result) : BadRequest(result);
     }
 }

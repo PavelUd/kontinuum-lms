@@ -12,6 +12,7 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<IUsersService, UsersService>();
         services.AddScoped<IEmployeeService, EmployeeService>();
+        services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<IUserQueryService, UsersService>();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
     }

@@ -25,6 +25,9 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
     public DbSet<RefreshSession> RefreshSessions { get; set; }
     public DbSet<Lesson> Lessons { get; set; }
     public DbSet<User>  Users { get; set; }
+    
+    public DbSet<StudentProfile> StudentProfiles { get; set; }
+    
     public DbSet<Credential> Credentials { get; set; }
     public DbSet<LessonBlock> LessonBlocks { get; set; }
     
@@ -60,7 +63,7 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
 
         modelBuilder.Entity<Group>()
             .HasMany(g => g.Members)
-            .WithOne()
+            .WithOne(m => m.Group)
             .HasForeignKey(m => m.GroupId)
             .OnDelete(DeleteBehavior.Cascade);
         
@@ -77,6 +80,14 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
         modelBuilder.Entity<User>()
             .Property(x => x.Status)
             .HasConversion<string>();
+
+        modelBuilder.Entity<User>()
+            .HasOne(x => x.StudentProfile)
+            .WithOne(x => x.User)
+            .HasForeignKey<StudentProfile>(x => x.UserId);
+
+        modelBuilder.Entity<StudentProfile>()
+            .HasKey(x => x.UserId);
         
         modelBuilder.Entity<GroupMember>()
             .Property(x => x.Role)

@@ -1,6 +1,6 @@
 using Core.Common.Pagination;
 
-namespace Groups.DTO;
+namespace Groups.Application.DTO;
 
 public class GetGroupsQuery : PagedQuery
 {

@@ -1,6 +1,6 @@
 using Core;
 using Core.Common.Pagination;
-using Groups.DTO;
+using Groups.Application.DTO;
 
 namespace Groups.Application.Interfaces;
 

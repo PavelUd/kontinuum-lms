@@ -1,18 +1,19 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Contracts.Contracts.Groups;
 using Contracts.Services;
 using Core;
 using Core.Common.Extensions;
 using Core.Common.Pagination;
+using Groups.Application.DTO;
 using Groups.Application.Interfaces;
 using Groups.Domain;
-using Groups.DTO;
 using Groups.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Groups.Application;
 
-public class GroupsService : IGroupsService
+public class GroupsService : IGroupsService, IGroupProvider
 {
     
     private  readonly IGroupsDbContext _dbContext;
@@ -121,5 +122,22 @@ public class GroupsService : IGroupsService
         {
             return await Result<Guid>.FailureAsync(e.Message);
         }
-    } 
+    }
+
+    public Dictionary<Guid, List<GroupPreview>> GetMembersGroups(List<Guid> idMembers)
+    {
+        return  _dbContext.GroupMembers
+            .Include(x => x.Group)
+            .Where(x => idMembers.Contains(x.UserId))
+            .GroupBy(x => x.UserId)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Select(x => new GroupPreview
+                {
+                    Id = x.Group.Id,
+                    CourseId = x.Group.CourseId,
+                    Title = x.Group.Title
+                }).ToList()
+            );
+    }
 }

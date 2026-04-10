@@ -1,21 +1,20 @@
-using Contracts.Contracts;
-using Contracts.Contracts.Users;
+using System.ComponentModel.DataAnnotations;
 using Core.Entities;
-using Users.Domain;
 
 namespace Users.Application.DTO;
 
-public class UserDto : IUserDto
+public class CreateEmployeeDto : IUserCreateRequest
 {
-    public Guid Id { get; set; }
-    
+    [Required]
     public string FullName {get; set; }
     
-    public UserStatus Status {get; set; }
-    
+    [Phone]
+    [Required]
     public string Phone {get; set;}
     
+    [EmailAddress]
     public string Email {get; set;}
     
+    [Required]
     public Role Role {get; set;}
 }

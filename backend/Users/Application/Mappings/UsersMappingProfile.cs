@@ -11,8 +11,15 @@ public class UsersMappingProfile : Profile
         public UsersMappingProfile()
         {
             CreateMap<User, UserAuthDto>();
+            CreateMap<CreateStudentRequest, User>()
+                .ForMember(dest => dest.StudentProfile,
+                    opt => opt.MapFrom(src => new StudentProfile
+                    {
+                        Class = Math.Clamp(src.Class, 1, 11)
+                    }));
             CreateMap<User, UserDto>();
-            CreateMap<CreateUserDto, User>();
+            CreateMap<User, Student>();
+            CreateMap<CreateEmployeeDto, User>();
             CreateMap<User, UserLookup>();
         }
 }

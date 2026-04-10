@@ -9,7 +9,7 @@ using BlockEngine.Application.Extensions;
 using Coordinator.Extensions;
 using Core.Entities.Interfaces;
 using Courses.Extensions;
-using Groups.Extensions;
+using Groups.Application.Extensions;
 using Hangfire;
 using Infrastructure.Extensions;
 using Infrastructure.ObjectStorage;

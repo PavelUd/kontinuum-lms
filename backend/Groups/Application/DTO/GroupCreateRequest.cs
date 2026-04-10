@@ -1,7 +1,7 @@
 using AutoMapper;
 using Groups.Domain;
 
-namespace Groups.DTO;
+namespace Groups.Application.DTO;
 
 public class GroupCreateRequest
 {

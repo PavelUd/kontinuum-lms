@@ -21,4 +21,6 @@ public class User : BaseAuditableEntity
     [Column("role")]
     public Role Role {get; set;}
     
+    public StudentProfile? StudentProfile { get; set; }
+    
 }

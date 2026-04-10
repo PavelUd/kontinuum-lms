@@ -5,7 +5,7 @@ using Groups.Application.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Groups.Extensions;
+namespace Groups.Application.Extensions;
 
 public static class ServiceCollectionExtension
 {
@@ -17,6 +17,8 @@ public static class ServiceCollectionExtension
     private static void AddServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IGroupsService, GroupsService>();
+        services.AddScoped<IGroupProvider, GroupsService>();
+        services.AddScoped<IGroupMembersService, GroupMembersService>();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
     }
 }
