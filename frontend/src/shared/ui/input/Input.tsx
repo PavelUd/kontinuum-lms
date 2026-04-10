@@ -12,7 +12,7 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
 export const Input = forwardRef<HTMLInputElement, Props>(
     ({ label, error, hint, className, fullWidth = true, ...props }, ref) => {
         return (
-            <div className={styles.inputWrapper}>
+            <div className={clsx("flex flex-col mb-1", className)}>
 
                 {label && (
                     <label className={styles.formLabelCustom}>

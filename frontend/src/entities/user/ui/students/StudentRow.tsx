@@ -1,35 +1,37 @@
-import {User} from "@/entities/user/models/types";
+import {Student} from "@/entities/user/models/types";
 import avatarStyles from "@/entities/user/ui/avatar/user-avatar.module.css";
 import {ExternalLink, Pause, Plus, Trash2} from "lucide-react";
 import {Button} from "@/shared/ui/button/Button";
-import { Badge } from "@/shared/ui/badge/Badge";
 import {GroupBadge} from "@/entities/user/ui/students/GroupBadge";
-
-;
+import {StatusBadge} from "@/entities/user/ui/common/StatusBadge";
+import {Row} from "@/shared/ui/row/Row";
+import styles from "./student-row.module.css"
 
 export type Props = {
-    user : User
+    user : Student
     onDelete: () => void
-    onEdit: () => void
+    className?: string
 }
 
-export function StudentRow({ user, onDelete, onEdit }: Props) {
+export function StudentRow({ user, onDelete, className }: Props) {
     return (
-        <tr>
-                <td>
+        <div key={user.id} className={styles.row}>
+                <div>
                     <div className="flex items-center">
                     <div className={`${avatarStyles.adminUserAvatar} shadow-sm mr-3`} style={{  width: 32, height: 32, fontSize: '0.7rem' }}>
                         {user.fullName.split(' ').map(n => n[0]).join('')}
                     </div>
                     <div className="font-bold text-gray-900">{user.fullName}</div>
                     </div>
-                </td>
+                </div>
 
-            <td className="font-semibold">{11}</td>
-            <td className="text-sm text-gray-500">{user.phone}</td>
-            <td className="font-semibold">2</td>
-            <td>
-                <GroupBadge courseName={"Математика"} groupName={"ЕГЭ Профиль - Поток А"}></GroupBadge>
+            <div className="font-semibold">{user.class}</div>
+            <div className="text-sm text-gray-500">{user.phone}</div>
+            <div className="font-semibold">{user.totalCourses}</div>
+                <div><div className={"flex items-center"}>
+                {user.groups.map(group => (
+                    <GroupBadge key={group.id} groupName={group.title} />
+                ))}
                 <Button
                     className={"rounded-full"}
                     variant={"ghost"}
@@ -40,12 +42,13 @@ export function StudentRow({ user, onDelete, onEdit }: Props) {
                     }}
                     icon={<Plus size={14}></Plus>}>
                 </Button>
-            </td>
-            <td>
-                <Badge variant={"green"}>Активен</Badge>
-            </td>
+            </div>
+            </div>
+            <div>
+                <StatusBadge status={user.status}></StatusBadge>
+            </div>
 
-            <td className="text-end">
+            <div className="text-end">
                 <div className="flex gap-1 justify-end">
                 <Button
                     variant={"ghost"}
@@ -75,7 +78,7 @@ export function StudentRow({ user, onDelete, onEdit }: Props) {
                     </Trash2>}>
                 </Button>
                 </div>
-            </td>
-        </tr>
+            </div>
+        </div>
     )
 }

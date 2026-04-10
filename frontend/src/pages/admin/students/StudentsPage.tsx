@@ -1,18 +1,22 @@
 "use client"
 
 import {useState} from "react";
-import {UserRequest} from "@/entities/user/models/types";
+import {CreateStudentRequest} from "@/entities/user/models/types";
 import {AdminSectionHeader} from "@/widgets/admin-section-header/adminSectionHeader";
 import {Button} from "@/shared/ui/button/Button";
 import {UserPlus} from "lucide-react";
 import {StudentFilters} from "@/features/students/filters/StudentFilters";
 import {StudentsList} from "@/widgets/students-list/StudentsList";
+import {CreateStudentModal} from "@/features/students/create-student/CreateStudentModal";
+import {useStudentMutations} from "@/entities/user/models/useStudentsMutations";
 
-export function StudentsPage(){
+export function StudentsPage() {
 
     const [isOpen, setIsOpen] = useState(false);
+    const mutations = useStudentMutations();
 
-    const onConfirmCreation = (request :  UserRequest) => {
+    const onConfirmCreation = (request: CreateStudentRequest) => {
+        mutations.create(request)
         setIsOpen(false)
     }
 
@@ -23,7 +27,7 @@ export function StudentsPage(){
                                 actions={
                                     <Button
                                         variant="primary"
-                                        icon={<UserPlus size={18} />}
+                                        icon={<UserPlus size={18}/>}
                                         fullWidth={true}
                                         onClick={() => setIsOpen(true)}
                                     >
@@ -33,6 +37,7 @@ export function StudentsPage(){
             </AdminSectionHeader>
             <StudentFilters></StudentFilters>
             <StudentsList></StudentsList>
+            <CreateStudentModal onConfirm={onConfirmCreation} isOpen={isOpen} onClose={() => setIsOpen(false)}></CreateStudentModal>
         </>
     )
 }

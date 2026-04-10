@@ -3,7 +3,7 @@ import clsx from "clsx";
 import styles from "./input.module.css";
 
 type Option = {
-    value: string;
+    value: any;
     label: string;
 };
 

@@ -8,6 +8,11 @@ export interface Group {
     teacherName? : string
 }
 
+export interface GroupPreview {
+    id: string,
+    title: string
+}
+
 export interface GroupRequest {
     title: string,
     courseId: string,

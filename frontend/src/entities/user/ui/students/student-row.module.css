@@ -1,0 +1,14 @@
+.row {
+    display: grid;
+    grid-template-columns: 1fr 80px 140px 100px 1fr 150px 120px;
+    align-items: center;
+    background: white;
+    padding: 1rem;
+    border: 1px solid #f1f5f9;
+    border-radius: 12px;
+}
+
+/* последний столбец */
+.cellRight {
+    text-align: right;
+}
