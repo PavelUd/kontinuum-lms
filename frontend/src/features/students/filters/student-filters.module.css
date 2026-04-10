@@ -20,7 +20,7 @@
 
 .formSelect:focus {
     border-color: transparent;
-    box-shadow: 0 0 0 2px hsl(var(--primary));
+    box-shadow: 0 0 0 2px hsl(var(--primary-color));
 }
 
 .searchWrapper {

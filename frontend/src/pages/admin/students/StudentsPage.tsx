@@ -6,6 +6,7 @@ import {AdminSectionHeader} from "@/widgets/admin-section-header/adminSectionHea
 import {Button} from "@/shared/ui/button/Button";
 import {UserPlus} from "lucide-react";
 import {StudentFilters} from "@/features/students/filters/StudentFilters";
+import {StudentsList} from "@/widgets/students-list/StudentsList";
 
 export function StudentsPage(){
 
@@ -31,6 +32,7 @@ export function StudentsPage(){
                                 }>
             </AdminSectionHeader>
             <StudentFilters></StudentFilters>
+            <StudentsList></StudentsList>
         </>
     )
 }

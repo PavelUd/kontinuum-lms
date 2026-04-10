@@ -1,22 +1,21 @@
 import {Role, RoleMap} from "@/entities/user/models/types";
-import styles from "@/entities/user/ui/employee/employee.module.css";
+import {Badge, BadgeVariant} from "@/shared/ui/badge/Badge";
 
 type Props = {
     role: Role;
 };
 
-export const RoleBadge = ({ role }: Props) => {
-
-    const ROLE_STYLES: Record<Role, string> = {
-        admin: 'bg-red-100 text-red-600',
-        methodist: 'bg-blue-100 text-blue-600',
-        teacher: 'bg-green-100 text-green-600',
-        student: 'bg-yellow-100 text-yellow-600',
-    };
-
-    return (
-    <span className={`${styles.statusBadge} ${ROLE_STYLES[role]}`}>
-        {RoleMap[role]}
-    </span>
-    );
+const ROLE_VARIANT: Record<Role, BadgeVariant> = {
+    admin: "red",
+    methodist: "blue",
+    teacher: "green",
+    student: "yellow",
 };
+
+export function RoleBadge({ role }: Props) {
+    return (
+        <Badge variant={ROLE_VARIANT[role]}>
+            {RoleMap[role]}
+        </Badge>
+    );
+}

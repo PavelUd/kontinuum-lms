@@ -72,7 +72,7 @@ export function StudentFilters(){
 
                 {/* RESET */}
                 <div className="md:col-span-2 flex justify-start md:justify-end">
-                    {(studentSearch || filterGrade !== "" || filterCoursesCount !== "all" || filterStatus !== "") && (
+                    {(
                         <button
                             onClick={() => {
                                 setStudentSearch('');
