@@ -3,13 +3,28 @@ import styles from "./student-filters.module.css"
 import {Input} from "@/shared/ui/input/Input";
 import { useState } from "react";
 import {Select} from "@/shared/ui/input/Select";
+import {GroupRequest} from "@/entities/group/module/types";
 
-export function StudentFilters(){
+export type Props = {
+    studentSearch: string;
+    setStudentSearch: (value: string) => void;
 
-    const [studentSearch, setStudentSearch] = useState('')
-    const [filterGrade, setFilterGrade] = useState('');
-    const [filterCoursesCount, setFilterCoursesCount] = useState('');
-    const [filterStatus, setFilterStatus] = useState('');
+    filterGrade: string;
+    setFilterGrade: (value: string) => void;
+
+    filterStatus: string;
+    setFilterStatus: (value: string) => void;
+
+}
+
+export function StudentFilters({
+                                   studentSearch,
+                                   setStudentSearch,
+                                   filterGrade,
+                                   setFilterGrade,
+                                   filterStatus,
+                                   setFilterStatus
+                               } : Props){
 
     return (
         <div className="mb-4">
@@ -43,20 +58,6 @@ export function StudentFilters(){
                     </select>
                 </div>
 
-                {/* COURSES COUNT */}
-                <div className="md:col-span-2">
-                    <select
-                        className={styles.formSelect}
-                        value={filterCoursesCount}
-                        onChange={e => setFilterCoursesCount(e.target.value)}
-                    >
-                        <option value="">Курсов: Все</option>
-                        <option value="1">1 курс</option>
-                        <option value="2">2+ курса</option>
-                        <option value="3">3+ курса</option>
-                    </select>
-                </div>
-
                 {/* STATUS */}
                 <div className="md:col-span-2">
                     <select
@@ -72,12 +73,11 @@ export function StudentFilters(){
 
                 {/* RESET */}
                 <div className="md:col-span-2 flex justify-start md:justify-end">
-                    {(
+                    {(studentSearch || filterGrade || filterStatus)   && (
                         <button
                             onClick={() => {
                                 setStudentSearch('');
                                 setFilterGrade('');
-                                setFilterCoursesCount('all');
                                 setFilterStatus('');
                             }}
                             className="flex items-center gap-1 text font-semibold text-blue-500 hover:text-primary transition"

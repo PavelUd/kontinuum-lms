@@ -1,31 +1,62 @@
 import {Button} from "@/shared/ui/button/Button";
-import {CreateStudentRequest} from "@/entities/user/models/types";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Modal} from "@/shared/ui/modal/ui/Modal";
+import {useCoursesLookupQuery} from "@/entities/course/model/useCoursesQuery";
+import {Select} from "@/shared/ui/input/Select";
+import {useAvailableGroupsLookup} from "@/entities/group/module/useGroupsQuery";
+import {CreateGroupMemberRequest} from "@/entities/group/module/types";
 
 export type Props = {
-    onConfirm: (request : CreateStudentRequest) => void;
+    onConfirm: (request : CreateGroupMemberRequest) => void;
     isOpen : boolean
     onClose: () => void
+    studentName? : string,
+    studentId? : string
 }
 
 
-export function AddStudentToGroupModal({ isOpen, onClose, onConfirm }: Props){
+export function AddStudentToGroupModal({ isOpen, onClose, onConfirm, studentName, studentId }: Props){
 
-    const initialForm: CreateStudentRequest = {
-        fullName : "",
-        email: "",
-        phone: "",
-        class: 9
+    const initialForm: CreateGroupMemberRequest = {
+        groupId : "",
+        userId : studentId
     }
+    const {data: coursesData} = useCoursesLookupQuery();
+    const [courseId, setCourseId] = useState('')
+    const { data: groups } = useAvailableGroupsLookup(courseId, studentId);
+    const [form, setForm] = useState<CreateGroupMemberRequest>(initialForm)
 
-    const [form, setForm] = useState<CreateStudentRequest>(initialForm)
-    const handleChange = <K extends keyof CreateStudentRequest>(key: K, value: CreateStudentRequest[K]) => {
+    useEffect(() => {
+        if (isOpen) {
+            console.log(studentId)
+            setCourseId('');
+        }
+    }, [isOpen]);
+
+    const handleChange = <K extends keyof CreateGroupMemberRequest>(key: K, value: CreateGroupMemberRequest[K]) => {
         setForm(prev => ({
             ...prev,
             [key]: value
         }))
     }
+
+
+    const courseOptions = [
+        { value: "", label: "Курс не выбран..." },
+        ...(coursesData?.map(c => ({
+            value: c.id,
+            label: c.name
+        })) ?? [])
+    ];
+
+    const groupOptions = [
+        { value: "", label: "Группа не выбрана..." },
+        ...(groups?.map(g => ({
+            value: g.id,
+            label: g.title
+        })) ?? [])
+    ];
+
 
     const handleSubmit = async () => {
         await onConfirm(form)
@@ -48,9 +79,35 @@ export function AddStudentToGroupModal({ isOpen, onClose, onConfirm }: Props){
                 </div>
             }
         >
-            <div>
+            <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-600 mb-2">
+                    Ученик
+                </label>
 
+                <div className="font-semibold text-gray-900">
+                    {studentName}
+                </div>
             </div>
+
+            <div className="mb-4">
+                <Select
+                    label="Выберите курс"
+                    options={courseOptions}
+                    value={courseId}
+                    onChange={(value) => setCourseId(value.target.value)}
+                />
+            </div>
+
+            {courseId && (
+                <div className="mb-4">
+                    <Select
+                        label="Выберите группу"
+                        options={groupOptions}
+                        value={form.groupId}
+                        onChange={(value) => handleChange("groupId", value.target.value)}
+                    />
+                </div>
+            )}
         </Modal>
     )
 }

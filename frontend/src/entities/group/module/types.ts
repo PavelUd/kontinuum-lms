@@ -19,3 +19,14 @@ export interface GroupRequest {
     teacherId? : string,
 
 }
+
+export type CreateGroupMemberRequest = {
+    userId? : string,
+    groupId : string,
+}
+
+export type GroupMember = {
+    id: string,
+    userId : string,
+    groupId : string,
+}

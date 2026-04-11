@@ -6,6 +6,8 @@ namespace Groups.Application.DTO;
 public class CreateGroupMemberRequest
 {
     public Guid UserId { get; set; }
+    
+    [JsonIgnore]
     public Guid GroupId { get; set; }
     
     [JsonIgnore]

@@ -76,7 +76,6 @@ export function GroupFilters({
                         </button>
                     )}
                 </div>
-
             </div>
         </div>
     )

@@ -5,7 +5,14 @@
 /* HEADER */
 .header {
     display: grid;
-    grid-template-columns: 1fr 80px 140px 100px 1fr 150px 120px;
+    grid-template-columns:
+    minmax(180px, 1.5fr)  /* имя */
+        minmax(60px, 0.8fr) /* класс */
+        minmax(120px, 1.4fr) /* телефон */
+        minmax(80px, 0.6fr)   /* курсы */
+        minmax(200px, 2.7fr)  /* группы */
+        minmax(100px, 1fr) /* статус */
+        minmax(120px, 1.2fr); /* действия */
     padding: 0.5rem 1rem;
     color: #64748b;
     font-size: 0.8rem;

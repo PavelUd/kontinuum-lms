@@ -6,7 +6,7 @@ import {useSafePagination} from "@/shared/ui/pagination/useSafePagination";
 import {Loader} from "@/shared/ui/loader";
 import {Pagination} from "@/shared/ui/pagination/Pagination";
 import {ConfirmDeleteModal} from "@/features/confirm-delete/ConfirmDeleteModal";
-import {EmptyGroupList} from "@/widgets/groups-list/EmptyGroupList";
+import {EmptyList} from "@/widgets/empty-list/EmptyList";
 import {useGroupMutations} from "@/entities/group/module/useGroupsMutations";
 
 type Props = {
@@ -49,7 +49,7 @@ export function GroupsList({courseId, teacherId} : Props) {
     const minHeight = ROW_HEIGHT * pageSize  + GAP * (pageSize  - 1);
 
     if(!data?.totalPages){
-        return <EmptyGroupList></EmptyGroupList>
+        return <EmptyList></EmptyList>
     }
 
     return (

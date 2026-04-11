@@ -3,8 +3,8 @@ import {CreateStudentRequest, Student} from "@/entities/user/models/types";
 import {api} from "@/shared/api";
 import {ApiResponse} from "@/shared/api/types/api-response";
 
-export const getStudents = async(page : number, pageSize: number) : Promise<PagedResult<Student>> => {
-    return await api.get<PagedResult<Student>>(`/students?Page=${page}&PageSize=${pageSize}`, {auth: true})
+export const getStudents = async(page : number, pageSize: number, studentSearch : string, filterGrade : string, filterStatus : string) : Promise<PagedResult<Student>> => {
+    return await api.get<PagedResult<Student>>(`/students?Page=${page}&PageSize=${pageSize}&Class=${filterGrade}&Status=${filterStatus}&StudentName=${studentSearch}`, {auth: true})
 }
 
 export const createStudent = async(request : CreateStudentRequest) : Promise<ApiResponse<string>> => {

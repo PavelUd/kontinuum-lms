@@ -1,6 +1,6 @@
 import {PagedResult} from "@/shared/ui/pagination/types";
 import {api} from "@/shared/api";
-import {Group, GroupRequest} from "@/entities/group/module/types";
+import {CreateGroupMemberRequest, Group, GroupPreview, GroupRequest} from "@/entities/group/module/types";
 import {ApiResponse} from "@/shared/api/types/api-response";
 
 export const getGroups = async(page : number, pageSize: number, courseId: string, teacherId: string) : Promise<PagedResult<Group>> => {
@@ -13,4 +13,12 @@ export const createGroup = async(request : GroupRequest) : Promise<ApiResponse<s
 
 export const deleteGroup = async(id: string) : Promise<void> => {
     return await api.delete<void>(`/groups/${id}`, {auth: true})
+}
+
+export const getAvailableGroupsLookup = async(courseId? : string, userId? : string) : Promise<GroupPreview[]> => {
+    return await api.get<GroupPreview[]>(`/groups/lookup/available?courseId=${courseId}&userId=${userId}`, {auth: true})
+}
+
+export const addGroupMember = async(request : CreateGroupMemberRequest) : Promise<ApiResponse<string>> => {
+    return await api.post<ApiResponse<string>>(`/groups/${request.groupId}/members`,{ "userId" : request.userId}, {auth: true})
 }

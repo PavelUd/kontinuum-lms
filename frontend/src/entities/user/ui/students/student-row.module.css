@@ -1,14 +1,34 @@
 .row {
     display: grid;
-    grid-template-columns: 1fr 80px 140px 100px 1fr 150px 120px;
+    grid-template-columns:
+        minmax(180px, 1.5fr)  /* имя */
+        minmax(60px, 0.8fr) /* класс */
+        minmax(120px, 1.4fr) /* телефон */
+        minmax(40px, 0.4fr)   /* курсы */
+        minmax(200px, 2.7fr)  /* группы */
+        minmax(120px, 1fr) /* статус */
+        minmax(120px, 1.2fr); /* действия */
+
     align-items: center;
     background: white;
     padding: 1rem;
     border: 1px solid #f1f5f9;
     border-radius: 12px;
+    gap: 8px;
+    min-width: 1000px;
+}
+
+/* базовая ячейка */
+.cell {
+    min-width: 0;
+    display: flex;
+    gap: 10px;
+    white-space: normal;
+    flex-wrap: wrap;
 }
 
 /* последний столбец */
 .cellRight {
     text-align: right;
+    min-width: 0;
 }

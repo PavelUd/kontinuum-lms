@@ -57,8 +57,9 @@ public class GroupsController : ControllerBase
     
     [Authorize(Roles = $"{nameof(Role.Admin)}")]
     [HttpPost("{id}/members")]
-    public async Task<IActionResult> AddGroupMember([FromBody] CreateGroupMemberRequest request)
+    public async Task<IActionResult> AddGroupMember(Guid id, [FromBody] CreateGroupMemberRequest request)
     {
+        request.GroupId = id;
         var result = await _groupMembersService.CreateGroupMember(request);
         return result.Succeeded ? Accepted(result) : BadRequest(result);
     }

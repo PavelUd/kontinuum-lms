@@ -15,6 +15,10 @@ export function StudentsPage() {
     const [isOpen, setIsOpen] = useState(false);
     const mutations = useStudentMutations();
 
+    const [studentSearch, setStudentSearch] = useState('')
+    const [filterGrade, setFilterGrade] = useState('');
+    const [filterStatus, setFilterStatus] = useState('');
+
     const onConfirmCreation = (request: CreateStudentRequest) => {
         mutations.create(request)
         setIsOpen(false)
@@ -35,8 +39,8 @@ export function StudentsPage() {
                                     </Button>
                                 }>
             </AdminSectionHeader>
-            <StudentFilters></StudentFilters>
-            <StudentsList></StudentsList>
+            <StudentFilters studentSearch={studentSearch} setStudentSearch={setStudentSearch} filterGrade={filterGrade} setFilterGrade={setFilterGrade} filterStatus={filterStatus} setFilterStatus={setFilterStatus}></StudentFilters>
+            <StudentsList studentSearch={studentSearch} filterGrade={filterGrade} filterStatus={filterStatus}></StudentsList>
             <CreateStudentModal onConfirm={onConfirmCreation} isOpen={isOpen} onClose={() => setIsOpen(false)}></CreateStudentModal>
         </>
     )
