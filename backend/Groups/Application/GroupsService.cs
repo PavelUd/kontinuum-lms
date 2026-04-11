@@ -124,6 +124,17 @@ public class GroupsService : IGroupsService, IGroupProvider
         }
     }
 
+    public async Task<List<GroupLookup>> GetAvailableGroupsAsync(Guid? courseId, Guid? userId)
+    {
+        return await _dbContext.Groups
+            .Where(x =>
+                (!courseId.HasValue || x.CourseId == courseId.Value) &&
+                (!userId.HasValue || x.Members.All(m => m.UserId != userId.Value))
+            )
+            .ProjectTo<GroupLookup>(_mapper.ConfigurationProvider)
+            .ToListAsync();
+    }
+
     public Dictionary<Guid, List<GroupPreview>> GetMembersGroups(List<Guid> idMembers)
     {
         return  _dbContext.GroupMembers

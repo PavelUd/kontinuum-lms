@@ -23,7 +23,7 @@ public class StudentsController : ControllerBase
     
         [Authorize(Roles = $"{nameof(Role.Admin)}")]
         [HttpGet]
-        public async Task<IActionResult>  GetStudentsPage([FromQuery] GetStudentsQuery query)
+        public async Task<IActionResult> GetStudentsPage([FromQuery] GetStudentsQuery query)
         {
             var employees = await _studentService.GetStudents(query);
             return Ok(employees);
@@ -32,7 +32,7 @@ public class StudentsController : ControllerBase
         
         [Authorize(Roles = $"{nameof(Role.Admin)}")]
         [HttpPost]
-        public async Task<IActionResult>  CreateEmployee([FromBody] CreateStudentRequest request)
+        public async Task<IActionResult> CreateStudent([FromBody] CreateStudentRequest request)
         {
             var result = await _usersService.CreateUser(request);
             return result.Succeeded ? Accepted(result) : BadRequest(result);

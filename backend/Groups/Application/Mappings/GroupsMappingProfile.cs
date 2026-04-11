@@ -11,6 +11,7 @@ public class GroupsMappingProfile : Profile
     {
         CreateMap<GroupCreateRequest, Group>();
         CreateMap<CreateGroupMemberRequest, GroupMember>();
+        CreateMap<Group,GroupLookup>();
         CreateMap<GroupPreview, Group>();
         CreateMap<Group, GroupDto>()
             .ForMember(

@@ -9,4 +9,6 @@ public interface IGroupsService
     public Task<PagedResult<GroupDto>> GetGroups(GetGroupsQuery request, CancellationToken ct);
     public Task<Result<Guid>> CreateGroup(GroupCreateRequest request);
     public Task<Result<None>> DeleteGroup(Guid id, CancellationToken ct);
+
+    public Task<List<GroupLookup>> GetAvailableGroupsAsync(Guid? courseId, Guid? userId);
 }

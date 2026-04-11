@@ -1,6 +1,7 @@
 using Core.Entities;
 using Groups.Application.DTO;
 using Groups.Application.Interfaces;
+using Groups.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +28,14 @@ public class GroupsController : ControllerBase
     public async Task<IActionResult>  GetGroupsPage([FromQuery] GetGroupsQuery query)
     {
         var groups = await _service.GetGroups(query, CancellationToken.None);
+        return Ok(groups);
+    }
+    
+    [Authorize(Roles = $"{nameof(Role.Admin)}")]
+    [HttpGet("lookup/available")]
+    public async Task<IActionResult>  GetAvailableLookupGroups([FromQuery] Guid courseId, [FromQuery] Guid userId)
+    {
+        var groups = await _service.GetAvailableGroupsAsync(courseId, userId);
         return Ok(groups);
     }
     
