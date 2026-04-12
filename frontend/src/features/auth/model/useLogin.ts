@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import { saveToken } from "@/shared/lib/auth/tokenStorage"
-import {login} from "@/features/auth/api/login.api";
+import {login} from "@/features/auth/api/auth.api";
 
 export function useLogin() {
 

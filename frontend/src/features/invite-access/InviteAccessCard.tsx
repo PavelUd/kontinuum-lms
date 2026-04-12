@@ -14,7 +14,9 @@ export function InviteAccessCard({ inviteLink }: Props) {
         if (!inviteLink) return
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
-        await navigator.clipboard.writeText(inviteLink)
+        const fullLink = `${window.location.origin}/invite/activate/${inviteLink}`
+
+        await navigator.clipboard.writeText(fullLink)
     }
 
     return (

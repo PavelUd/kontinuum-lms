@@ -19,7 +19,9 @@ export function AuthProvider({ children }: Props) {
     const router = useRouter()
     const isPublicRoute =
         pathname === "/login" ||
-        pathname === "/admin/login"
+        pathname === "/admin/login" ||
+        pathname?.startsWith("/invite/activate")
+
 
     const { data, isLoading, isError } = useQuery<ApiResponse<string>>({
         queryKey: ["auth"],
@@ -30,6 +32,7 @@ export function AuthProvider({ children }: Props) {
 
     useEffect(() => {
         if (!isLoading && isError && !isPublicRoute) {
+            console.log(isPublicRoute);
             router.replace("/login")
         }
 

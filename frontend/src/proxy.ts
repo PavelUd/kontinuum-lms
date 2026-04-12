@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 
 const PUBLIC_ROUTES = [
     "/login",
-    "/login"
+    "/invite/activate/"
 ]
 
 export function proxy(request: NextRequest) {
@@ -10,7 +10,9 @@ export function proxy(request: NextRequest) {
     const token = request.cookies.get("refresh_token")?.value
     const { pathname } = request.nextUrl
 
-    const isPublicRoute = PUBLIC_ROUTES.includes(pathname)
+    const isPublicRoute = PUBLIC_ROUTES.some(route =>
+        pathname.startsWith(route));
+
     const isAdminRoute = pathname.startsWith("/admin")
 
     if (!token && !isPublicRoute) {

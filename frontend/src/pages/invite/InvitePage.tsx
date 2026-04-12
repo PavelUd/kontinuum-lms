@@ -14,9 +14,10 @@ export function InvitePage({token} : Props){
                 <h2 className={styles.title}>Придумайте Пароль</h2>
 
                 <p className={styles.subtitle}>
-                    Используйте 4 цифры для быстрого входа в следующий раз
+                    Придумайте пароль (не менее 6 символов)
+                    Используйте его для входа в систему
                 </p>
-                <AddPasswordForm></AddPasswordForm>
+                <AddPasswordForm token={token}></AddPasswordForm>
             </div>
         </div>
     )

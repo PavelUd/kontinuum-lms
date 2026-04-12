@@ -3,7 +3,7 @@
 import {usePathname, useRouter} from 'next/navigation'
 import {removeToken} from "@/shared/lib/auth/tokenStorage";
 import {useMutation} from "@tanstack/react-query";
-import {logout} from "@/features/auth/api/login.api";
+import {logout} from "@/features/auth/api/auth.api";
 import {queryClient} from "@/shared/api";
 
 export function useLogout() {

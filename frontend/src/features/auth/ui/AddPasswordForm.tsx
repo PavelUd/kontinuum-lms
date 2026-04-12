@@ -3,26 +3,68 @@
 import {useState} from "react";
 import {AuthInput} from "@/features/auth/ui/AuthInput";
 import {AuthButton} from "@/features/auth/ui/AuthButton";
-import {useLogin} from "@/features/auth/model/useLogin";
+import {useActivateLink} from "@/features/auth/model/useActivateLink";
+import {Eye} from "lucide-react";
 
-export function AddPasswordForm() {
+export function AddPasswordForm({token} :{token : string}) {
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState<string>("")
 
-    const loginMutation = useLogin();
+    const validatePassword = (value: string) => {
+        if (value.length < 6) {
+            return "Пароль должен содержать не менее 6 символов"
+        }
+
+        if (!/\d/.test(value)) {
+            return "Пароль должен содержать хотя бы одну цифру"
+        }
+
+        return ""
+    }
+
+    const activateMutation = useActivateLink();
 
     const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
+        e.preventDefault();
+
+        const validationError = validatePassword(password)
+
+        if (validationError) {
+            setError(validationError)
+            return
+        }
+
+        setError("")
+
+        activateMutation.mutate({token, password})
     }
 
     return (
         <form onSubmit={handleSubmit}>
             <AuthInput
-                type={"text"}
+                label=""
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                rightIcon={
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                    >
+                        <Eye size={22}></Eye>
+                    </button>
+                }
             />
 
-            {loginMutation.isError && (
+            {error && (
+                <div style={{ color: "red", fontSize: 12 }}>
+                    {error}
+                </div>
+            )}
+
+            {activateMutation.isError && (
                 <div style={{color:"red"}}>
                     Ошибка входа
                 </div>
@@ -30,9 +72,9 @@ export function AddPasswordForm() {
 
             <AuthButton
                 type="submit"
-                disabled={loginMutation.isPending}
+                disabled={activateMutation.isPending}
             >
-                {loginMutation.isPending ? "Вход..." : "Установить и Войти"}
+                {activateMutation.isPending ? "Вход..." : "Установить и Войти"}
             </AuthButton>
         </form>
     )
