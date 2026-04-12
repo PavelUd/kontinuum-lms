@@ -70,8 +70,18 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
             .WithOne(m => m.Group)
             .HasForeignKey(m => m.GroupId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Credential>()
+            .HasOne<User>()
+            .WithOne()
+            .HasForeignKey<Credential>(bc => bc.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
         
-        
+        modelBuilder.Entity<InviteLink>()
+            .HasOne<User>()
+             .WithOne()
+             .HasForeignKey<InviteLink>(bc => bc.UserId)
+             .OnDelete(DeleteBehavior.Cascade);
         
         modelBuilder.Entity<LessonBlock>()
             .Property(x => x.Type)
