@@ -29,7 +29,7 @@ export type Optimistic<T> = T & {
 
 export type EntityConfig<T> = {
     queryKey: any[]
-    createFn?: (data : any) => Promise<ApiResponse<string>>
+    createFn?: (data : any) => Promise<ApiResponse<any>>
     deleteFn?: (id: string) => Promise<void>
     updateFn?: (id: string, patch: Partial<T>) => Promise<T>,
     removeCacheKeys?: unknown[][],

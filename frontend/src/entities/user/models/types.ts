@@ -20,6 +20,11 @@ export interface UserLookup {
     fullname: string,
 }
 
+export interface InviteLink{
+    userId : string,
+    link : string,
+}
+
 export type UserStatus = "invited" | "active" | "blocked"
 
 export type UserRequest = {

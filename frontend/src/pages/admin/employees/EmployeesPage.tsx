@@ -15,9 +15,11 @@ export function EmployeesPage(){
 
     const mutations = useEmployeeMutations(1, 2);
 
-    const onConfirmCreation = (request :  UserRequest) => {
-        mutations.create(request)
-        setIsOpen(false)
+    const onConfirmCreation = async (request :  UserRequest) => {
+        const response = await mutations.create(request)
+        return {
+            inviteLink: response.data?.link
+        }
     }
 
     return (

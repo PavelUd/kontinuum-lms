@@ -19,9 +19,11 @@ export function StudentsPage() {
     const [filterGrade, setFilterGrade] = useState('');
     const [filterStatus, setFilterStatus] = useState('');
 
-    const onConfirmCreation = (request: CreateStudentRequest) => {
-        mutations.create(request)
-        setIsOpen(false)
+    const onConfirmCreation = async (request: CreateStudentRequest) => {
+        const response = await mutations.create(request)
+        return {
+            inviteLink: response.data?.link
+        }
     }
 
     return (

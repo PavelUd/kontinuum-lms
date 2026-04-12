@@ -1,6 +1,6 @@
 import {ApiResponse} from "@/shared/api/types/api-response";
 import {api} from "@/shared/api";
-import {User, UserLookup, UserRequest} from "@/entities/user/models/types";
+import {InviteLink, User, UserLookup, UserRequest} from "@/entities/user/models/types";
 import {PagedResult} from "@/shared/ui/pagination/types";
 
 export const getEmployees = async(page : number, pageSize: number) : Promise<PagedResult<User>> => {
@@ -11,8 +11,8 @@ export const getEmployeesLookup = async() : Promise<UserLookup[]> => {
     return await api.get<UserLookup[]>(`/employees/lookup`, {auth: true})
 }
 
-export const createEmployee = async(request : UserRequest) : Promise<ApiResponse<string>> => {
-    return await api.post<ApiResponse<string>>(`/employees`,request, {auth: true})
+export const createEmployee = async(request : UserRequest) : Promise<ApiResponse<InviteLink>> => {
+    return await api.post<ApiResponse<InviteLink>>(`/employees`,request, {auth: true})
 }
 
 export const deleteEmployee = async(id: string) : Promise<void> => {
