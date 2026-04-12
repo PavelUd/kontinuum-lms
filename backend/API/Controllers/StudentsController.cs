@@ -1,5 +1,7 @@
+using Coordinator.User.Create;
 using Core.Common.Pagination;
 using Core.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Users.Application.DTO;
@@ -14,11 +16,13 @@ public class StudentsController : ControllerBase
 {
     private readonly IUsersService _usersService;
     private readonly IStudentService _studentService;
+    private readonly IMediator _mediator;
 
-    public StudentsController(IUsersService usersService, IStudentService studentService)
+    public StudentsController(IUsersService usersService, IStudentService studentService, IMediator mediator)
     {
         _usersService = usersService;
         _studentService = studentService;
+        _mediator = mediator;
     }
     
         [Authorize(Roles = $"{nameof(Role.Admin)}")]
@@ -32,9 +36,9 @@ public class StudentsController : ControllerBase
         
         [Authorize(Roles = $"{nameof(Role.Admin)}")]
         [HttpPost]
-        public async Task<IActionResult> CreateStudent([FromBody] CreateStudentRequest request)
+        public async Task<IActionResult> CreateStudent([FromBody] CreateStudentCommand request)
         {
-            var result = await _usersService.CreateUser(request);
+            var result = await  _mediator.Send(request);
             return result.Succeeded ? Accepted(result) : BadRequest(result);
         }
         

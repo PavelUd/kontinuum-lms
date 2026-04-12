@@ -17,5 +17,6 @@ public static class ServiceCollectionExtension
     {
         
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IInvitationService, InvitationService>();
     }
 }

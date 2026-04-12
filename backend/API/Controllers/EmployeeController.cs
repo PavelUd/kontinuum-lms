@@ -1,5 +1,7 @@
+using Coordinator.User.Create;
 using Core.Common.Pagination;
 using Core.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Users.Application.DTO;
@@ -15,11 +17,13 @@ public class EmployeeController : ControllerBase
 {
     private readonly IEmployeeService _employeeService;
     private readonly IUsersService _usersService;
+    private readonly IMediator _mediator;
 
-    public EmployeeController(IUsersService usersService, IEmployeeService employeeService)
+    public EmployeeController(IUsersService usersService, IEmployeeService employeeService, IMediator mediator)
     {
         _usersService = usersService;
         _employeeService = employeeService;
+        _mediator = mediator;
     }
 
     [Authorize(Roles = $"{nameof(Role.Admin)}")]
@@ -40,9 +44,9 @@ public class EmployeeController : ControllerBase
     
     [Authorize(Roles = $"{nameof(Role.Admin)}")]
     [HttpPost]
-    public async Task<IActionResult>  CreateEmployee([FromBody] CreateEmployeeDto request)
+    public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeCommand request)
     {
-        var result = await _usersService.CreateUser(request);
+        var result = await  _mediator.Send(request);
         return result.Succeeded ? Accepted(result) : BadRequest(result);
     }
     

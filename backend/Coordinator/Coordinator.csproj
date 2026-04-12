@@ -7,20 +7,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="User\Commands\" />
-      <Folder Include="User\Queries\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="Hangfire.Core" Version="1.8.23" />
       <PackageReference Include="MediatR" Version="14.1.0" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Auth\Auth.csproj" />
       <ProjectReference Include="..\Progress\Progress.csproj" />
       <ProjectReference Include="..\BlockEngine\BlockEngine.csproj" />
       <ProjectReference Include="..\Core\Core.csproj" />
       <ProjectReference Include="..\Tracking\Tracking.csproj" />
+      <ProjectReference Include="..\Users\Users.csproj" />
     </ItemGroup>
 
 </Project>

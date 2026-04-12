@@ -39,7 +39,7 @@ public class UsersService : IUsersService, IUserQueryService
         return await Result<T>.SuccessAsync(user);
     }
 
-    public async Task<Result<Guid>> CreateUser<T>(T request) where T : IUserCreateRequest
+    public async Task<Guid> CreateUser<T>(T request) where T : IUserCreateRequest
     {
         try
         {
@@ -50,7 +50,7 @@ public class UsersService : IUsersService, IUserQueryService
 
             if (exists)
             {
-                return await Result<Guid>.FailureAsync("Пользователь с таким номером уже существует");
+                throw new Exception("Пользователь с таким номером уже существует");
             }
             
             user.Status = UserStatus.Invited;
@@ -58,15 +58,15 @@ public class UsersService : IUsersService, IUserQueryService
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return await Result<Guid>.SuccessAsync(user.Id);
+            return user.Id;
         }
-        catch (DbUpdateException)
+        catch (DbUpdateException )
         {
-            return await Result<Guid>.FailureAsync("Пользователь с таким номером уже существует");
+            throw new Exception("Пользователь с таким номером уже существует");
         }
         catch (Exception e)
         {
-            return await Result<Guid>.FailureAsync(e.Message);
+            throw new Exception(e.Message);
         }
         
     }

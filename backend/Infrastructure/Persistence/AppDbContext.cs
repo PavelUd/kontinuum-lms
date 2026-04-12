@@ -5,6 +5,7 @@ using Auth.Domain;
 using Auth.Infrastructure;
 using BlockEngine.Domain.Entities;
 using BlockEngine.Infrastructure;
+using Coordinator.interfaces;
 using Courses.Application.Interfaces;
 using Courses.Domain.Entities;
 using Courses.Infrastructure.Interfaces;
@@ -19,7 +20,7 @@ using Users.Infrastructure;
 
 namespace Infrastructure.Persistence;
 
-public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext, IAuthDbContext , IUsersDbContext, ITrackingDbContext, IAnalyticsDbContext, IGroupsDbContext
+public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext, IAuthDbContext , IUsersDbContext, ITrackingDbContext, IAnalyticsDbContext, IGroupsDbContext, ICoordinatorContext
 {
     public DbSet<Course> Courses { get; set; }
     public DbSet<RefreshSession> RefreshSessions { get; set; }
@@ -29,6 +30,9 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
     public DbSet<StudentProfile> StudentProfiles { get; set; }
     
     public DbSet<Credential> Credentials { get; set; }
+    
+    public DbSet<InviteLink> InviteLinks { get; set; }
+    
     public DbSet<LessonBlock> LessonBlocks { get; set; }
     
     public DbSet<AnswerAttempt> AnswerAttempts { get; set; }
