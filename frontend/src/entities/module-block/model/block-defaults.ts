@@ -32,7 +32,7 @@ export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
         text: "Текст"
     },
     table: {
-        columns: [{id: "c1",title: "Загаловок 1"},{id: "c2",title: "Загаловок 2"}],
+        columns: [{id: "c1",title: "Заголовок 1"},{id: "c2",title: "Заголовок 2"}],
         rows: [{id:"r1", cells:["Строка 1", "Строка 2"]}]
     },
     heading: {
@@ -45,7 +45,7 @@ export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
     },
     file: {
         url: "",
-        caption: "файл не обнаружен"
+        caption: "название файла"
     },
     audio: {
         caption: "Название аудио",

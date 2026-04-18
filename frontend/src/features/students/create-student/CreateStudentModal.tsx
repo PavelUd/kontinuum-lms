@@ -71,7 +71,7 @@ export function CreateStudentModal({ isOpen, onClose, onConfirm }: Props) {
             title={step === "form" ? "Добавить ученика" : "Ссылка-приглашение"}
             open={isOpen}
             onClose={onClose}
-            width={700}
+            width={600}
             footer={
                 step === "form" ? (
                     <div className="p-4 py-2 border-t border-gray-100 flex gap-4">

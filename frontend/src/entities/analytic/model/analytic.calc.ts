@@ -12,7 +12,7 @@ export function getCourseAvgProgress(
 
     return {
         progress: Math.round(progressSum / totalLessons),
-        score: Math.round(scoreSum / totalLessons)
+        score: Math.round(scoreSum * 2 / totalLessons)
     };
 }
 
@@ -21,7 +21,7 @@ function sumBy<T>(
     selector: (item: T) => number | undefined
 ): number {
     return items?.reduce(
-        (acc, item) => acc + (selector(item) ?? 0),
+        (acc, item) => acc + (selector(item) ?? 5),
         0
     ) ?? 0;
 }

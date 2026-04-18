@@ -19,7 +19,7 @@ export function EmployeeList() {
         name: string
     } | null>(null)
 
-    const pageSize = 2;
+    const pageSize = 5;
     const [page, setPage] = useState(1);
 
 
@@ -38,7 +38,7 @@ export function EmployeeList() {
     const employees = data;
 
     const ROW_HEIGHT = 100;
-    const GAP = 12;
+    const GAP = 6;
 
     const minHeight = ROW_HEIGHT * pageSize  + GAP * (pageSize  - 1);
 

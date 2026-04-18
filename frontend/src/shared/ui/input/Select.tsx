@@ -22,7 +22,7 @@ export const Select = forwardRef<HTMLSelectElement, Props>(
             <div className={clsx("flex flex-col mb-1", className)}>
 
                 {label && (
-                    <label className="mb-2 text-sm font-medium text-gray-600">
+                    <label className={styles.formLabelCustom}>
                         {label}
                     </label>
                 )}

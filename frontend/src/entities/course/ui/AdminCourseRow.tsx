@@ -1,11 +1,12 @@
 import styles from "./admin-course-row.module.css"
-import {Layers, Trash2, UserPlus, Users} from "lucide-react";
+import {Edit2, Layers, Trash2, UserPlus, Users} from "lucide-react";
 import {Switch} from "@/shared/ui/switch/Switch";
 import {CourseSummary} from "@/entities/course";
 import {Status} from "@/entities/course/model/types";
 import {plural} from "@/shared/lib/plural/plural";
 import {useCourseMutations} from "@/entities/course/model/useCourseMutations";
 import {Row} from "@/shared/ui/row/Row";
+import {Button} from "@/shared/ui/button/Button";
 
 export type Props = {
     course : CourseSummary
@@ -32,7 +33,7 @@ export function AdminCourseRow({course, onDelete}: Props) {
 
                     <span className={styles.metaItem}>
                             <Users size={14} />
-                        1 ученик
+                        {course.lessonsCount == 1 ? course.lessonsCount : course.lessonsCount * 2} {plural(course.lessonsCount, "ученик", "ученика", "учеников")}
                         </span>
                 </div>
             </div>
@@ -49,28 +50,27 @@ export function AdminCourseRow({course, onDelete}: Props) {
             </div>
 
             <div className={styles.actions}>
-                <button
-                    className={`${styles.button} ${styles.secondaryButton}`}
-                    onClick={() =>
-                        window.dispatchEvent(
-                            new CustomEvent("openInvite", { detail: course })
-                        )
-                    }
+                <Button
+                    variant="ghost"
+                    icon={<Edit2 size={14}/>}
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        e.preventDefault()
+                    }}
                 >
-                    <UserPlus size={14} />
-                    Доступ
-                </button>
+                </Button>
 
-                <button
-                    className={`${styles.button} ${styles.dangerButton}`}
+                <Button
+                    variant={"ghost"}
+                    style={{background: "#fef2f2"}}
                     onClick={(e) => {
                         e.stopPropagation()
                         e.preventDefault()
                         onDelete()
                     }}
-                >
-                    <Trash2 size={14} />
-                </button>
+                    icon={<Trash2 className="text-red-500" size={14}>
+                    </Trash2>}>
+                </Button>
             </div>
         </Row>
     )

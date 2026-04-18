@@ -62,7 +62,7 @@ export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: 
                                     {m.title}
                                 </div>
                                 <div className="text-sm text-gray-400">
-                                    {idx === 3 ? 'Тест' : 'Теория'}
+                                    {'Теория'}
                                 </div>
                             </td>
 

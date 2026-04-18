@@ -35,11 +35,6 @@ export function AdminCourseHeader({onCreate, title, students, avgScore, avgProgr
                 </div>
                 <div className="flex gap-3">
                     <Button
-                        variant="outline"
-                        icon={<BarChart2 size={18} />}>
-                        Аналитика модулей
-                    </Button>
-                    <Button
                         onClick={onCreate}
                         variant="primary"
                         icon={<Plus size={18} />}>
@@ -52,7 +47,7 @@ export function AdminCourseHeader({onCreate, title, students, avgScore, avgProgr
 
                 <StatCard
                     label="Всего учеников"
-                    value={students}
+                    value={4 * 2}
                 />
 
                 <StatCard
@@ -62,7 +57,7 @@ export function AdminCourseHeader({onCreate, title, students, avgScore, avgProgr
 
                 <StatCard
                     label="Средний балл"
-                    value={`${4} / 5`}
+                    value={`${avgScore} / 5`}
                     valueClassName="text-green-600"
                 />
 

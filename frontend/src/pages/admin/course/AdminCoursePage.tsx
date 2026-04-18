@@ -60,7 +60,7 @@ export function AdminCoursePage({courseId} : Props) {
     const {progress, score} = getCourseAvgProgress(progressQuery ?? [], lessons.length);
     return (
         <>
-        <AdminCourseHeader onCreate={() => setIsOpen(true)} title={course?.name ?? ""} students={1} avgProgress={progress} avgScore={score} />
+        <AdminCourseHeader onCreate={() => setIsOpen(true)} title={course?.name ?? ""} students={6} avgProgress={progress} avgScore={score} />
             <AdminModulesList onDelete={onClickDeleteButton} modulesProgress={progressQuery} modules={lessons} courseId={courseId} />
             <CreateModuleModal onConfirm={onConfirmCreation} modulesCount={lessons.length + 1} isOpen={isOpen} onClose={() => setIsOpen(false)}></CreateModuleModal>
             <ConfirmDeleteModal isOpen={isDeleteOpen} onClose={() => setDeleteIsOpen(false)} onConfirm={onDeleteModule} itemName={selectedModule?.name ?? ""}></ConfirmDeleteModal>

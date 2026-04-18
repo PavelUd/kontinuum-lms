@@ -33,7 +33,6 @@ export function Header({onOpenSidebar, profile} : Props ) {
                             <span className={styles.outlineText}>Оглавление</span>
                         </button>
 
-                        <StreakBadge value={12} />
                         <ProfileMenu name={profile?.fullName} email={profile?.email} />
                     </div>
 

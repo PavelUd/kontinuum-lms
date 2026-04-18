@@ -9,7 +9,7 @@ type Props = {
 
 export const Pagination = ({ page, totalPages, onChange }: Props) => {
     return (
-        <div className="flex items-center justify-between mt-2">
+        <div className="flex items-center justify-between">
 
             {/* Информация */}
             <div className="text-sm text-gray-500">

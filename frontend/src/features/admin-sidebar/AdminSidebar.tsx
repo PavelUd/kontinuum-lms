@@ -79,10 +79,6 @@ export function AdminSidebar() {
 
             {/* FOOTER */}
             <div className={styles.footer}>
-                <Link href="settings.html" className={styles.navItem}>
-                    <div className={styles.iconWrapper}><Settings size={18} /></div>
-                    Настройки
-                </Link>
                 <div onClick={handleLogout} className={styles.navItem} style={{ color: "#dc2626", cursor: "pointer" }}>
                     <div className={styles.iconWrapper}><LogOut  size={18} /></div>
                     Выйти

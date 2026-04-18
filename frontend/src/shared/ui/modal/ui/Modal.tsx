@@ -61,7 +61,7 @@ export function Modal({
                     >
                         <Dialog.Panel
                             className={styles.modal}
-                            style={{ maxWidth: width }}
+                            style={{ width: width }}
                         >
                             <div className={styles.modalHeader}>
                             {/* HEADER */}

@@ -23,8 +23,8 @@ export function GroupsList({courseId, teacherId} : Props) {
     } | null>(null)
 
     const ROW_HEIGHT = 100;
-    const GAP = 12;
-    const pageSize = 2;
+    const GAP = 6;
+    const pageSize = 4;
 
     useEffect(() => {
         setPage(1)

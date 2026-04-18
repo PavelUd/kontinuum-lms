@@ -21,9 +21,9 @@ export type Props = {
 
 export function StudentsList({studentSearch, filterGrade, filterStatus} : Props){
 
-    const pageSize = 2;
+    const pageSize = 5;
 
-    const ROW_HEIGHT = 75;
+    const ROW_HEIGHT = 80 ;
     const GAP = 12;
     const minHeight = ROW_HEIGHT * pageSize  + GAP * (pageSize  - 1);
 

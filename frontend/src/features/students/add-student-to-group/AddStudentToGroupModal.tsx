@@ -67,7 +67,7 @@ export function AddStudentToGroupModal({ isOpen, onClose, onConfirm, studentName
             title="Добавить в группу"
             open={isOpen}
             onClose={onClose}
-            width={700}
+            width={550}
             footer={
                 <div className="p-4 py-2 border-t border-gray-100 flex gap-4">
                     <Button className="w-full" variant="outline" onClick={onClose}>
@@ -80,7 +80,7 @@ export function AddStudentToGroupModal({ isOpen, onClose, onConfirm, studentName
             }
         >
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-600 mb-2">
+                <label className="block text-sm font-semibold text-gray-500 mb-2">
                     Ученик
                 </label>
 

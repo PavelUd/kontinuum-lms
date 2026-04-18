@@ -57,7 +57,7 @@ export function CreateGroupModal({ isOpen, onClose, onConfirm }: Props){
             title="Создание группы"
             open={isOpen}
             onClose={onClose}
-            width={900}
+            width={550}
             footer={
                 <div className="px-4 py-2 border-t border-gray-100 flex justify-end gap-4">
                     <Button variant="outline" onClick={onClose}>
@@ -71,7 +71,7 @@ export function CreateGroupModal({ isOpen, onClose, onConfirm }: Props){
         >
         <div className="mb-5">
             <Input
-                className={"mb-5"}
+                className={"mb-2"}
                 label="Название группы"
                 fullWidth={true}
                 value={form.title}

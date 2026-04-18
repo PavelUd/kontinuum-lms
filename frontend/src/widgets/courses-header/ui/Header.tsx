@@ -34,7 +34,6 @@ export function Header({
                         <div className="hidden lg:flex items-center gap-6">
                             <MyCoursesDropdown courses={courses} />
                         </div>
-                        <StreakBadge value={streak} />
                         <ProfileMenu name={profile?.fullName ?? ""} email={profile?.email ?? ""} />
                     </div>
 
