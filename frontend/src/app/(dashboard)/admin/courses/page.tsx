@@ -1,4 +1,4 @@
-import {AdminCoursesPage} from "@/pages/admin/courses/AdminCoursesPage";
+import {AdminCoursesPage} from "@/screens/admin/courses/AdminCoursesPage";
 
 
 export default function Page() {

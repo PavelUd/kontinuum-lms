@@ -1,5 +1,8 @@
-import {PreviewHeader} from "@/widgets/module-header/PreviewHeader";
-import {ModulePreviewPage} from "@/pages/module/ModulePreviewPage";
+
+
+import {ModulePreviewPage} from "@/screens/module/ModulePreviewPage";
+
+export const dynamic = "force-dynamic"
 
 type Props = {
     params: Promise<{

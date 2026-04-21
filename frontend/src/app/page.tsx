@@ -2,7 +2,7 @@
 
 import {useCoursesQuery} from "@/entities/course";
 import {Loader} from "@/shared/ui/loader";
-import {CoursesPage} from "@/pages/courses/CoursesPage";
+import {CoursesPage} from "@/screens/courses/CoursesPage";
 import {useProfileQuery} from "@/entities/user/models/useUsersQuery";
 
 export default function HomePage() {

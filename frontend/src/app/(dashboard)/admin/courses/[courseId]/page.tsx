@@ -1,4 +1,6 @@
-import {AdminCoursePage} from "@/pages/admin/course/AdminCoursePage";
+import {AdminCoursePage} from "@/screens/admin/course/AdminCoursePage";
+
+export const dynamic = "force-dynamic"
 
 type Props = {
     params: Promise<{

@@ -7,17 +7,33 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["KontinuumLMS/KontinuumLMS.csproj", "KontinuumLMS/"]
-RUN dotnet restore "KontinuumLMS/KontinuumLMS.csproj"
+
+
+COPY ["API/API.csproj", "API/"]
+COPY ["Courses/Courses.csproj", "Courses/"]
+COPY ["Core/Core.csproj", "Core/"]
+COPY ["Contracts/Contracts.csproj", "Contracts/"]
+COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+COPY ["BlockEngine/BlockEngine.csproj", "BlockEngine/"]
+COPY ["Auth/Auth.csproj", "Auth/"]
+COPY ["Users/Users.csproj", "Users/"]
+COPY ["Tracking/Tracking.csproj", "Tracking/"]
+COPY ["Progress/Progress.csproj", "Progress/"]
+COPY ["Groups/Groups.csproj", "Groups/"]
+COPY ["Coordinator/Coordinator.csproj", "Coordinator/"]
+RUN dotnet restore "API/API.csproj"
 COPY . .
-WORKDIR "/src/KontinuumLMS"
-RUN dotnet build "./KontinuumLMS.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/API"
+RUN dotnet build "./API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./KontinuumLMS.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
+
+ENV ASPNETCORE_ENVIRONMENT=Development
+
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "KontinuumLMS.dll"]
+ENTRYPOINT ["dotnet", "API.dll"]

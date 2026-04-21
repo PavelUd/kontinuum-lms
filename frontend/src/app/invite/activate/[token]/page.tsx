@@ -1,4 +1,6 @@
-import {InvitePage} from "@/pages/invite/InvitePage";
+import {InvitePage} from "@/screens/invite/InvitePage";
+
+export const dynamic = "force-dynamic"
 
 type Props = {
     params: Promise<{

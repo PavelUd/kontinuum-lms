@@ -1,6 +1,6 @@
 'use client'
 
-import styles from "../../../pages/admin/courses/admin-course-list.module.css"
+import styles from "@/screens/admin/courses/admin-course-list.module.css"
 import {AdminCourseRow} from "@/entities/course/ui/AdminCourseRow";
 import {useCoursesQuery} from "@/entities/course";
 import {Loader} from "@/shared/ui/loader";

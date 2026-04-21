@@ -80,7 +80,7 @@ export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
         correctAnswer: "Ответ"
     },
     choicequestion:{
-        variant: "single",
+        variant: "Single",
         question: "Вопрос",
         description: "",
         correctAnswer: "1",

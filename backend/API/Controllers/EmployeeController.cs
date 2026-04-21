@@ -42,7 +42,7 @@ public class EmployeeController : ControllerBase
         return Ok(employees);
     }
     
-    [Authorize(Roles = $"{nameof(Role.Admin)}")]
+    //   [Authorize(Roles = $"{nameof(Role.Admin)}")]
     [HttpPost]
     public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeCommand request)
     {

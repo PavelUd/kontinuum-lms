@@ -1,5 +1,6 @@
-import ModulePage from "@/pages/module/ModulePage";
+import {ModulePage} from "@/screens/module/ModulePage";
 
+export const dynamic = "force-dynamic"
 
 type Props = {
     params: Promise<{

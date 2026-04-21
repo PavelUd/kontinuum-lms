@@ -1,7 +1,9 @@
-import { Plyr } from "plyr-react";
+"use client"
+
 import "plyr-react/plyr.css";
 import styles from "./video.module.css"
 import React, {useMemo, useState} from "react";
+import dynamic from "next/dynamic";
 
 type Props = {
     url?: string;
@@ -16,7 +18,10 @@ export const VideoPreview = React.memo(function VideoPreview({ url = "", onError
         type: "video" as const,
         sources: [{ src: url, type: "video/mp4" }]
     }), [url])
-
+    const Plyr = dynamic(
+        () => import("plyr-react").then(mod => mod.Plyr),
+        { ssr: false }
+    )
     const options = useMemo(() => ({
         controls: [
             "play-large",

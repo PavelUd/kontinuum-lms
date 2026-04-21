@@ -7,7 +7,7 @@ export function toggleCorrectAnswer(
 ): string {
     const idx = optIdx.toString();
 
-    if (variant === "single") {
+    if (variant === "Single") {
         return correctAnswer.includes(idx) ? "" : idx.toString();
     }
 

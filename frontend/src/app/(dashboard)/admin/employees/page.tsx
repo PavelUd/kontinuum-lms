@@ -1,4 +1,4 @@
-import {EmployeesPage} from "@/pages/admin/employees/EmployeesPage";
+import {EmployeesPage} from "@/screens/admin/employees/EmployeesPage";
 
 export default function Page() {
  return (

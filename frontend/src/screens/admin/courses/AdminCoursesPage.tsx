@@ -1,6 +1,6 @@
 'use client'
 
-import styles from "@/pages/admin/courses/admin-course-list.module.css";
+import styles from "@/screens/admin/courses/admin-course-list.module.css";
 import {AdminSectionHeader} from "@/widgets/admin-section-header/adminSectionHeader";
 import {AdminCourseList} from "@/widgets/course-list/ui/AdminCourseList";
 import {Plus} from "lucide-react";

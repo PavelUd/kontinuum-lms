@@ -13,7 +13,9 @@ using Groups.Application.Extensions;
 using Hangfire;
 using Infrastructure.Extensions;
 using Infrastructure.ObjectStorage;
+using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Scalar.AspNetCore;
@@ -101,6 +103,19 @@ builder.Services.AddCoordinator(builder.Configuration);
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var dbContext = services.GetRequiredService<AppDbContext>();
+    var pendingMigrations = dbContext.Database.GetPendingMigrations();
+ 
+    if (pendingMigrations.Any())
+    {
+        dbContext.Database.Migrate();
+    }
+}
+
 app.UseSwagger();
 app.UseSwaggerUI();
 app.MapScalarApiReference(options =>
@@ -112,6 +127,7 @@ app.UseHangfireDashboard("/hangfire", new DashboardOptions
 {
     
 });
+
 app.UseAuthentication();
 app.UseHttpsRedirection();
 

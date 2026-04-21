@@ -2,6 +2,7 @@ import {Group} from "@/entities/group/module/types";
 import {Row} from "@/shared/ui/row/Row";
 import {Trash2, Users} from "lucide-react";
 import {Button} from "@/shared/ui/button/Button";
+import Link from "next/link";
 
 export type Props = {
     group : Group
@@ -10,6 +11,7 @@ export type Props = {
 
 export function GroupRow({group, onDelete}: Props) {
     return (
+        <Link href={`/admin/groups/${group.id}`}>
         <Row key={group.id}>
                 <div className="bg-white shadow-sm mr-3 p-2 rounded">
                     <Users size={18} className="text-blue-500" />
@@ -43,5 +45,6 @@ export function GroupRow({group, onDelete}: Props) {
                 </Button>
             </div>
         </Row>
+        </Link>
     )
 }

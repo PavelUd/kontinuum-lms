@@ -1,4 +1,6 @@
-import {EditorPage} from "@/pages/editor/EditorPage";
+export const dynamic = "force-dynamic"
+
+import {EditorPage} from "@/screens/editor/EditorPage";
 
 type Props = {
     params: Promise<{
