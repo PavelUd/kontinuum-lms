@@ -9,7 +9,7 @@ import {Input} from "@/shared/ui/input/Input";
 export function AdminGroupHeader() {
     return (
         <div>
-            <Link href={"/src/screens/admin/groups"}>
+            <Link href={"/admin/groups"}>
                 <Button
                     variant="ghost"
                     style={{backgroundColor: "#F8FAFC"}}

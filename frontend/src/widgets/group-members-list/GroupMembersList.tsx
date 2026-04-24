@@ -1,13 +1,21 @@
 "use client"
 
-import { GroupMember } from "@/entities/group-member/model/types";
 import {GroupMemberRow} from "@/entities/group-member/ui/GroupMemberRow";
 import {useState} from "react";
 import {ConfirmDeleteModal} from "@/features/confirm-delete/ConfirmDeleteModal";
+import {useGroupMembersQuery} from "@/entities/group-member/model/useGroupMembersQuery";
+import {useGroupMembersMutations} from "@/entities/group-member/model/useGroupMembersMutations";
+import {Loader} from "@/shared/ui/loader";
+import {useSafePagination} from "@/shared/ui/pagination/useSafePagination";
+import {Pagination} from "@/shared/ui/pagination/Pagination";
 
-export function GroupMembersList(){
+type Props = {
+    groupId : string
+}
 
-    const pageSize = 4;
+export function GroupMembersList({groupId} : Props) {
+
+    const pageSize = 5;
     const [page, setPage] = useState(1);
     const [isDeleteOpen, setDeleteIsOpen] = useState(false)
     const [selectedMember, setSelectedMember] = useState<{
@@ -20,32 +28,19 @@ export function GroupMembersList(){
 
     const minHeight = ROW_HEIGHT * pageSize  + GAP * (pageSize  - 1);
 
-    const members : GroupMember[] = [
-        {
-            fullName : "name",
-            userId : "1",
-            groupId : "1",
-            id: "1",
-        },
-        {
-            fullName : "name",
-            userId : "1",
-            groupId : "1",
-            id: "1",
-        },
-        {
-            fullName : "name",
-            userId : "1",
-            groupId : "1",
-            id: "1",
-        },
-        {
-            fullName : "name",
-            userId : "1",
-            groupId : "1",
-            id: "1",
-        },
-    ];
+    const { isLoading, data } = useGroupMembersQuery(page, pageSize, groupId);
+    const mutations = useGroupMembersMutations();
+
+    const { stableTotalPages, markDeleting } = useSafePagination({
+        data,
+        isLoading,
+        page,
+        setPage
+    })
+
+    const members = data;
+
+    if (isLoading) return <Loader />
 
 return (
     <>
@@ -57,7 +52,7 @@ return (
         gridAutoRows: `${ROW_HEIGHT}px`,
         minHeight: `${minHeight}px`
     }}>
-        {members.map((member, idx) => {
+        {members?.items?.map((member, idx) => {
             return (<GroupMemberRow key={idx} member={member} onDelete={() => {
                 setSelectedMember({
                     id: member.id,
@@ -69,10 +64,19 @@ return (
             })
         }
     </div>
+        {stableTotalPages && stableTotalPages  > 1 && (
+            <Pagination
+                page={page}
+                totalPages={stableTotalPages}
+                onChange={setPage}
+            />
+        )}
     <ConfirmDeleteModal isOpen={isDeleteOpen} onClose={() => setDeleteIsOpen(false)}
                             onConfirm={() => {
                                 if (selectedMember) {
+                                    mutations.remove(selectedMember.id)
                                     setDeleteIsOpen(false)
+                                    markDeleting()
                                 }}}
                             itemName={selectedMember?.name ?? ""}
     ></ConfirmDeleteModal>

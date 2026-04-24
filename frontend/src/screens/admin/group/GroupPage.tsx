@@ -11,7 +11,7 @@ export function GroupPage({groupId} : Props) {
         <>
         <AdminGroupHeader></AdminGroupHeader>
         <EditGroupForm groupId={groupId}></EditGroupForm>
-        <GroupMembersList></GroupMembersList>
+        <GroupMembersList groupId={groupId}></GroupMembersList>
         </>
     )
 }
