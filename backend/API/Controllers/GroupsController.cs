@@ -54,13 +54,4 @@ public class GroupsController : ControllerBase
         var result = await _service.DeleteGroup(id, CancellationToken.None);
         return result.Succeeded ? Accepted(result) : BadRequest(result);
     }
-    
-    [Authorize(Roles = $"{nameof(Role.Admin)}")]
-    [HttpPost("{id}/members")]
-    public async Task<IActionResult> AddGroupMember(Guid id, [FromBody] CreateGroupMemberRequest request)
-    {
-        request.GroupId = id;
-        var result = await _groupMembersService.CreateGroupMember(request);
-        return result.Succeeded ? Accepted(result) : BadRequest(result);
-    }
 }

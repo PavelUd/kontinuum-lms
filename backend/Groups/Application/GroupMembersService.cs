@@ -1,5 +1,9 @@
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Contracts.Services;
 using Core;
+using Core.Common.Extensions;
+using Core.Common.Pagination;
 using Groups.Application.DTO;
 using Groups.Application.Interfaces;
 using Groups.Domain;
@@ -12,11 +16,62 @@ public class GroupMembersService : IGroupMembersService
 {
     private  readonly IGroupsDbContext _dbContext;
     private readonly IMapper _mapper;
+    private readonly IUserQueryService _userQueryService;
 
-    public GroupMembersService(IGroupsDbContext dbContext, IMapper mapper)
+    public GroupMembersService(IGroupsDbContext dbContext, IMapper mapper, IUserQueryService userQueryService)
     {
         _dbContext = dbContext;
         _mapper = mapper;
+        _userQueryService = userQueryService;
+    }
+
+    public async Task<PagedResult<GroupMemberDto>> GetGroupMembers(GetGroupMembersQuery request,Guid idGroup, CancellationToken ct)
+    {
+        var query = _dbContext.GroupMembers.Where(x => x.Role == GroupRole.Student)
+            .AsNoTracking()
+            .AsQueryable();
+
+        query = query.Where(g => g.GroupId == idGroup);
+        
+        var items = query
+            .OrderByDescending(u => u.JoinedAt)
+            .ProjectTo<GroupMemberDto>(_mapper.ConfigurationProvider)
+            .ToPagedResultAsync(request.Page, request.PageSize, ct: ct);
+        
+        var ids = items.Result.Items
+            .Select(x => x.UserId)
+            .Distinct()
+            .ToList();
+        
+        var students = await _userQueryService.GetUsersDictionary(ids);
+        foreach (var item in items.Result.Items)
+        {
+            if (students.TryGetValue(item.UserId, out var name))
+                item.FullName = name;
+        }
+        return await items;
+    }
+    
+    public async Task<Result<None>> DeleteGroupMember(Guid id, CancellationToken ct)
+    {
+        try
+        {
+            var member = await _dbContext.GroupMembers.FindAsync(id, ct);
+            if (member == null || member.Role != GroupRole.Student)
+            {
+                return await Result<None>.SuccessAsync();
+            }
+            
+            _dbContext.GroupMembers.Remove(member);
+            await _dbContext.SaveChangesAsync(ct);
+
+            return await Result<None>.SuccessAsync();
+        }
+
+        catch (Exception e)
+        {
+            return await Result<None>.FailureAsync(e.Message);
+        }
     }
 
     public async Task<Result<Guid>> CreateGroupMember(CreateGroupMemberRequest request)

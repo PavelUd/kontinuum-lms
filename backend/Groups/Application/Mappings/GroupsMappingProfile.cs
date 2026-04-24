@@ -13,6 +13,12 @@ public class GroupsMappingProfile : Profile
         CreateMap<CreateGroupMemberRequest, GroupMember>();
         CreateMap<Group,GroupPreview>();
         CreateMap<GroupPreview, Group>();
+        
+        CreateMap<GroupMember, GroupMemberDto>().ForMember(
+            dest => dest.FullName,
+            opt => opt.Ignore()
+        );
+        
         CreateMap<Group, GroupDto>()
             .ForMember(
                 dest => dest.CourseName,
