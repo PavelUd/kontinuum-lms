@@ -1,3 +1,5 @@
+"use client"
+
 import {Input} from "@/shared/ui/input/Input";
 import {Select} from "@/shared/ui/input/Select";
 

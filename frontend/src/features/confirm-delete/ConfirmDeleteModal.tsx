@@ -7,7 +7,7 @@ export type Props = {
     isOpen : boolean
     onClose: () => void,
     onConfirm: () => void,
-    itemName: string
+    itemName: string,
 }
 
 export function ConfirmDeleteModal({ isOpen, onClose,onConfirm, itemName }: Props){
@@ -16,6 +16,7 @@ export function ConfirmDeleteModal({ isOpen, onClose,onConfirm, itemName }: Prop
         <Modal title={<div>Подтверждение удаления</div>}
                open={isOpen}
                onClose={onClose}
+               width={500}
                footer={
                    <div className="flex gap-3 mt-4 px-0 !pb-0">
                        <Button variant={"danger"} className={"w-full"} onClick={onClose}>Отмена</Button>

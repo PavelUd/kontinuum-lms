@@ -17,6 +17,6 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 
     protected virtual string GetConnectionString()
     {
-        return "Host=db;Port=5432;Database=kontinuum_lms;Username=postgres;Password=root";
+        return "Host=localhost;Port=5432;Database=kontinuum_lms;Username=postgres;Password=root";
     }
 }

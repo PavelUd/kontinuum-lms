@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {Button} from "@/shared/ui/button/Button";
-import {BarChart2, Plus, Users} from "lucide-react";
+import {Plus} from "lucide-react";
 import {StatCard} from "@/shared/ui/stat-card/StatCard";
 
 type Props = {
@@ -18,7 +18,7 @@ export function AdminCourseHeader({onCreate, title, students, avgScore, avgProgr
                 <ol className="flex items-center gap-2 text-gray-500">
 
                     <li>
-                        <Link href="/src/screens/admin/courses" className="hover:text-gray-700 transition-colors">Курсы</Link>
+                        <Link href="/admin/courses" className="hover:text-gray-700 transition-colors">Курсы</Link>
                     </li>
                     <li className="text-gray-300">/</li>
                     <li className="font-bold text-gray-600">
