@@ -9,4 +9,6 @@ public interface IGroupMembersService
     public Task<PagedResult<GroupMemberDto>> GetGroupMembers(GetGroupMembersQuery request,Guid idGroup, CancellationToken ct);
     public Task<Result<None>> DeleteGroupMember(Guid id, CancellationToken ct);
     public Task<Result<Guid>> CreateGroupMember(CreateGroupMemberRequest request);
+    public Task<Result<None>> SetGroupTeacher(Guid idGroup, SetGroupTeacherRequest request);
+    
 }

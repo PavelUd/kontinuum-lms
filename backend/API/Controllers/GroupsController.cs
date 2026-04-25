@@ -48,6 +48,14 @@ public class GroupsController : ControllerBase
     }
     
     [Authorize(Roles = $"{nameof(Role.Admin)}")]
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> PatchGroup(Guid id, [FromBody] PatchGroupRequest request)
+    {
+        var result = await _service.PatchGroup(id, request);
+        return result.Succeeded ? Ok(result) : BadRequest(result);
+    }
+    
+    [Authorize(Roles = $"{nameof(Role.Admin)}")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteGroup(Guid id)
     {

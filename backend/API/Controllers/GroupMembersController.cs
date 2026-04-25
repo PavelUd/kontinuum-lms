@@ -37,10 +37,20 @@ public class GroupMembersController : ControllerBase
     }
     
     [Authorize(Roles = $"{nameof(Role.Admin)}")]
+    [HttpPatch("curator/{memberId}")]
+    public async Task<IActionResult> SetGroupCurator(Guid id, [FromBody] SetGroupTeacherRequest request)
+    {
+        var result = await _groupMembersService.SetGroupTeacher(id, request);
+        return result.Succeeded ? Ok(result) : BadRequest(result);
+    }
+    
+    [Authorize(Roles = $"{nameof(Role.Admin)}")]
     [HttpDelete("{memberId}")]
     public async Task<IActionResult> DeleteGroupMember(Guid memberId)
     {
         var result = await _groupMembersService.DeleteGroupMember(memberId, CancellationToken.None);
         return result.Succeeded ? Accepted(result) : BadRequest(result);
     }
+    
+    
 }

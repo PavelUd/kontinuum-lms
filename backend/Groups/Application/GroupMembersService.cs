@@ -73,6 +73,37 @@ public class GroupMembersService : IGroupMembersService
             return await Result<None>.FailureAsync(e.Message);
         }
     }
+    
+    public async Task<Result<None>> SetGroupTeacher(Guid idGroup, SetGroupTeacherRequest request)
+    {
+        try
+        {
+            var lesson = _dbContext.Groups.FirstOrDefault(x => x.Id == idGroup);
+            if (lesson == null)
+            {
+                return await Result<None>.FailureAsync("Group not found");
+            }
+
+            var teacher = _dbContext.GroupMembers.FirstOrDefault(x => x.UserId == request.TeacherId && x.Role != GroupRole.Student);
+            if (teacher != null)
+            {
+                teacher.UserId = request.TeacherId;
+                teacher.JoinedAt  = DateTime.Now.ToUniversalTime();
+                await _dbContext.SaveChangesAsync();
+            }
+            else
+            {
+                await CreateGroupMember(new CreateGroupMemberRequest()
+                    { GroupId = idGroup, Role = GroupRole.Teacher, UserId = request.TeacherId });
+            }
+
+            return await Result<None>.SuccessAsync();
+        }
+        catch (Exception e)
+        {
+            return await Result<None>.FailureAsync(e.Message);
+        }
+    }
 
     public async Task<Result<Guid>> CreateGroupMember(CreateGroupMemberRequest request)
     {

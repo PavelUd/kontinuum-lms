@@ -13,7 +13,7 @@ public class GroupsMappingProfile : Profile
         CreateMap<CreateGroupMemberRequest, GroupMember>();
         CreateMap<Group,GroupPreview>();
         CreateMap<GroupPreview, Group>();
-        
+        CreateMap<PatchGroupRequest, Group>();
         CreateMap<GroupMember, GroupMemberDto>().ForMember(
             dest => dest.FullName,
             opt => opt.Ignore()
