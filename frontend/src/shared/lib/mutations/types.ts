@@ -31,7 +31,7 @@ export type EntityConfig<T> = {
     queryKey: any[]
     createFn?: (data : any) => Promise<ApiResponse<any>>
     deleteFn?: (id: string) => Promise<void>
-    updateFn?: (id: string, patch: Partial<T>) => Promise<T>,
+    updateFn?: (id: string, patch: Partial<T>) => Promise<void>,
     removeCacheKeys?: unknown[][],
     sortFn?: (items: T[]) => T[]
 }
