@@ -13,7 +13,14 @@ public class GroupsMappingProfile : Profile
         CreateMap<CreateGroupMemberRequest, GroupMember>();
         CreateMap<Group,GroupPreview>();
         CreateMap<GroupPreview, Group>();
-        CreateMap<PatchGroupRequest, Group>();
+        CreateMap<PatchGroupRequest, Group>().ForMember(
+            dest => dest.CourseId,
+            opt =>
+                opt.Condition((src, dest, srcMember) => srcMember != Guid.Empty))
+            .ForMember( 
+                dest => dest.Title, opt =>
+                    opt.Condition((src, dest, srcMember) => srcMember != null));
+        
         CreateMap<GroupMember, GroupMemberDto>().ForMember(
             dest => dest.FullName,
             opt => opt.Ignore()

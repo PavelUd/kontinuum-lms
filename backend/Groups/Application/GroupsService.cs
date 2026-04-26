@@ -77,6 +77,14 @@ public class GroupsService : IGroupsService, IGroupProvider
         }
         return await items;
     }
+
+    public async Task<GroupDto?> GetGroupById(Guid idGroup)
+    {
+        return await _dbContext.Groups
+            .Where(x => x.Id == idGroup)
+            .ProjectTo<GroupDto>(_mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync();
+    }
     
     public async Task<Result<None>> PatchGroup(Guid idGroup, PatchGroupRequest request)
     {
@@ -87,7 +95,7 @@ public class GroupsService : IGroupsService, IGroupProvider
             {
                 return await Result<None>.FailureAsync("Group not found");
             }
-            _mapper.Map(request, lesson);
+            var result = _mapper.Map(request, lesson);
             await _dbContext.SaveChangesAsync();
             return await Result<None>.SuccessAsync();
         }

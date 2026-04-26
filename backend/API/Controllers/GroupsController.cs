@@ -15,25 +15,30 @@ namespace API.Controllers;
 public class GroupsController : ControllerBase
 {
     private readonly IGroupsService _service;
-    private readonly IGroupMembersService _groupMembersService;
 
-    public GroupsController(IGroupsService service, IGroupMembersService groupMembersService)
+    public GroupsController(IGroupsService service)
     {
         _service = service;
-        _groupMembersService = groupMembersService;
     }
     
     [Authorize(Roles = $"{nameof(Role.Admin)}")]
     [HttpGet]
-    public async Task<IActionResult>  GetGroupsPage([FromQuery] GetGroupsQuery query)
+    public async Task<IActionResult> GetGroupsPage([FromQuery] GetGroupsQuery query)
     {
         var groups = await _service.GetGroups(query, CancellationToken.None);
         return Ok(groups);
     }
     
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetGroupById(Guid id)
+    {
+        var group = await _service.GetGroupById(id);
+        return Ok(group);
+    }
+    
     [Authorize(Roles = $"{nameof(Role.Admin)}")]
     [HttpGet("lookup/available")]
-    public async Task<IActionResult>  GetAvailableLookupGroups([FromQuery] Guid courseId, [FromQuery] Guid userId)
+    public async Task<IActionResult> GetAvailableLookupGroups([FromQuery] Guid courseId, [FromQuery] Guid userId)
     {
         var groups = await _service.GetAvailableGroupsAsync(courseId, userId);
         return Ok(groups);
@@ -41,7 +46,7 @@ public class GroupsController : ControllerBase
     
     [Authorize(Roles = $"{nameof(Role.Admin)}")]
     [HttpPost]
-    public async Task<IActionResult>  CreateGroup([FromBody] GroupCreateRequest request)
+    public async Task<IActionResult> CreateGroup([FromBody] GroupCreateRequest request)
     {
         var result = await _service.CreateGroup(request);
         return result.Succeeded ? Accepted(result) : BadRequest(result);
