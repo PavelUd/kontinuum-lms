@@ -1,0 +1,27 @@
+.row {
+    display: grid;
+    grid-template-columns:
+        minmax(180px, 1.5fr)  /* имя */
+        minmax(180px, 1.4fr) /* класс */
+        minmax(80px, 0.8fr) /* телефон */
+        minmax(80px, 0.6fr)   /* курсы */
+        minmax(120px, 1.2fr); /* действия */
+
+    align-items: center;
+    background: white;
+    padding: 1rem;
+    border: 1px solid #f1f5f9;
+    border-radius: 12px;
+    gap: 8px;
+    margin-left: 16px;
+    min-width: 1000px;
+}
+
+/* базовая ячейка */
+.cell {
+    min-width: 0;
+    display: flex;
+    gap: 10px;
+    white-space: normal;
+    flex-wrap: wrap;
+}

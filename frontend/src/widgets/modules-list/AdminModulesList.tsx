@@ -1,6 +1,6 @@
 "use client";
 
-import {Edit3, Eye, Trash2} from "lucide-react";
+import {BarChart2, Edit3, Eye, Trash2} from "lucide-react";
 import {Button} from "@/shared/ui/button/Button";
 import {Switch} from "@/shared/ui/switch/Switch";
 import {useState} from "react";
@@ -20,16 +20,6 @@ type Props = {
 export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: Props) {
 
     const query = useModulesMutations(courseId);
-
-
-    const [page, setPage] = useState(1);
-    const pageSize = 10;
-    const totalPages = Math.ceil(modules.length / pageSize);
-
-    const paginatedModules = modules.slice(
-        (page - 1) * pageSize,
-        page * pageSize
-    );
 
     return (
         <div>
@@ -100,7 +90,13 @@ export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: 
                             {/* Действия */}
                             <td className="text-right pr-4">
                                 <div className="flex gap-1 justify-end">
-
+                                    <Link href={`/admin/modules/${m.id}`}>
+                                    <Button
+                                        variant="ghost"
+                                        icon={<BarChart2 size={14}/>}>
+                                        Статистика
+                                    </Button>
+                                    </Link>
                                     <Link href={`/admin/modules/${m.id}/editor`}>
                                     <Button
                                         variant="ghost"

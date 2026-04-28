@@ -10,8 +10,7 @@ import {useStudentMutations} from "@/entities/user/models/useStudentsMutations";
 import {EmptyList} from "@/widgets/empty-list/EmptyList";
 import {AddStudentToGroupModal} from "@/features/students/add-student-to-group/AddStudentToGroupModal";
 import {useGroupMembersMutations} from "@/entities/group-member/model/useGroupMembersMutations";
-import {CreateStudentRequest} from "@/entities/user/models/types";
-import {CreateGroupMemberRequest} from "@/entities/group/module/types";
+import {CreateGroupMemberRequest} from "@/entities/group-member/model/types";
 
 export type Props = {
     studentSearch: string;

@@ -1,0 +1,30 @@
+.table {
+    width: 100%;
+}
+
+/* HEADER */
+.header {
+    display: grid;
+    grid-template-columns:
+        minmax(180px, 1.5fr)  /* имя */
+        minmax(180px, 1.4fr) /* класс */
+        minmax(80px, 0.8fr)
+        minmax(80px, 0.6fr)   /* курсы */
+        minmax(120px, 1.2fr); /* действия */
+    padding: 0.5rem 1rem;
+    color: #64748b;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+/* BODY */
+.body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cellRight {
+    text-align: right;
+}
