@@ -17,20 +17,31 @@ public class CoursesService : ICoursesService, ICoursesProvider
 {
     
     private  readonly ICoursesDbContext _dbContext;
+    private readonly IIdentityUser _currentUser;
+    private readonly ICourseAccessService _accessService;
     private readonly IMapper _mapper;
 
-    public CoursesService(ICoursesDbContext dbContext, IMapper mapper)
+    public CoursesService(ICoursesDbContext dbContext, IMapper mapper, IIdentityUser currentUser, ICourseAccessService accessService)
     {
         _dbContext = dbContext;
         _mapper = mapper;
+        _currentUser = currentUser;
+        _accessService = accessService;
     }
 
 
-    public  Result<List<SummaryCourseDto>> GetCourses()
+    public async Task<Result<List<SummaryCourseDto>>> GetCourses()
     { 
+        
+        var idUser = _currentUser.Id;
         var query = _dbContext.Courses.AsQueryable();
+        if (_currentUser.Role == Role.Teacher)
+        {
+            var ids = await _accessService.GetAccessibleCourseIds(idUser);
+            query = query.Where(c => ids.Contains(c.Id));
+        }
         var result = query.ProjectTo<SummaryCourseDto>(_mapper.ConfigurationProvider).ToList();
-       return Result<List<SummaryCourseDto>>.Success(result);
+       return await Result<List<SummaryCourseDto>>.SuccessAsync(result);
     }
 
     public async Task<Result<None>> SetStatus(Status status, Guid idCourse)
@@ -58,6 +69,19 @@ public class CoursesService : ICoursesService, ICoursesProvider
             return await Result<None>.FailureAsync(e.Message);
         }
     }
+    
+    public async  Task<Result<List<SummaryCourseDto>>>GetMyCourses()
+    { 
+        var query = _dbContext.Courses.AsQueryable();
+        var idUser = _currentUser.Id;
+        var ids = await _accessService.GetAccessibleCourseIds(idUser);
+        
+        var result = query
+            .Where(c => ids.Contains(c.Id) && c.Status == Status.Active)
+            .ProjectTo<SummaryCourseDto>(_mapper.ConfigurationProvider).ToList();
+        
+        return await Result<List<SummaryCourseDto>>.SuccessAsync(result);
+    } 
 
     public async Task<Result<None>> DeleteCourse(Guid idCourse)
     {

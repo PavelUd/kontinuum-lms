@@ -22,7 +22,7 @@ public class AnalyticController : Controller
     [HttpGet("progress/courses/{courseId}")]
     public async Task<IActionResult> GetCourseAnalytic(Guid courseId)
     {
-        var lessonsProgress = await _service.GetLessonsProgressAnalytics(courseId);
+        var lessonsProgress = await _service.GetCourseAnalytics(courseId);
         return Ok(lessonsProgress);
     }
 }

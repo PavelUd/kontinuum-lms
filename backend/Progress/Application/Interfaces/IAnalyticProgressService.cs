@@ -4,5 +4,5 @@ namespace Analytics.Application.Interfaces;
 
 public interface IAnalyticProgressService
 {
-    public Task<List<LessonAnalyticsDto>> GetLessonsProgressAnalytics(Guid courseId);
+    public Task<CourseAnalyticsDto> GetCourseAnalytics(Guid courseId);
 }

@@ -25,14 +25,15 @@ public class CoursesController : Controller
         _lessonsService = lessonsService;
     }
 
-    
+    [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)},admin")]
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var result = _coursesService.GetCourses();
+        var result = await _coursesService.GetCourses();
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
     
+    [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)},admin")]
     [HttpPost]
     public async Task<IActionResult> CreateCourse(CourseCreateRequest request)
     {
@@ -54,6 +55,14 @@ public class CoursesController : Controller
             return BadRequest(idResult.Errors);
         }
         return NoContent();
+    }
+    
+    [Authorize]
+    [HttpGet("my")]
+    public async Task<IActionResult> GetMyCourses()
+    {
+        var result = await _coursesService.GetMyCourses();
+        return result.Succeeded ? Ok(result) : BadRequest(result);
     }
     
     [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)}")]

@@ -18,6 +18,8 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<IGroupsService, GroupsService>();
         services.AddScoped<IGroupProvider, GroupsService>();
+        services.AddScoped<IGroupMembersProvider, GroupMembersService>();
+        services.AddScoped<ICourseAccessService, CourseAccessService>();
         services.AddScoped<IGroupMembersService, GroupMembersService>();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
     }

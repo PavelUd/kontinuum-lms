@@ -8,10 +8,11 @@ namespace Courses.Application.Interfaces;
 
 public interface ICoursesService
 {
-    public Result<List<SummaryCourseDto>> GetCourses();
+    public Task<Result<List<SummaryCourseDto>>> GetCourses();
     public Result<SummaryCourseDto> GetCourse(Guid courseId);
     public Result<Guid> CreateCourse(CourseCreateRequest request);
     public Task<Result<None>> SetStatus(Status status, Guid idCourse);
     public Task<Result<None>> DeleteCourse(Guid idCourse);
+    public Task<Result<List<SummaryCourseDto>>> GetMyCourses();
     public Task<List<CourseLookup>> GetCourseLookup();
 }

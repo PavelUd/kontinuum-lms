@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Groups.Application;
 
-public class GroupMembersService : IGroupMembersService
+public class GroupMembersService : IGroupMembersService, IGroupMembersProvider
 {
     private  readonly IGroupsDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -103,6 +103,27 @@ public class GroupMembersService : IGroupMembersService
         {
             return await Result<None>.FailureAsync(e.Message);
         }
+    }
+
+    public async Task<IReadOnlyList<Guid>> GetCourseStudentIds(Guid courseId, Guid? curatorId = null)
+    {
+        var groups = _dbContext.Groups
+            .Where(g => g.CourseId == courseId);
+
+        if (curatorId.HasValue)
+        {
+            groups = groups.Where(g =>
+                g.Members.Any(m =>
+                    m.UserId == curatorId.Value &&
+                    m.Role != GroupRole.Student));
+        }
+
+        return await groups
+            .SelectMany(g => g.Members)
+            .Where(m => m.Role == GroupRole.Student)
+            .Select(m => m.UserId)
+            .Distinct()
+            .ToListAsync();
     }
 
     public async Task<Result<Guid>> CreateGroupMember(CreateGroupMemberRequest request)
