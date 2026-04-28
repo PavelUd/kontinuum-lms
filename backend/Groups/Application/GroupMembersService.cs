@@ -105,6 +105,18 @@ public class GroupMembersService : IGroupMembersService, IGroupMembersProvider
         }
     }
 
+    public async Task<Dictionary<Guid, List<Guid>>> GetMembersGroups(List<Guid> idGroups)
+    {
+        return await _dbContext.GroupMembers
+            .Where(x => idGroups.Contains(x.GroupId))
+            .Where(x => x.Role == GroupRole.Student)
+            .GroupBy(x => x.GroupId)
+            .ToDictionaryAsync(
+                g => g.Key,
+                g => g.Select(x => x.UserId).ToList()
+            );
+    }
+
     public async Task<IReadOnlyList<Guid>> GetCourseStudentIds(Guid courseId, Guid? curatorId = null)
     {
         var groups = _dbContext.Groups

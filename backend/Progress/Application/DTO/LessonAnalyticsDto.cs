@@ -6,5 +6,7 @@ public class LessonAnalyticsDto
     
     public double AvgProgress { get; set; }
     
+    public int StudentsCount  { get; set; }
+    
     public double AvgScore { get; set; }
 }

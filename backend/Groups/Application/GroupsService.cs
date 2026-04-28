@@ -160,7 +160,7 @@ public class GroupsService : IGroupsService, IGroupProvider
             .ProjectTo<GroupPreview>(_mapper.ConfigurationProvider)
             .ToListAsync();
     }
-
+    
     public Dictionary<Guid, List<GroupPreview>> GetMembersGroups(List<Guid> idMembers)
     {
         return  _dbContext.GroupMembers
