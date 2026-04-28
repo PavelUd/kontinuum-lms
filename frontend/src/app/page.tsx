@@ -1,12 +1,12 @@
 'use client'
 
-import {useCoursesQuery} from "@/entities/course";
 import {Loader} from "@/shared/ui/loader";
 import {CoursesPage} from "@/screens/courses/CoursesPage";
 import {useProfileQuery} from "@/entities/user/models/useUsersQuery";
+import {useMyCoursesQuery} from "@/entities/course/model/useCoursesQuery";
 
 export default function HomePage() {
-    const { data, isLoading, isError } = useCoursesQuery()
+    const { data, isLoading, isError } = useMyCoursesQuery()
 
     const {
         data: profileData,

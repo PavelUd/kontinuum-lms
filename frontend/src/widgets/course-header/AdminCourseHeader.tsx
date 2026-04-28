@@ -47,7 +47,7 @@ export function AdminCourseHeader({onCreate, title, students, avgScore, avgProgr
 
                 <StatCard
                     label="Всего учеников"
-                    value={4 * 2}
+                    value={students}
                 />
 
                 <StatCard

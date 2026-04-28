@@ -30,11 +30,6 @@ export function AdminCourseRow({course, onDelete}: Props) {
                             {course.lessonsCount}{" "}
                             {plural(course.lessonsCount, "модуль", "модуля", "модулей")}
                         </span>
-
-                    <span className={styles.metaItem}>
-                            <Users size={14} />
-                        {course.lessonsCount == 1 ? course.lessonsCount : course.lessonsCount * 2} {plural(course.lessonsCount, "ученик", "ученика", "учеников")}
-                        </span>
                 </div>
             </div>
 

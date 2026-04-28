@@ -5,7 +5,11 @@ import {ApiResponse} from "@/shared/api/types/api-response";
 
 
 export const courseApi = async (): Promise<ApiResponse<CourseSummary[]>> => {
-    return api.get<ApiResponse<CourseSummary[]>>('courses')
+    return api.get<ApiResponse<CourseSummary[]>>('courses', {auth: true})
+}
+
+export const getMyCourses = async (): Promise<ApiResponse<CourseSummary[]>> => {
+    return api.get<ApiResponse<CourseSummary[]>>('courses/my', {auth: true})
 }
 
 export const getCourseById = async(courseId: string) : Promise<ApiResponse<CourseSummary>> => {
