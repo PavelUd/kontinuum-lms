@@ -7,6 +7,14 @@
     cursor: pointer;
 }
 
+.statCardSkeleton {
+    background: white;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid #e2e8f0;
+
+    cursor: default;
+}
+
 .statLabel {
     color: #64748b;
     font-size: 0.85rem;

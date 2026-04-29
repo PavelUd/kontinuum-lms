@@ -9,9 +9,10 @@ type Props = {
     avgProgress : number,
     avgScore : number
     onCreate: () => void
+    isLoading? : boolean
 }
 
-export function AdminCourseHeader({onCreate, title, students, avgScore, avgProgress}: Props) {
+export function AdminCourseHeader({onCreate, title, students, avgScore, avgProgress, isLoading}: Props) {
     return (
         <div>
             <nav aria-label="breadcrumb" className="mb-5">
@@ -48,17 +49,20 @@ export function AdminCourseHeader({onCreate, title, students, avgScore, avgProgr
                 <StatCard
                     label="Всего учеников"
                     value={students}
+                    isLoading={isLoading}
                 />
 
                 <StatCard
                     label="Средний прогресс"
                     value={`${avgProgress}%`}
+                    isLoading={isLoading}
                 />
 
                 <StatCard
                     label="Средний балл"
                     value={`${avgScore} / 5`}
                     valueClassName="text-green-600"
+                    isLoading={isLoading}
                 />
 
             </div>

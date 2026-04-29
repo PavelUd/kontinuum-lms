@@ -39,16 +39,19 @@ export function AdminModuleHeader({module}: Props) {
                 <StatCard
                     label="Процент прохождения"
                     value={`${data?.avgProgress}%`}
+                    isLoading={isLoading}
                 />
 
                 <StatCard
                     label="Ср. балл за тест"
                     value={`${data?.avgScore} / 5`}
                     valueClassName="text-green-600"
+                    isLoading={isLoading}
                 />
                 <StatCard
                     label="Активность"
                     value={`${data?.studentsCount} учен.`}
+                    isLoading={isLoading}
                 />
             </div>
         </div>

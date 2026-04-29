@@ -20,10 +20,19 @@ export function GroupMembersStatsList({groupId, moduleId, groupName}: Props) {
 
     return (
         <div>
-            {data?.map(member => (
-                <GroupMemberStatsRow groupName={groupName} key={member.id} member={member}>
-                </GroupMemberStatsRow>
-            ))}
+            {data && data.length > 0 ? (
+                data.map(member => (
+                    <GroupMemberStatsRow
+                        groupName={groupName}
+                        key={member.id}
+                        member={member}
+                    />
+                ))
+            ) : (
+                <div className="col-span-full text-center py-4 text-slate-400 text-sm border border-dashed border-slate-200 rounded-lg bg-slate-50">
+                    В группе нет участников
+                </div>
+            )}
         </div>
     )
 }

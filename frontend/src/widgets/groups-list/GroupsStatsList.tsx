@@ -26,7 +26,30 @@ export function GroupsStatsList({courseId, moduleId} : Props){
 
     const {data, isLoading} = UseGroupsProgressAnalyticQuery(courseId, moduleId);
 
-    if (isLoading) return <Loader />
+    if (isLoading) {
+        return (
+            <div className="mb-5 p-1 overflow-hidden rounded-2xl bg-white shadow-sm">
+                <div className="h-[300px] flex items-center justify-center animate-pulse text-slate-300">
+                    Загрузка...
+                </div>
+            </div>
+        );
+    }
+
+    if (!data || data.length === 0) {
+        return (
+            <div className="mb-5 p-1 overflow-hidden rounded-2xl bg-white shadow-sm">
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                    <div className="text-slate-500 text-base font-medium mb-1">
+                        Нет групп
+                    </div>
+                    <div className="text-slate-400 text-sm">
+                        Для этого курса еще не создано групп
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="mb-5 p-1 overflow-hidden rounded-2xl border-0 bg-white shadow-sm">
@@ -44,7 +67,8 @@ export function GroupsStatsList({courseId, moduleId} : Props){
                     gridAutoRows: `${ROW_HEIGHT}px`,
                     minHeight: `${minHeight}px`
                 }}>
-                    {data?.map(group => (
+                    {
+                        data?.map(group => (
                         <div key={group.id}>
                             <GroupStatsRow
                                 group={group}
