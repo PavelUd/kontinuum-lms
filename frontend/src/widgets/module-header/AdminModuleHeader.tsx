@@ -1,11 +1,18 @@
+"use client"
+
 import Link from "next/link";
 import {StatCard} from "@/shared/ui/stat-card/StatCard";
+import {ModuleSummary} from "@/entities/module";
+import { UseModuleProgressAnalyticQuery } from "@/entities/analytic/model/UseModuleProgressAnalyticQuery";
 
 type Props = {
-    moduleId: string
+    module?: ModuleSummary
 }
 
-export function AdminModuleHeader({moduleId}: Props) {
+export function AdminModuleHeader({module}: Props) {
+
+    const {data, isLoading} = UseModuleProgressAnalyticQuery(module?.courseId ?? "", module?.id ?? "");
+
     return (
         <div>
             <nav aria-label="breadcrumb" className="mb-5">
@@ -16,7 +23,7 @@ export function AdminModuleHeader({moduleId}: Props) {
                     </li>
                     <li className="text-gray-300">/</li>
                     <li className="font-bold text-gray-600">
-                        Статистика: {"Введение в производную"}
+                        Статистика: {module?.title}
                     </li>
                 </ol>
             </nav>
@@ -31,17 +38,17 @@ export function AdminModuleHeader({moduleId}: Props) {
 
                 <StatCard
                     label="Процент прохождения"
-                    value={`${82}%`}
+                    value={`${data?.avgProgress}%`}
                 />
 
                 <StatCard
                     label="Ср. балл за тест"
-                    value={`${4.2} / 5`}
+                    value={`${data?.avgScore} / 5`}
                     valueClassName="text-green-600"
                 />
                 <StatCard
                     label="Активность"
-                    value={`${12} учен.`}
+                    value={`${data?.studentsCount} учен.`}
                 />
             </div>
         </div>

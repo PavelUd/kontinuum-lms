@@ -1,39 +1,27 @@
-import {GroupMember} from "@/entities/group-member/model/types";
+"use client"
+
 import {GroupMemberStatsRow} from "@/entities/group-member/ui/GroupMemberStatsRow";
+import {
+    UseGroupProgressAnalyticQuery,
+} from "@/entities/analytic/model/UseGroupProgressAnalyticQuery";
+import {Loader} from "@/shared/ui/loader";
 
-export function GroupMembersStatsList(){
+type Props = {
+    groupId: string,
+    moduleId: string,
+    groupName : string
+}
 
-    const members : GroupMember[] = [
-        {
-            id: "1",
-            fullName: "groupMembers",
-            userId: "1",
-            groupId: "1"
-        },
-        {
-            id: "2",
-            fullName: "groupMembers",
-            userId: "1",
-            groupId: "1"
-        },
-        {
-            id: "3",
-            fullName: "groupMembers",
-            userId: "1",
-            groupId: "1"
-        },
-        {
-            id: "4",
-            fullName: "groupMembers",
-            userId: "1",
-            groupId: "1"
-        }
-    ]
+export function GroupMembersStatsList({groupId, moduleId, groupName}: Props) {
+
+    const {data, isLoading} = UseGroupProgressAnalyticQuery(groupId, moduleId);
+
+    if (isLoading) return <Loader />
 
     return (
         <div>
-            {members.map(member => (
-                <GroupMemberStatsRow key={member.id} member={member}>
+            {data?.map(member => (
+                <GroupMemberStatsRow groupName={groupName} key={member.id} member={member}>
                 </GroupMemberStatsRow>
             ))}
         </div>

@@ -3,9 +3,10 @@ import styles from "./group-stats-row.module.css"
 import {ChevronDown, ChevronRight, Trash2} from "lucide-react";
 import {SteppedProgress} from "@/shared/ui/stepped-progress";
 import {Button} from "@/shared/ui/button/Button";
+import {GroupAnalyticProgress} from "@/entities/analytic/model/types";
 
 export type Props = {
-    group : Group
+    group : GroupAnalyticProgress
     onToggle: () => void
     isOpen: boolean
 }
@@ -38,10 +39,10 @@ export function GroupStatsRow({group, onToggle, isOpen}: Props) {
             <div className={styles.cell}>
                 <div className="flex items-center gap-2">
                     <div className="flex-grow-1">
-                        <SteppedProgress progress={72} width={225} height={10} />
+                        <SteppedProgress progress={group.avgProgress} width={225} height={10} />
                     </div>
                     <span className="text-sm font-bold">
-                        {72}%
+                        {group.avgProgress}%
                     </span>
                 </div>
             </div>
