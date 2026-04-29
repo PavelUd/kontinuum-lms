@@ -97,6 +97,7 @@
     border-radius: 12px;
     font-weight: 700;
     transition: all 0.2s;
+    cursor: pointer;
     text-decoration: none;
     display: inline-block;
     margin-top: 1.5rem;
@@ -260,4 +261,20 @@
 .addBtn:hover {
     border-color: var(--primary-color);
     background: #f0fdf9;
+}
+
+.correct {
+    border: 1px solid #22c55e;
+    background: white;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.checkBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }

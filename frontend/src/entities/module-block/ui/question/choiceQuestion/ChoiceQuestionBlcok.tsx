@@ -11,12 +11,11 @@ type Props = {
 
 export function ChoiceQuestionBlock({ content }: Props) {
 
-    const [selected, setSelected] = useState("");
     const { variant, correctAnswer} = content;
 
-    const handleToggle = (idx : string) => {
-        if (variant === 'Single') setSelected(idx);
-        else setSelected(prev => prev.includes(idx) ? prev.replaceAll(idx, "") : prev + idx);
+    const handleToggle = (idx : string, setAnswer : React.Dispatch<React.SetStateAction<string>>) => {
+        if (variant === 'Single') setAnswer(idx);
+        else setAnswer(prev => prev.includes(idx) ? prev.replaceAll(idx, "") : prev + idx);
     };
 
 
@@ -28,10 +27,10 @@ export function ChoiceQuestionBlock({ content }: Props) {
             correctAnswer: content.correctAnswer,
         }}>
 
-            <div className={styles.quizOptions}>
+            {({ isAnswered,answer, setAnswer }) => ( <div className={styles.quizOptions}>
                 {content.options.map((opt, idx) => {
 
-                    const isSelected = variant === 'Single' ? selected === idx.toString() : selected.includes(idx.toString());
+                    const isSelected = variant === 'Single' ? answer === idx.toString() : answer.includes(idx.toString());
                     let statusClass = "";
                     if (isSelected) {
                         statusClass = styles.selected;
@@ -39,8 +38,12 @@ export function ChoiceQuestionBlock({ content }: Props) {
                     return (
                         <div
                             key={idx}
-                            className={`${styles.quizOption}  ${statusClass} ${variant === 'Single' ? `${styles.singleChoice}` : ''}`}
-                            onClick={() => handleToggle(idx.toString())}
+                            className={`${styles.quizOption}  
+                            ${statusClass} 
+                            ${variant === 'Single' ? `${styles.singleChoice}` : ''}
+                            ${isAnswered ? styles.disabled : ""}
+                            `}
+                            onClick={() => handleToggle(idx.toString(), setAnswer)}
                         >
                             <div className={styles.optionMarker}>
                                 {(isSelected) && <Check size={14} className="text-white" />}
@@ -50,6 +53,7 @@ export function ChoiceQuestionBlock({ content }: Props) {
                     );
                 })}
             </div>
+        )}
         </QuestionBlock>
     )
 }

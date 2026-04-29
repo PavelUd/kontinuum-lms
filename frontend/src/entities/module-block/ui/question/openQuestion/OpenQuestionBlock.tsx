@@ -18,14 +18,15 @@ export function OpenQuestionBlock({ content }: Props) {
             description: content.description,
             correctAnswer: content.correctAnswer,
         }}>
-
+            {({ isAnswered, answer, setAnswer }) => (
             <input
                 type="text"
-                className={styles.quizInput}
+                className={`${styles.quizInput} ${isAnswered ? styles.disabled : ""}`}
                 placeholder="Введите ваш ответ..."
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
             />
+        )}
         </QuestionBlock>
     )
 }
