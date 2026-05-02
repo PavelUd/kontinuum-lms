@@ -1,13 +1,11 @@
 import {ApiResponse} from "@/shared/api/types/api-response";
 import {api} from "@/shared/api";
 import {
+    AnswerQuestionRequest,
     CreateBlockProps, ModuleBlock,
     MoveBlockProps,
     UpdateContentBlockProps
 } from "@/entities/module-block/model/types";
-import {Module} from "@/entities/module";
-
-
 
 
 export const createBlock = async(id: string, body: CreateBlockProps) : Promise<ApiResponse<string>> => {

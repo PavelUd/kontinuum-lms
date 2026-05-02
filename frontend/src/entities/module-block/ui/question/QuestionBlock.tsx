@@ -3,22 +3,33 @@
 import {QuestionBlockContent} from "@/entities/module-block/ui/question/question-content";
 import styles from "./question.module.css"
 import {useState} from "react";
+import {useSubmitAnswerMutation} from "@/entities/progress/model/useSubmitAnswerMutation";
 
 type Props = {
+    id: string,
     content: QuestionBlockContent;
+    isCompleted: boolean
     children: (args: { isAnswered: boolean,answer : string, setAnswer: React.Dispatch<React.SetStateAction<string>> }) => React.ReactNode;
 }
 
-export function QuestionBlock({ content, children }: Props) {
-
+export function QuestionBlock({ content,id,isCompleted, children }: Props) {
+    
+    const mutations = useSubmitAnswerMutation();
     const { description, question } = content;
-    const [isAnswered, setIsAnswered] = useState(false);
+    const [isAnswered, setIsAnswered] = useState(isCompleted);
 
     const [answer, setAnswer] = useState<string>("");
 
     const handleCheck = () => {
         setIsAnswered(true);
-        console.log(answer);
+        mutations.mutate({
+            id: id,
+            data: {
+                payload : {
+                    answer: answer
+                }
+            }
+        });
         setAnswer("");
     };
 

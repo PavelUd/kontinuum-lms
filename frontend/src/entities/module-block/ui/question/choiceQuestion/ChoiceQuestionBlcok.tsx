@@ -2,17 +2,18 @@ import {ChoiceQuestionBlockContent} from "@/entities/module-block/ui/question/qu
 import styles from "@/entities/module-block/ui/question/question.module.css";
 import {QuestionBlock} from "@/entities/module-block/ui/question/QuestionBlock";
 import {Check} from "lucide-react";
-import {useState} from "react";
 
 type Props = {
+    id: string,
     content: ChoiceQuestionBlockContent;
+    isCompleted : boolean
 }
 
 
-export function ChoiceQuestionBlock({ content }: Props) {
+export function ChoiceQuestionBlock({ content, isCompleted, id }: Props) {
 
     const { variant, correctAnswer} = content;
-
+    console.log(isCompleted);
     const handleToggle = (idx : string, setAnswer : React.Dispatch<React.SetStateAction<string>>) => {
         if (variant === 'Single') setAnswer(idx);
         else setAnswer(prev => prev.includes(idx) ? prev.replaceAll(idx, "") : prev + idx);
@@ -21,7 +22,7 @@ export function ChoiceQuestionBlock({ content }: Props) {
 
 
     return (
-        <QuestionBlock content={{
+        <QuestionBlock isCompleted={isCompleted} id={id} content={{
             question: content.question,
             description: content.description,
             correctAnswer: content.correctAnswer,

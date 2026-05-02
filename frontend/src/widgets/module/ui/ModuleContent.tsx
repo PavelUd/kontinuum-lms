@@ -17,7 +17,6 @@ export function ModuleContent({ blocks,completedBlocks, track }: Props) {
     const completedRef = useRef<Set<string>>(new Set())
 
     useEffect(() => {
-        console.log(completedBlocks);
         completedRef.current = new Set(completedBlocks)
     }, [completedBlocks])
 
@@ -33,12 +32,13 @@ export function ModuleContent({ blocks,completedBlocks, track }: Props) {
     const setRef = useCallback((el: HTMLElement | null) => {
         if (!el) return
         observe(el)
-        console.log("hello");
     }, [observe])
 
     return (
         <div className={styles.moduleContent}>
             {blocks.map(block => {
+                const isCompleted = completedBlocks.includes(block.id)
+
                 const Block = getBlock(block.type)
                 if (!Block) return null
 
@@ -49,7 +49,7 @@ export function ModuleContent({ blocks,completedBlocks, track }: Props) {
                         data-type={block.type}
                         ref={setRef}
                     >
-                        <Block content={block.content} />
+                        <Block id={block.id} isCompleted={isCompleted} content={block.content} />
                     </div>
                 )
             })}

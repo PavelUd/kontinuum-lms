@@ -5,15 +5,17 @@ import styles from "../question.module.css"
 
 
 type Props = {
+    id: string,
+    isCompleted: boolean,
     content: QuestionBlockContent;
 }
 
-export function OpenQuestionBlock({ content }: Props) {
+export function OpenQuestionBlock({ content,isCompleted, id }: Props) {
 
     const [inputValue, setInputValue] = useState('');
 
     return (
-        <QuestionBlock content={{
+        <QuestionBlock isCompleted={isCompleted} id={id} content={{
             question: content.question,
             description: content.description,
             correctAnswer: content.correctAnswer,

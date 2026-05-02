@@ -108,3 +108,13 @@ export type BlockCommand =
     belowBlockId: string |  null
     }
 }
+
+export type AnswerQuestionRequest ={
+    payload : {
+        answer: string
+    }
+}
+
+export type AnswerQuestionResponse ={
+    isCompleted: true
+}
