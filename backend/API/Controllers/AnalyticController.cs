@@ -1,6 +1,7 @@
 using Analytics.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Tracking.Application.Interface;
 
 namespace API.Controllers;
 
@@ -10,10 +11,12 @@ namespace API.Controllers;
 public class AnalyticController : Controller
 {
     private readonly IAnalyticProgressService _service;
+    private readonly IBlockEngagementService _blockEngagementService;
 
-    public AnalyticController(IAnalyticProgressService service)
+    public AnalyticController(IAnalyticProgressService service, IBlockEngagementService blockEngagementService)
     {
         _service = service;
+        _blockEngagementService = blockEngagementService;
     }
     
     [Authorize]
@@ -38,6 +41,14 @@ public class AnalyticController : Controller
     {
         var lessonsProgress = await _service.GetGroupsAnalytics(courseId, moduleId);
         return Ok(lessonsProgress);
+    }
+    
+    [Authorize]
+    [HttpGet("lessons/{lessonId}/engagement")]
+    public async Task<IActionResult> GetLessonEngagement(Guid lessonId)
+    {
+        var result = _blockEngagementService.GetLessonEngagementStats(lessonId);
+        return Ok(result);
     }
     
     [Authorize]

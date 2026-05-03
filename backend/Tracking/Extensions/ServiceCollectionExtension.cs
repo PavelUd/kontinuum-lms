@@ -11,6 +11,8 @@ public static class ServiceCollectionExtension
     public static void AddTrackingModule(this IServiceCollection services,IConfiguration configuration)
     {
         services.AddScoped<ITrackingService, TrackingService>();
+        services.AddScoped<IBlockEngagementService, BlockEngagementService>();
+        services.AddScoped<IBlockEngagementProcessor, BlockEngagementProcessor>();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
     }
 }

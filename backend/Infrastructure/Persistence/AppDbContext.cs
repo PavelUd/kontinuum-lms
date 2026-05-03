@@ -45,6 +45,7 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
     
     public DbSet<GroupMember> GroupMembers { get; set; }
     
+    public DbSet<BlockEngagement>  BlockEngagements { get; set; }
     
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
