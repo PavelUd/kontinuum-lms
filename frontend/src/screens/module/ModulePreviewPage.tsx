@@ -9,6 +9,8 @@ import {Loader} from "@/shared/ui/loader";
 import {useModuleQuery} from "@/entities/module/model/useModulesQuery";
 import {useCourseQuery} from "@/entities/course";
 import {useModuleBlocks} from "@/entities/module-block/model/useModuleBlocks";
+import {HeatmapPanel} from "@/features/heatmap/HeatmapPanel";
+import {useState} from "react";
 
 type Props = {
     lessonId: string
@@ -35,6 +37,8 @@ export function ModulePreviewPage({ lessonId }: Props) {
         data: courseData,
     } = useCourseQuery(lesson?.courseId ?? "");
 
+    const [heatmapEnabled, setHeatmapEnabled] = useState(true);
+
     if (blocksLoading && moduleLoading && courseLoading) return <Loader />
     if (isBlocksErrors) return <div>Ошибка загрузки</div>
 
@@ -43,7 +47,8 @@ export function ModulePreviewPage({ lessonId }: Props) {
             <PreviewHeader courseId={lesson?.courseId ?? ""}></PreviewHeader>
             <div className={styles.container}>
                 <ModuleHero module={1} category={courseData?.data.name} title={lesson?.title ?? ""}></ModuleHero>
-                <PreviewModuleContent blocks={blocks ?? []}></PreviewModuleContent>
+                <PreviewModuleContent heatmapEnabled={heatmapEnabled} blocks={blocks ?? []}></PreviewModuleContent>
+                <HeatmapPanel heatmapEnabled={heatmapEnabled} setHeatmapEnabled={setHeatmapEnabled}></HeatmapPanel>
             </div>
         </>
     )
