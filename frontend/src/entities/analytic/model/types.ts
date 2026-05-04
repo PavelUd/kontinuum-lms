@@ -1,8 +1,17 @@
+import {GetEngagementStats} from "@/entities/analytic/api/engagement.analytic.api";
+
 export type LessonAnalyticProgress = {
     lessonId: string,
     avgProgress: number,
     studentsCount : number,
     avgScore: number
+}
+
+export type HeatmapItem = {
+    "blockId": string,
+    "lessonId": string,
+    "viewsCount": number,
+    "avgTimeSpent": number
 }
 
 export type CourseAnalyticProgress = {

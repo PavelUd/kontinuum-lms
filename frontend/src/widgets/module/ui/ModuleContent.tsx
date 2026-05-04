@@ -9,11 +9,12 @@ import {useCallback, useEffect, useRef} from "react";
 type Props = {
     blocks: ModuleBlock<any>[]
     completedBlocks: string[],
-    track: (blockId: string, payload: any) => void
+    progressTrack : (blockId: string, payload: any) => void
+    track: (blockId: string, totalTimeSpent: number) => void
 
 }
 
-export function ModuleContent({ blocks,completedBlocks, track }: Props) {
+export function ModuleContent({ blocks,completedBlocks, track, progressTrack }: Props) {
     const completedRef = useRef<Set<string>>(new Set())
 
     useEffect(() => {
@@ -21,13 +22,12 @@ export function ModuleContent({ blocks,completedBlocks, track }: Props) {
     }, [completedBlocks])
 
     const { observe, unobserve } = useBlocksObserver((id, duration, isLeave) => {
+        track(id, duration)
         if (completedRef.current.has(id)){
             return
         }
-
-        console.log("viewed:", id, duration, isLeave)
-        track(id, {duration: duration})
-    }, () => {console.log("hello333")})
+        progressTrack(id, {duration: duration})
+    }, () => {})
 
     const setRef = useCallback((el: HTMLElement | null) => {
         if (!el) return

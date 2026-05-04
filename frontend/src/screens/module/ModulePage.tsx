@@ -16,6 +16,7 @@ import Link from "next/link";
 import {useCompletedBlocksQuery} from "@/entities/progress/model/useCompletedBlocksQuery";
 import {useProgressTracker} from "@/entities/progress/model/useProgressTracker";
 import {usePageLeave} from "@/widgets/module/models/useModuleLeave";
+import {useEngagementTracking} from "@/entities/engagement/models/useEngagementTracking";
 
 type Props = {
         courseId: string
@@ -59,7 +60,8 @@ export function ModulePage({ courseId, lessonId }: Props) {
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
 
-    const { track } = useProgressTracker(lessonId, courseId, blocks?.length);
+    const { track : progressTrack } = useProgressTracker(lessonId, courseId, blocks?.length);
+    const { track } = useEngagementTracking(lessonId);
 
     const profile = profileData?.data
 
@@ -84,7 +86,7 @@ export function ModulePage({ courseId, lessonId }: Props) {
             onOpenChange={() => setSidebarOpen(false)} modules={lessons} courseId={courseData?.data.id ?? ""}  />
         <div className={styles.container}>
             <ModuleHero module={lesson.orderIndex} category={courseData?.data?.name ?? ""} title={lesson.title}></ModuleHero>
-            <ModuleContent blocks={blocks} track={track} completedBlocks={completedBlocks}></ModuleContent>
+            <ModuleContent blocks={blocks} track={track} progressTrack={progressTrack} completedBlocks={completedBlocks}></ModuleContent>
             <footer className={styles.lessonFooter}>
                 <div></div>
                 {nextLesson && (

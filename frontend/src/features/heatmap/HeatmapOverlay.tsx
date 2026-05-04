@@ -1,18 +1,18 @@
 import styles from "./heatmap.module.css"
+import {HeatmapItem} from "@/entities/analytic/model/types";
 
 type Props = {
     heatmapEnabled: boolean
-    time : number
-    views: number
+    heatmapItem?: HeatmapItem
 }
 
-export function HeatmapOverlay({heatmapEnabled, time, views} : Props) {
+export function HeatmapOverlay({heatmapEnabled, heatmapItem} : Props) {
 
-    if (!heatmapEnabled || time == 0 && views == 0) return null;
+    if (!heatmapEnabled || heatmapItem == undefined) return null;
 
     let level = styles.heatmapValLow;
-    if (views > 60) level = styles.heatmapValHigh
-    else if (views > 20) level = styles.heatmapValMid;
+    if (heatmapItem.viewsCount > 60) level = styles.heatmapValHigh
+    else if (heatmapItem.viewsCount > 20) level = styles.heatmapValMid;
 
     return (
         <>
@@ -22,10 +22,10 @@ export function HeatmapOverlay({heatmapEnabled, time, views} : Props) {
                 style={{ lineHeight: '1.2' }}
             >
                 <span className="font-semibold">
-                    {Math.round(time)}с
+                    {Math.round(heatmapItem.avgTimeSpent)}с
                 </span>
                 <span className="text-[0.65rem] opacity-80">
-                    {views} просм.
+                    {heatmapItem.viewsCount} просм.
                 </span>
             </div>
         </>

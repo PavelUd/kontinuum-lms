@@ -23,12 +23,6 @@ export function HeatmapPanel({heatmapEnabled, setHeatmapEnabled} : Props) {
                 }`}
                 onClick={() => setHeatmapEnabled(!heatmapEnabled)}
             />
-
-            <div className="w-px h-4 bg-gray-300"></div>
-
-            <div className="text-xs text-gray-500">
-                <span className="font-semibold text-gray-900">8</span> просмотров сегодня
-            </div>
         </div>
     );
 }
