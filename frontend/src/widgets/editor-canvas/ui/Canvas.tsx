@@ -7,6 +7,7 @@ import {updateModuleTitle} from "@/entities/module/api/module.api";
 import {queryClient} from "@/shared/api";
 import {ModuleBlock} from "@/entities/module-block/model/types";
 import {useEffect} from "react";
+import {SaveStatusIndicator} from "@/features/save-status-indicator/SaveStatusIndicator";
 
 type Props = {
     moduleTitle: string,
@@ -17,7 +18,7 @@ type Props = {
 
 export function Canvas({  moduleTitle, moduleId, courseId, blocks }: Props) {
     const loadBlocks = useLessonBlocksStore(s => s.loadBlocks)
-
+    const status = useLessonBlocksStore(s => s.saveStatus)
     useEffect(() => {
         if (blocks) {
             loadBlocks(blocks, moduleId)
@@ -39,6 +40,7 @@ export function Canvas({  moduleTitle, moduleId, courseId, blocks }: Props) {
 
     return (
         <div className={styles.editorCanvas} onClick={() => setActiveBlock("")}>
+            <SaveStatusIndicator status={status}></SaveStatusIndicator>
             <CanvasHeader updateModuleTitle={updateTitle} moduleId={moduleId} name={moduleTitle}></CanvasHeader>
             <CanvasContent></CanvasContent>
         </div>

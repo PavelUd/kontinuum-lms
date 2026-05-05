@@ -1,9 +1,12 @@
-import {BlockCommand} from "./types"
+import {BlockCommand, SaveStatus} from "./types"
 import {useLessonBlocksStore} from "@/entities/module-block/model/blocks.store";
 import {createBlock, deleteBlock, moveBlock, updateBlockContent} from "@/entities/module-block/api/module-block.api";
 
 export class BlockCommandQueue {
 
+    constructor(
+        private setStatus: (s: SaveStatus) => void
+    ) {}
 
     private queue: BlockCommand[] = []
     private processing = false
@@ -19,25 +22,26 @@ export class BlockCommandQueue {
     }
 
     private async process() {
-
         this.processing = true
+        this.setStatus('saving')
+
+        let hasError = false
 
         while (this.queue.length > 0) {
-
             const cmd = this.queue[0]
 
             try {
-
                 await this.execute(cmd)
-
             } catch (e) {
                 console.error("command failed", e)
+                hasError = true
             }
 
             this.queue.shift()
         }
 
         this.processing = false
+        this.setStatus(hasError ? 'error' : 'saved')
     }
 
     private async execute(cmd: BlockCommand) {
@@ -122,5 +126,3 @@ export class BlockCommandQueue {
     }
 
 }
-
-export const blockCommandQueue = new BlockCommandQueue()

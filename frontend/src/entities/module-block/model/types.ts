@@ -79,6 +79,8 @@ export type MoveBlockProps = {
    belowBlockId : string | null
 }
 
+export type SaveStatus = 'idle' | 'saving' | 'saved' | 'error'
+
 export type BlocksState = {
     blockOrder: string[]
     blocksById: Record<string, ModuleBlock<any>>

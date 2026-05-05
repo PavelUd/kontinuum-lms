@@ -7,6 +7,7 @@ import {Loader} from "@/shared/ui/loader";
 import {useLessonBlocksStore} from "@/entities/module-block/model/blocks.store";
 import {useModuleBlocks} from "@/entities/module-block/model/useModuleBlocks";
 import {useModuleQuery, useModulesQuery} from "@/entities/module/model/useModulesQuery";
+import {SaveStatusIndicator} from "@/features/save-status-indicator/SaveStatusIndicator";
 
 type Props = {
     moduleId: string

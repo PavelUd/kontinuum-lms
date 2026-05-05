@@ -1,11 +1,17 @@
 import { create } from "zustand"
-import {BlockContent, BlocksState, BlockType, ModuleBlock} from "@/entities/module-block/model/types";
+import {BlockContent, BlocksState, BlockType, ModuleBlock, SaveStatus} from "@/entities/module-block/model/types";
 import {getDefaultBlockContent} from "@/entities/module-block/model/block-defaults";
-import {blockCommandQueue} from "@/entities/module-block/model/block-command-queue";
+import {BlockCommandQueue} from "@/entities/module-block/model/block-command-queue";
 
 type BlocksStore = BlocksState & {
 
+    saveStatus: SaveStatus
+
+    setSaveStatus: (status: SaveStatus) => void
+
     addBlock : (type: BlockType, lessonId: string, content?: BlockContent) => string
+
+    queue: BlockCommandQueue
 
     moduleId : string | null,
 
@@ -26,10 +32,19 @@ type BlocksStore = BlocksState & {
 
 export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
 
+
     blockOrder: [],
     blocksById: {},
     activeBlockId: null,
     moduleId: null,
+
+    saveStatus: 'idle',
+
+    setSaveStatus: (status) => set({ saveStatus: status }),
+
+    queue : new BlockCommandQueue((status) => {
+        set({ saveStatus: status })
+    }),
 
     setActiveBlock: (id) =>
         set({
@@ -55,7 +70,7 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
             }
         }))
 
-        blockCommandQueue.enqueue({
+        get().queue.enqueue({
             type: "create",
             tempId: id,
             lessonId: lessonId,
@@ -96,7 +111,7 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
                 ? newOrder[newIndex + 1]
                 : null
 
-            blockCommandQueue.enqueue({
+            get().queue.enqueue({
                 type: "reorder",
                 id,
                 payload: {belowBlockId : belowBlockId, aboveBlockId :aboveBlockId}
@@ -147,7 +162,7 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
             }
         }))
 
-        blockCommandQueue.enqueue({
+        get().queue.enqueue({
             type: "update",
             id,
             payload: content
@@ -168,7 +183,7 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
 
         })
 
-        blockCommandQueue.enqueue({
+        get().queue.enqueue({
             type: "delete",
             id
         })
