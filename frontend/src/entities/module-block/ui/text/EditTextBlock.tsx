@@ -1,59 +1,52 @@
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import { EditBlockProps } from "@/entities/module-block/model/types"
 import {TextBlockContent} from "@/entities/module-block/ui/text/text-block-content";
+import {BubbleMenu} from "@/features/bubble-menu/BubbleMenu";
+import {EditorContent, useEditor} from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import TextAlign from "@tiptap/extension-text-align"
 
 export function EditTextBlock({
                                   block,
                                   isActive,
-                                  updateBlock
+                                  updateBlock,
                               }: EditBlockProps<TextBlockContent>) {
-
-    const ref = useRef<HTMLDivElement>(null)
-
     const { text } = block.content
+    console.log(text)
+    const editor = useEditor({
+        extensions: [
+            StarterKit,
 
-    function focusEnd(el: HTMLElement | null) {
+            TextAlign.configure({
+                types: ["heading", "paragraph"],
+            }),
+        ],
+        content: text,
+        editable: true,
+        immediatelyRender: false,
+        onUpdate: ({ editor }) => {
+            const html = editor.getHTML()
+            if (html !== text) {
+                updateBlock(block.id, { text: html })
+            }
+        },
+    })
 
-        if (!el) return
-
-        el.focus()
-
-        const selection = window.getSelection()
-        if (!selection) return
-
-        const range = document.createRange()
-
-        range.selectNodeContents(el)
-        range.collapse(false)
-
-        selection.removeAllRanges()
-        selection.addRange(range)
-    }
-
+    // фокус при активации
     useEffect(() => {
-        if (isActive) {
-            focusEnd(ref.current)
+        console.log(isActive, editor);
+        if (isActive && editor) {
+            editor.commands.focus("end")
         }
-    }, [isActive])
+    }, [isActive, editor])
 
-    const handleBlur = () => {
-
-        if (!ref.current) return
-
-        const newText = ref.current.innerHTML
-
-        if (newText !== text) {
-            updateBlock(block.id, { text: newText })
-        }
-    }
+    if (!editor) return null
 
     return (
-        <div
-            ref={ref}
-            contentEditable={isActive}
-            suppressContentEditableWarning
-            onBlur={handleBlur}
-            dangerouslySetInnerHTML={{ __html: text }}
-        />
+        <div className="relative">
+            {/* 🔥 вот здесь BubbleMenu */}
+            <BubbleMenu editor={editor} />
+            <EditorContent editor={editor} className=" [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6" />
+        </div>
     )
 }
