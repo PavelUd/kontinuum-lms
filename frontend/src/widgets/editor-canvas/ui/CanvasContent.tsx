@@ -57,6 +57,10 @@ export function CanvasContent() {
         setIsDragging(false)
     }
 
+    const activate = (id: string) => {
+        setActiveBlock(id)
+    }
+
     const sensors = useSensors(
         useSensor(PointerSensor, {
             activationConstraint: {
@@ -112,6 +116,7 @@ export function CanvasContent() {
 
                                             <BlockComponent
                                                 block={block}
+                                                setActiveBlock={activate}
                                                 isActive={activeBlock === block.id}
                                                 updateBlock={updateBlock}
                                             />

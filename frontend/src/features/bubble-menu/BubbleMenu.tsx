@@ -14,8 +14,12 @@ export function BubbleMenu({ editor }: Props) {
 
     return (
         <TiptapBubbleMenu
+            options={{
+                placement: "bottom",
+            }}
+
             editor={editor}
-            className="flex items-center gap-1 rounded-xl border border-slate-200 bg-white/95 backdrop-blur px-1 py-1 shadow-xl"
+            className="z-[1000] flex items-center gap-1 rounded-xl border border-slate-200 bg-white/95 backdrop-blur px-1 py-1 shadow-xl"
         >
             {/* Группа: форматирование */}
             <div className="flex items-center gap-0.5 pr-1 border-r border-slate-200">
