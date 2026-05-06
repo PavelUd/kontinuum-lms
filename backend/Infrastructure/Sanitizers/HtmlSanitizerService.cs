@@ -25,7 +25,13 @@ public class HtmlSanitizerService : IContentSanitizer
         "href","target","rel",
         "src","alt","title",
         "class",
+        "style",
         "colspan","rowspan"
+    ];
+
+    private static readonly string[] AllowedCssProperties =
+    [
+        "text-align"
     ];
 
     private static readonly string[] AllowedSchemes =
@@ -48,6 +54,7 @@ public class HtmlSanitizerService : IContentSanitizer
         _sanitizer.AllowedTags.Clear();
         _sanitizer.AllowedAttributes.Clear();
         _sanitizer.AllowedSchemes.Clear();
+        _sanitizer.AllowedCssProperties.Clear();
 
         foreach (var tag in AllowedTags)
             _sanitizer.AllowedTags.Add(tag);
@@ -60,6 +67,9 @@ public class HtmlSanitizerService : IContentSanitizer
 
         foreach (var cls in AllowedClasses)
             _sanitizer.AllowedClasses.Add(cls);
+        
+        foreach (var prop in AllowedCssProperties)
+            _sanitizer.AllowedCssProperties.Add(prop);
     }
     
     public string Sanitize(string html)
