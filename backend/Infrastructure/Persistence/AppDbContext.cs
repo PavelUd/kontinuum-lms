@@ -66,6 +66,12 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
             .HasForeignKey(l => l.CourseId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<Lesson>()
+            .HasOne<Lesson>()
+            .WithOne()
+            .HasForeignKey<Lesson>(x => x.DraftLessonId)
+            .OnDelete(DeleteBehavior.SetNull);
+        
         modelBuilder.Entity<Group>()
             .HasMany(g => g.Members)
             .WithOne(m => m.Group)
@@ -87,6 +93,12 @@ public class AppDbContext : DbContext, ICoursesDbContext, ILessonBlockDbContext,
         modelBuilder.Entity<LessonBlock>()
             .Property(x => x.Type)
             .HasConversion<string>();
+        
+        modelBuilder.Entity<LessonBlock>()
+            .HasOne<LessonBlock>()
+            .WithOne()
+            .HasForeignKey<LessonBlock>(x => x.DraftLessonBlockId)
+            .OnDelete(DeleteBehavior.SetNull);
         
         modelBuilder.Entity<User>()
             .Property(x => x.Role)

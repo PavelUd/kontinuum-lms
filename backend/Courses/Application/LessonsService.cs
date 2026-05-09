@@ -154,6 +154,38 @@ public class LessonsService : ILessonsService, ILessonProvider
         
     }
     
+    public async Task<Guid> EnsureActiveLessonAsync(SummaryLessonDto draft, CancellationToken ct)
+    {
+        var activeLessonId = _dbContext.Lessons.FirstOrDefault(x => x.DraftLessonId == draft.Id)?.Id;
+
+        if (activeLessonId == null)
+        {
+            var lesson = new Lesson()
+            {
+                DraftLessonId = draft.Id,
+                CourseId = draft.CourseId,
+                OrderIndex = draft.OrderIndex,
+                Status = Status.Active,
+                Title = draft.Title
+            };
+            _dbContext.Lessons.Add(lesson);
+            await _dbContext.SaveChangesAsync(ct);
+            activeLessonId = lesson.Id;
+        }
+
+        else
+        {
+            var patchRequest = new PatchLessonRequest
+            {
+                Title = draft.Title,
+            };
+            await PatchLesson(activeLessonId.Value, patchRequest
+            );
+        }
+
+        return activeLessonId.Value;
+    }
+    
     
     private async Task ShiftRange(
         Guid courseId,

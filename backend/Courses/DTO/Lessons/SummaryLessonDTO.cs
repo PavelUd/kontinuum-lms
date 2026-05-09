@@ -17,6 +17,8 @@ public class SummaryLessonDto
     
     public int OrderIndex { get; set; }
     
+    public Guid? DraftLessonId { get; set; }
+    
     private class Mapping : Profile
     {
         public Mapping()

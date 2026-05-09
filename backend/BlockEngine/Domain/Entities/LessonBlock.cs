@@ -24,6 +24,20 @@ public class LessonBlock : BaseAuditableEntity
     [Column("content")]
     public JsonElement Content  { get; set; }
     
+    [Column("draft_lesson_block_id")]
+    public Guid? DraftLessonBlockId { get; set; }
+    
+    public LessonBlock CloneTo(Guid lessonId)
+    {
+        return new LessonBlock
+        {
+            LessonId = lessonId,
+            Type = Type,
+            Content = Content,
+            OrderIndex = OrderIndex,
+        };
+    }
+    
     private class Mapping : Profile
     {
         public Mapping()

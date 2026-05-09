@@ -18,4 +18,8 @@ public class Lesson  : BaseAuditableEntity
     
     [Column("order_index")]
     public int OrderIndex { get; set; }
+    
+    [Column("draft_lesson_id")]
+    public Guid? DraftLessonId { get; set; }
+    
 }

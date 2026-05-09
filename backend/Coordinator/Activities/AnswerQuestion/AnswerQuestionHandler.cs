@@ -17,7 +17,7 @@ public record AnswerQuestionRequest(JsonElement Payload);
 public record AnswerQuestionCommand(Guid BlockId, JsonElement Payload ) : IRequest<Result<AnswerQuestionResponse>>;
 
 
-public class AnswerQuestionHandler: IRequestHandler<AnswerQuestionCommand, Result<AnswerQuestionResponse>>
+public class AnswerQuestionHandler : IRequestHandler<AnswerQuestionCommand, Result<AnswerQuestionResponse>>
 {
     private readonly IIdentityUser _identityUser;
     private readonly IBlockEvaluationService _blockEvaluationService;

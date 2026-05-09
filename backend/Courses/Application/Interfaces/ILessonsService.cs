@@ -13,5 +13,7 @@ public interface ILessonsService
     public Task<Result<None>> SetLessonStatus(Guid idLesson, Status status);
     public Task<Result<None>> PatchLesson(Guid idLesson, PatchLessonRequest request);
 
+    public Task<Guid> EnsureActiveLessonAsync(SummaryLessonDto draft, CancellationToken ct);
+
     public Task<Result<SummaryLessonDto>> GetLessonById(Guid idLesson);
 }

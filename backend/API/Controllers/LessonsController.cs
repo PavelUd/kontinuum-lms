@@ -1,9 +1,12 @@
 using BlockEngine.Application.DTO;
 using BlockEngine.Application.Interfaces;
+using Coordinator.Lessons.Publish;
+using Coordinator.Lessons.RollBack;
 using Core.Entities;
 using Courses.Application.Interfaces;
 using Courses.DTO.Common;
 using Courses.DTO.Lessons;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +19,12 @@ namespace API.Controllers;
 public class LessonsController : Controller
 {
     private readonly ILessonsService _lessonsService;
+    private readonly IMediator _mediator;
 
-    public LessonsController(ILessonsService lessonsService)
+    public LessonsController(ILessonsService lessonsService, IMediator mediator)
     {
         _lessonsService = lessonsService;
+        _mediator = mediator;
     }
     
     [HttpDelete("{id}")]
@@ -61,6 +66,30 @@ public class LessonsController : Controller
     public async Task<IActionResult> SetStatus(Guid id,  SetStatusRequest request)
     {
         var idResult = await _lessonsService.SetLessonStatus(id, request.Status);
+        if (!idResult.Succeeded)
+        {
+            return BadRequest(idResult.Errors);
+        }
+        return NoContent();
+    }
+    
+    [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)}")]
+    [HttpPost("{draftId}/publish")]
+    public async Task<IActionResult> PublishLesson(Guid draftId)
+    {
+        var idResult = await _mediator.Send(new PublishLessonCommand(draftId));
+        if (!idResult.Succeeded)
+        {
+            return BadRequest(idResult.Errors);
+        }
+        return NoContent();
+    }
+    
+    [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)}")]
+    [HttpPost("{id}/rollback")]
+    public async Task<IActionResult> RollbackLesson(Guid id)
+    {
+        var idResult = await _mediator.Send(new RollbackLessonCommand(id));
         if (!idResult.Succeeded)
         {
             return BadRequest(idResult.Errors);
