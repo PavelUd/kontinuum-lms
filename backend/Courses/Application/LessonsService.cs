@@ -25,7 +25,7 @@ public class LessonsService : ILessonsService, ILessonProvider
         _mediator = mediator;
     }
     
-    public async Task<Result<List<SummaryLessonDto>>> GetLessons(Guid idCourse)
+    public async Task<Result<List<SummaryLessonDto>>> GetAvailableLessons(Guid idCourse)
     {
         var result = _dbContext.Lessons
             .Where(x => x.CourseId == idCourse)
@@ -33,6 +33,33 @@ public class LessonsService : ILessonsService, ILessonProvider
             .ProjectTo<SummaryLessonDto>(_mapper.ConfigurationProvider)
             .ToList();
         return await Result<List<SummaryLessonDto>>.SuccessAsync(result);
+    }
+    
+    public async Task<Result<List<SummaryLessonDto>>> GetLessons(Guid idCourse)
+    {
+        var lessons = await _dbContext.Lessons
+            .Where(x =>
+                x.CourseId == idCourse &&
+                (
+                    x.Status == Status.Active ||
+                    x.Status == Status.Archived ||
+    
+                    (
+                        x.Status == Status.Draft &&
+                        !_dbContext.Lessons.Any(y =>
+                            y.DraftLessonId == x.Id &&
+                            (
+                                y.Status == Status.Active ||
+                                y.Status == Status.Archived
+                            ))
+                    )
+                ))
+            .OrderBy(x => x.OrderIndex)
+            .ProjectTo<SummaryLessonDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
+    
+        return await Result<List<SummaryLessonDto>>
+            .SuccessAsync(lessons);
     }
 
     public async Task<Result<None>> UpdateTitle(string title, Guid id)

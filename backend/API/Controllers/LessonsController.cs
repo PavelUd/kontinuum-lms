@@ -101,7 +101,20 @@ public class LessonsController : Controller
     public async Task<IActionResult> GetLessons(Guid id)
     {
         var result = await _lessonsService.GetLessons(id);
-        return result.Succeeded ? Ok(result) : BadRequest(result);
+
+        return result.Succeeded
+            ? Ok(result)
+            : BadRequest(result);
+    }
+
+    [HttpGet("/api/courses/{id}/available-lessons")]
+    public async Task<IActionResult> GetAvailableLessons(Guid id)
+    {
+        var result = await _lessonsService.GetAvailableLessons(id);
+
+        return result.Succeeded
+            ? Ok(result)
+            : BadRequest(result);
     }
     
     

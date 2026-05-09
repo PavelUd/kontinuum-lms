@@ -7,6 +7,9 @@ namespace Courses.Application.Interfaces;
 public interface ILessonsService
 {
     public Task<Result<List<SummaryLessonDto>>> GetLessons(Guid idCourse);
+
+    public Task<Result<List<SummaryLessonDto>>> GetAvailableLessons(Guid idCourse);
+    
     public Task<Result<Guid>> CreateLesson(LessonCreateRequest request, Guid idCourse);
     public Task<Result<None>> DeleteLesson(Guid idLesson);
 
