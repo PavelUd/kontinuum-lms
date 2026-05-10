@@ -1,5 +1,6 @@
 using System.Reflection;
 using Contracts.Services;
+using Contracts.Services.Courses;
 using Courses.Application;
 using Courses.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<ILessonsService, LessonsService>();
         services.AddScoped<ILessonProvider, LessonsService>();
         services.AddScoped<ICoursesProvider, CoursesService>();
+        services.AddScoped<ILessonGuard, LessonGuard>();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
     }
 }

@@ -40,7 +40,7 @@ public class BlockSynchronizer : IBlockSynchronizer
         {
             var block = draftBlock.CloneTo(activeLessonId);
             block.DraftLessonBlockId = draftBlock.Id;
-            _dbContext.LessonBlocks.Add(draftBlock);
+            _dbContext.LessonBlocks.Add(block);
         }
         
         await _dbContext.SaveChangesAsync();

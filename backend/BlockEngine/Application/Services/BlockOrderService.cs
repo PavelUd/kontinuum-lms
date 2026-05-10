@@ -1,4 +1,5 @@
 using BlockEngine.Application.Interfaces;
+using BlockEngine.Domain.Entities;
 using BlockEngine.Infrastructure;
 using Core;
 using Microsoft.EntityFrameworkCore;
@@ -15,13 +16,8 @@ internal class BlockOrderService : IBlockOrderService
     }
 
 
-    public async Task<Result<None>> MoveBlock(Guid blockId, Guid? aboveId, Guid? belowId)
+    public async Task MoveBlock(LessonBlock block, Guid? aboveId, Guid? belowId)
     {
-        var block = await _dbContext.LessonBlocks
-            .FirstOrDefaultAsync(x => x.Id == blockId);
-
-        if (block == null)
-            return await Result<None>.FailureAsync("Block not found");
 
         var above = await GetOrderIndex(aboveId);
         var below = await GetOrderIndex(belowId);
@@ -41,8 +37,7 @@ internal class BlockOrderService : IBlockOrderService
         block.OrderIndex = newIndex;
 
         await _dbContext.SaveChangesAsync();
-
-        return await Result<None>.SuccessAsync();
+        
     }
     
     private static bool IsPrecisionCollision(double value, double? above, double? below)

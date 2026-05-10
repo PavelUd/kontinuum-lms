@@ -8,6 +8,7 @@ using BlockEngine.Domain.Enum;
 using BlockEngine.Infrastructure;
 using Contracts.Contracts.Blocks;
 using Contracts.Services;
+using Contracts.Services.Courses;
 using Core;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,15 +19,17 @@ public class BlockService : IBlockService, ILessonBlockStatsProvider
     private readonly ILessonBlockDbContext _dbContext;
     private readonly BlockEngine _blockEngine;
     private readonly IMapper _mapper;
+    private readonly ILessonGuard _lessonGuard;
     private readonly IBlockOrderService _blockOrderService;
 
 
-    public BlockService(ILessonBlockDbContext dbContext, BlockEngine blockEngine, IMapper mapper, IBlockOrderService blockOrderService)
+    public BlockService(ILessonBlockDbContext dbContext, BlockEngine blockEngine, IMapper mapper, IBlockOrderService blockOrderService, ILessonGuard lessonGuard)
     {
         _dbContext = dbContext;
         _blockEngine = blockEngine;
         _mapper = mapper;
         _blockOrderService = blockOrderService;
+        _lessonGuard = lessonGuard;
     }
     
 
@@ -63,8 +66,12 @@ public class BlockService : IBlockService, ILessonBlockStatsProvider
         try
         {
             
+            await _lessonGuard.EnsureEditable(lessonId);
+            
             var block = _mapper.Map<LessonBlock>(request);
             block.LessonId = lessonId;
+            
+            
             var preProcessResult = await _blockEngine.PreProcessAsync(request.Type, block.Content);
             if(!preProcessResult.Succeeded)
             {
@@ -89,9 +96,25 @@ public class BlockService : IBlockService, ILessonBlockStatsProvider
     }
     
 
-    public Task<Result<None>> MoveBlock(Guid blockId, Guid? aboveId, Guid? belowId)
+    public async Task<Result<None>> MoveBlock(Guid blockId, Guid? aboveId, Guid? belowId)
     {
-       return _blockOrderService.MoveBlock(blockId, aboveId, belowId);
+        try
+        {
+
+            var block = await _dbContext.LessonBlocks
+                .FirstOrDefaultAsync(x => x.Id == blockId);
+
+            if (block == null)
+                throw new Exception("Block not found");
+            
+            await _lessonGuard.EnsureEditable(block.LessonId);
+            await _blockOrderService.MoveBlock(block, aboveId, belowId);
+            return await Result<None>.SuccessAsync();
+        }
+        catch (Exception ex)
+        {
+            return await Result<None>.FailureAsync(ex.Message);
+        }
     }
 
     public async Task<Result<None>> UpdateBlockContent(UpdateContentRequest request, Guid idBlock)
@@ -105,6 +128,7 @@ public class BlockService : IBlockService, ILessonBlockStatsProvider
                 return await Result<None>.SuccessAsync();
             }
             
+            await _lessonGuard.EnsureEditable(block.LessonId);
             var preProcessResult = await _blockEngine.PreProcessAsync(block.Type, request.Content);
             
             if(!preProcessResult.Succeeded)
@@ -132,6 +156,8 @@ public class BlockService : IBlockService, ILessonBlockStatsProvider
             {
                 return await Result<None>.SuccessAsync();
             }
+            await _lessonGuard.EnsureEditable(block.LessonId);
+            
             _dbContext.LessonBlocks.Remove(block);
             await _dbContext.SaveChangesAsync();
             await _blockEngine.OnRemovingAsync(block.Type, block.Id, block.LessonId);
