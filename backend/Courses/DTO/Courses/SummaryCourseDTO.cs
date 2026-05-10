@@ -24,7 +24,7 @@ public class SummaryCourseDto
             CreateMap<Course, SummaryCourseDto>()
                 .ForMember(
                     dest => dest.LessonsCount,
-                    opt => opt.MapFrom(src => src.Lessons.Count)
+                    opt => opt.MapFrom(src => src.Lessons.Count(x => x.Status != Status.Draft))
                 );
         }
     }

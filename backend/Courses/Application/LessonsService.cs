@@ -28,7 +28,7 @@ public class LessonsService : ILessonsService, ILessonProvider
     public async Task<Result<List<SummaryLessonDto>>> GetAvailableLessons(Guid idCourse)
     {
         var result = _dbContext.Lessons
-            .Where(x => x.CourseId == idCourse)
+            .Where(x => x.CourseId == idCourse && x.Status != Status.Draft)
             .OrderBy(x => x.OrderIndex)
             .ProjectTo<SummaryLessonDto>(_mapper.ConfigurationProvider)
             .ToList();
@@ -110,9 +110,12 @@ public class LessonsService : ILessonsService, ILessonProvider
         }
         var index = lesson.OrderIndex;
         var courseId = lesson.CourseId;
-        
         try
         {
+            if (lesson.DraftLessonId != null)
+            {
+                await DeleteDraft(lesson);
+            }
             _dbContext.Lessons.Remove(lesson);
             await ShiftRange(courseId, index + 1, null, -1);
             await _dbContext.SaveChangesAsync();
@@ -236,5 +239,19 @@ public class LessonsService : ILessonsService, ILessonProvider
     public async Task<Guid?> GetByLessonIdAsync(Guid lessonId)
     {
         return (await _dbContext.Lessons.FirstOrDefaultAsync(x => x.Id == lessonId))?.CourseId;
+    }
+    
+    private async Task DeleteDraft(Lesson lesson)
+    {
+        if (lesson.DraftLessonId == null)
+            return;
+
+        var draftLesson = await _dbContext.Lessons
+            .FirstOrDefaultAsync(x => x.Id == lesson.DraftLessonId);
+
+        if (draftLesson == null)
+            return;
+
+        _dbContext.Lessons.Remove(draftLesson);
     }
 }
