@@ -3,12 +3,12 @@
 import {BarChart2, Edit3, Eye, Trash2} from "lucide-react";
 import {Button} from "@/shared/ui/button/Button";
 import {Switch} from "@/shared/ui/switch/Switch";
-import {useState} from "react";
 import Link from "next/link";
 import {Status} from "@/entities/course/model/types";
 import {ModuleSummary} from "@/entities/module";
 import {useModulesMutations} from "@/entities/module/model/useModulesMutations";
 import {LessonAnalyticProgress} from "@/entities/analytic/model/types";
+import styles from "@/screens/admin/course/course-page.module.css"
 
 type Props = {
     modules: ModuleSummary[]
@@ -48,8 +48,11 @@ export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: 
 
                             {/* Модуль */}
                             <td>
-                                <div className="font-semibold">
-                                    {m.title}
+                                <div className="flex items-center">
+                                    <div className="font-semibold">{m.title}</div>
+                                    {m.status == "draft" && (
+                                        <span className={styles.badgeDraftInfo} title="Есть неопубликованный черновик">Черновик</span>
+                                    )}
                                 </div>
                                 <div className="text-sm text-gray-400">
                                     {'Теория'}
@@ -58,6 +61,7 @@ export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: 
 
                             {/* Статус */}
                             <td>
+                                {m.status != "draft" && (
                                 <Switch
                                     checked={m.status === "active"}
                                     label="Доступен"
@@ -65,38 +69,41 @@ export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: 
                                         const status : Status = value ? "active" : "archived"
                                         await query.setStatus({id : m.id, status})
                                     }}
-                                />
+                                />)}
                             </td>
 
                             {/* Метрики */}
                             <td>
+                                {m.status != "draft" && (
                                 <div className="flex flex-col text-sm">
 
-                    <span className="font-semibold text-blue-600">
-                        {progress ? progress.avgProgress : 0}%{" "}
-                        <span className="text-gray-400 font-normal">
-                            прогресс
-                        </span>
-                        </span>
-                        <span className="font-semibold text-green-600">
-                            {progress ? `${progress.avgScore}` : 0}{" "}
-                            <span className="text-gray-400 font-normal">
-                                ср. балл
-                            </span>
-                        </span>
+                                <span className="font-semibold text-blue-600">
+                                    {progress ? progress.avgProgress : 0}%{" "}
+                                    <span className="text-gray-400 font-normal">
+                                        прогресс
+                                    </span>
+                                </span>
+                                <span className="font-semibold text-green-600">
+                                    {progress ? `${progress.avgScore}` : 0}{" "}
+                                    <span className="text-gray-400 font-normal">
+                                        ср. балл
+                                    </span>
+                                </span>
                                 </div>
+                            )}
                             </td>
 
                             {/* Действия */}
                             <td className="text-right pr-4">
                                 <div className="flex gap-1 justify-end">
+                                    {m.status != "draft" && (
                                     <Link href={`/admin/modules/${m.id}`}>
                                     <Button
                                         variant="ghost"
                                         icon={<BarChart2 size={14}/>}>
                                         Статистика
                                     </Button>
-                                    </Link>
+                                    </Link>)}
                                     <Link href={`/admin/modules/${m.id}/editor`}>
                                     <Button
                                         variant="ghost"
@@ -105,11 +112,12 @@ export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: 
                                     </Button>
                                     </Link>
                                     <Link href={`/admin/modules/${m.id}/preview`}>
+                                    {m.status != "draft" && (
                                     <Button
                                         variant="ghost"
                                         icon={<Eye size={14}/>}>
                                         Вид
-                                    </Button>
+                                    </Button>)}
                                     </Link>
                                     <Button
                                         variant={"ghost"}

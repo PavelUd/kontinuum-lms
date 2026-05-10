@@ -16,6 +16,10 @@ export const getModules = async(id: string) : Promise<ApiResponse<ModuleSummary[
     return await api.get<ApiResponse<ModuleSummary[]>>(`courses/${id}/lessons`)
 }
 
+export const getAvailableModules = async(id: string) : Promise<ApiResponse<ModuleSummary[]>> => {
+    return await api.get<ApiResponse<ModuleSummary[]>>(`courses/${id}/available-lessons`)
+}
+
 export const setModuleStatus = async(id: string,content: SetStatusRequest) : Promise<void> => {
     return await api.post<void>(`/lessons/${id}/status`, content, {auth: true})
 }

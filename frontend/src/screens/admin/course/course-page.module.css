@@ -1,3 +1,16 @@
 .container{
     overflow: hidden;
 }
+
+.badgeDraftInfo {
+    background: #fff7ed;
+    color: #c2410c;
+    border: 1px solid #fed7aa;
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    margin-left: 8px;
+    display: inline-flex;
+    align-items: center;
+}

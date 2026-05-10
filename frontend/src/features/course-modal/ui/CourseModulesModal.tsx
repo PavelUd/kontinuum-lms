@@ -9,7 +9,7 @@ import Link from "next/link"
 import {ModulesSkeleton} from "@/features/course-modal/ui/ModulesSkeleton";
 import Skeleton from "react-loading-skeleton"
 import "react-loading-skeleton/dist/skeleton.css"
-import {useModulesQuery} from "@/entities/module/model/useModulesQuery";
+import {useAvailableModulesQuery, useModulesQuery} from "@/entities/module/model/useModulesQuery";
 import { useCourseProgressQuery } from "@/entities/progress/model/useProggressQuery"
 
 interface Props {
@@ -25,7 +25,7 @@ export function CourseModulesModal({
                                    }: Props) {
 
     const { data: source, isLoading: loading } = useCourseQuery(courseId)
-    const { data: modulesData, isLoading: modulesLoading } = useModulesQuery(courseId)
+    const { data: modulesData, isLoading: modulesLoading } = useAvailableModulesQuery(courseId)
     const {data: progressData, isLoading: progressLoading} =  useCourseProgressQuery(courseId);
     const course= source?.data;
     const lessons = modulesData?.data ?? []

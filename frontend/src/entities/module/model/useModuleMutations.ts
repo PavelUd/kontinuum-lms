@@ -10,7 +10,11 @@ export function usePublishLessonMutation() {
     const publishMutation = useMutation({
         mutationFn: (draftId: string) =>
             publishLesson(draftId),
-    })
+    onSuccess: async () => {
+        await queryClient.invalidateQueries({
+            queryKey: ['modules']
+        })
+    }})
 
     return {
         publish: publishMutation.mutateAsync,

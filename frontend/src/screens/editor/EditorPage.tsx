@@ -4,10 +4,7 @@ import {EditorSidebar} from "@/features/editor-sidebar/EditorSidebar";
 import {Canvas} from "@/widgets/editor-canvas/ui/Canvas";
 import styles from "./editor-page.module.css"
 import {Loader} from "@/shared/ui/loader";
-import {useLessonBlocksStore} from "@/entities/module-block/model/blocks.store";
-import {useModuleBlocks} from "@/entities/module-block/model/useModuleBlocks";
-import {useModuleQuery, useModulesQuery} from "@/entities/module/model/useModulesQuery";
-import {SaveStatusIndicator} from "@/features/save-status-indicator/SaveStatusIndicator";
+import {useModuleQuery} from "@/entities/module/model/useModulesQuery";
 
 type Props = {
     moduleId: string
@@ -27,10 +24,14 @@ export function EditorPage({ moduleId }: Props) {
 
 
     const title = moduleData?.data.title;
-    const draft = moduleData?.data.draftLessonId ?? "";
-    const courseId = moduleData?.data.courseId;
+    const lesson = moduleData?.data
 
-    console.log(draft);
+    const draft =
+        lesson?.status !== "draft"
+            ? (lesson?.draftLessonId ?? "")
+            : (lesson?.id ?? "")
+
+    const courseId = moduleData?.data.courseId;
 
     return (
         <div className={styles.editorLayout}>

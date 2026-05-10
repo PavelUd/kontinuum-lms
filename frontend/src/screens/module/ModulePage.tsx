@@ -7,7 +7,7 @@ import {ModuleHero} from "@/widgets/module/ui/ModuleHero";
 import {ModuleContent} from "@/widgets/module/ui/ModuleContent";
 import styles from "@/widgets/module/ui/module.module.css"
 import {Loader} from "@/shared/ui/loader";
-import {useModulesQuery} from "@/entities/module/model/useModulesQuery";
+import {useAvailableModulesQuery, useModulesQuery} from "@/entities/module/model/useModulesQuery";
 import {useCourseQuery} from "@/entities/course";
 import {useProfileQuery} from "@/entities/user/models/useUsersQuery";
 import {useModuleBlocks} from "@/entities/module-block/model/useModuleBlocks";
@@ -29,7 +29,7 @@ export function ModulePage({ courseId, lessonId }: Props) {
         data: modulesData,
         isLoading: modulesLoading,
         isError: modulesError
-    } = useModulesQuery(courseId);
+    } = useAvailableModulesQuery(courseId);
 
     const {
             data: profileData,

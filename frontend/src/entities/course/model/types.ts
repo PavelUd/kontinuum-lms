@@ -8,7 +8,7 @@ export interface CourseSummary {
     lessonsCount: number
 }
 
-export type Status = "active" | "archived"
+export type Status = "active" | "archived" | "draft"
 
 export type CourseSummaryState = {
     courses: CourseSummary[]

@@ -30,7 +30,7 @@ export function CreateModuleModal({ isOpen, onClose, onConfirm, modulesCount }: 
     const [orderIndex, setOrderIndex] = useState("");
 
     return (
-        <Modal title={<div>Создание модуля</div>}
+        <Modal width={550} title={<div>Создание модуля</div>}
                footer={
                    <Footer onClick={
                        () => {
