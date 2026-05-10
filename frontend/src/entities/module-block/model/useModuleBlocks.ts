@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react"
+import {useCallback, useEffect, useState} from "react"
 import {getModuleBlocks} from "@/entities/module-block/api/module-block.api";
 import {ModuleBlock} from "@/entities/module-block/model/types";
 
@@ -7,32 +7,30 @@ export function useModuleBlocks(id: string) {
     const [isLoading, setIsLoading] = useState(false)
     const [isError, setIsError] = useState(false)
 
-    useEffect(() => {
+    const fetchBlocks = useCallback(async () => {
         if (!id) return
-
-        let isActive = true
 
         setIsLoading(true)
         setIsError(false)
 
-        getModuleBlocks(id)
-            .then((res) => {
-                if (!isActive) return
-                setData(res?.data ?? [])
-            })
-            .catch(() => {
-                if (!isActive) return
-                setIsError(true)
-            })
-            .finally(() => {
-                if (!isActive) return
-                setIsLoading(false)
-            })
-
-        return () => {
-            isActive = false
+        try {
+            const res = await getModuleBlocks(id)
+            setData(res?.data ?? [])
+        } catch {
+            setIsError(true)
+        } finally {
+            setIsLoading(false)
         }
     }, [id])
 
-    return { data, isLoading, isError }
+    useEffect(() => {
+        fetchBlocks()
+    }, [fetchBlocks])
+
+    return {
+        data,
+        isLoading,
+        isError,
+        refetch: fetchBlocks,
+    }
 }

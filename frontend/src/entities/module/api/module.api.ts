@@ -28,3 +28,10 @@ export const deleteModule = async(lessonId: string) : Promise<void> => {
     return await api.delete<void>(`/lessons/${lessonId}`, {auth: true})
 }
 
+export const rollbackLesson = async(lessonId: string) : Promise<void> => {
+    return await api.post<void>(`/lessons/${lessonId}/rollback`,{}, {auth: true})
+}
+
+export const publishLesson = async(draftId: string) : Promise<void> => {
+    return await api.post<void>(`/lessons/${draftId}/publish`,{}, {auth: true})
+}

@@ -10,7 +10,7 @@ export function MenuButton({
     return (
         <button
             type="button"
-            onMouseDown={(e) => e.preventDefault()} // 🔥 важно: не теряет выделение
+            // 🔥 важно: не теряет выделение
             onClick={onClick}
             className={`
         flex items-center justify-center

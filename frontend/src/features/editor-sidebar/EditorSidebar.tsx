@@ -1,20 +1,23 @@
 import styles from "./editor-sidebar.module.css"
-import {ArrowLeft} from "lucide-react";
+import {ArrowLeft, RotateCcw, Send} from "lucide-react";
 import {BlockLibraryItem, iconMap} from "@/features/editor-sidebar/model/types";
 import {BlockContent, BlockType} from "@/entities/module-block/model/types";
 import {useLessonBlocksStore} from "@/entities/module-block/model/blocks.store";
 import {getDefaultBlockContent} from "@/entities/module-block/model/block-defaults";
 import Link from "next/link";
+import {Button} from "@/shared/ui/button/Button";
+import {LessonVersionControl} from "@/features/lesson-version-control/LessonVersionControl";
 
 
 type Props = {
     moduleId: string,
+    draftId: string,
     courseId: string
 }
 
 
 
-export function EditorSidebar({ moduleId, courseId }: Props) {
+export function EditorSidebar({ moduleId,draftId, courseId }: Props) {
 
     const createBlock = (type: BlockType, lessonId: string, content?: BlockContent) => {
         const { addBlock, setActiveBlock } = useLessonBlocksStore.getState()
@@ -65,13 +68,14 @@ export function EditorSidebar({ moduleId, courseId }: Props) {
                     <div
                         key={`${block.type}-${block.variant ?? "default"}`}
                         className={styles.blockEntry}
-                        onClick={() => {createBlock(block.type, moduleId, content)}}
+                        onClick={() => {createBlock(block.type, draftId, content)}}
                     >
                         <BlockIcon size={20} style={{ color: block.color }}/>
                         {block.label}
                     </div>
                 );
             })}
+            <LessonVersionControl lessonId={moduleId} draftId={draftId}></LessonVersionControl>
         </div>
     )
 }

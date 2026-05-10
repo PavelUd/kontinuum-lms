@@ -8,19 +8,28 @@ import {queryClient} from "@/shared/api";
 import {ModuleBlock} from "@/entities/module-block/model/types";
 import {useEffect} from "react";
 import {SaveStatusIndicator} from "@/features/save-status-indicator/SaveStatusIndicator";
+import {useModuleBlocks} from "@/entities/module-block/model/useModuleBlocks";
+import {Loader} from "@/shared/ui/loader";
 
 type Props = {
     moduleTitle: string,
     moduleId: string,
     courseId: string,
-    blocks: ModuleBlock<any>[],
 }
 
-export function Canvas({  moduleTitle, moduleId, courseId, blocks }: Props) {
+export function Canvas({  moduleTitle, moduleId, courseId }: Props) {
+
+    const {
+        data: blocks,
+        isLoading: blocksLoading,
+        isError: blocksError
+    } = useModuleBlocks(moduleId);
+
     const loadBlocks = useLessonBlocksStore(s => s.loadBlocks)
     const status = useLessonBlocksStore(s => s.saveStatus)
     useEffect(() => {
         if (blocks) {
+            console.log(moduleId);
             loadBlocks(blocks, moduleId)
         }
     }, [blocks])
@@ -37,6 +46,11 @@ export function Canvas({  moduleTitle, moduleId, courseId, blocks }: Props) {
             })
         }
     }).mutate
+
+    if (blocksLoading)
+        return <Loader />
+    if (blocksError)
+        return <div>Ошибка загрузки</div>
 
     return (
         <div className={styles.editorCanvas} onClick={() => setActiveBlock("")}>

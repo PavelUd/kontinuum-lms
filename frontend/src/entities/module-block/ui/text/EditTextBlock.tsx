@@ -22,10 +22,7 @@ export function EditTextBlock({
         content: text,
         immediatelyRender: false,
         onSelectionUpdate: ({ editor }) => {
-            const { from, to } = editor.state.selection
-
-            // есть выделение текста
-            setShowBubbleMenu(from !== to)
+            setShowBubbleMenu(true)
         },
         onUpdate: ({ editor }) => {
             const html = editor.getHTML()

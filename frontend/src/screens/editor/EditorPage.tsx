@@ -14,34 +14,28 @@ type Props = {
 }
 
 export function EditorPage({ moduleId }: Props) {
-
-    const {
-        data: blocks,
-        isLoading: blocksLoading,
-        isError: blocksError
-    } = useModuleBlocks(moduleId);
-
-
-
     const {
         data: moduleData,
         isLoading: moduleLoading,
         isError: moduleError
     } = useModuleQuery(moduleId);
 
-    if (moduleLoading && blocksLoading)
+    if (moduleLoading)
         return <Loader />
-    if (moduleError && blocksError)
+    if (moduleError)
         return <div>Ошибка загрузки</div>
 
 
     const title = moduleData?.data.title;
+    const draft = moduleData?.data.draftLessonId ?? "";
     const courseId = moduleData?.data.courseId;
+
+    console.log(draft);
 
     return (
         <div className={styles.editorLayout}>
-        <EditorSidebar moduleId={moduleId} courseId={courseId ?? ""}></EditorSidebar>
-        <Canvas blocks={blocks} courseId={courseId ?? ""} moduleId={moduleId} moduleTitle={title ?? ""} />
+        <EditorSidebar moduleId={moduleId} draftId={draft ?? ""} courseId={courseId ?? ""}></EditorSidebar>
+        <Canvas courseId={courseId ?? ""} moduleId={draft ?? ""} moduleTitle={title ?? ""} />
         </div>
     )
 }

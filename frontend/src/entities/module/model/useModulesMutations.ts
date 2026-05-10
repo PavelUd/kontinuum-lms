@@ -1,5 +1,9 @@
 import {useEntityMutations} from "@/shared/lib/mutations/useEntityMutations";
-import {createModule, deleteModule, setModuleStatus} from "@/entities/module/api/module.api";
+import {
+    createModule,
+    deleteModule,
+    setModuleStatus
+} from "@/entities/module/api/module.api";
 import {ModuleSummary} from "@/entities/module";
 import {useChangeStatusMutation} from "@/shared/lib/mutations/useChangeStatusMutation";
 import {CourseSummary} from "@/entities/course";
@@ -21,7 +25,7 @@ export const useModulesMutations = (courseId : string) => {
 
     return {
         ...baseMutations,
-        ...changeStatusMutations,
+        ...changeStatusMutations
     }
 
 }

@@ -6,6 +6,7 @@ export interface ModuleSummary {
     title: string;
     status: Status;
     courseId: string,
+    draftLessonId: string,
     orderIndex: number;
 }
 
