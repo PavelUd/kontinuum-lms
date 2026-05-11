@@ -1,4 +1,3 @@
-using System.Reflection;
 using Amazon.S3;
 using Analytics.Infrastructure;
 using Auth.Application.Interfaces;
@@ -7,7 +6,7 @@ using BlockEngine.Application.Interfaces;
 using BlockEngine.Infrastructure;
 using Contracts.Services;
 using Coordinator.interfaces;
-using Courses.Application.Interfaces;
+using Core.Common.Logging;
 using Courses.Infrastructure.Interfaces;
 using Groups.Infrastructure;
 using Hangfire;
@@ -43,6 +42,8 @@ public static class ServiceCollectionExtension
         services.AddScoped<IAnalyticsDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<IGroupsDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<ICoordinatorContext>(sp => sp.GetRequiredService<AppDbContext>());
+
+        services.AddScoped<IExecutionContext, Infrastructure.Logging.ExecutionContext>();
         
         services.AddHangfire(config =>
             config.UsePostgreSqlStorage(options =>

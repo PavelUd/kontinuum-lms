@@ -3,6 +3,8 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Analytics.Application.Extensions;
+using AspectCore.Configuration;
+using AspectCore.Extensions.DependencyInjection;
 using Auth.Domain;
 using Auth.Extensions;
 using BlockEngine.Application.Extensions;
@@ -12,19 +14,24 @@ using Courses.Extensions;
 using Groups.Application.Extensions;
 using Hangfire;
 using Infrastructure.Extensions;
+using Infrastructure.Logging;
 using Infrastructure.ObjectStorage;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using NLog;
+using NLog.Web;
 using Scalar.AspNetCore;
 using Tracking.Extensions;
 using Users.Application.Extensions;
+using ILogger = NLog.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddSingleton<ILogger>(_ => LogManager.GetLogger("DefaultLogger"));
+builder.Host.UseNLog();
 
 builder.Services.AddControllers().AddJsonOptions(o =>
 {
@@ -83,6 +90,22 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials());
+});
+
+builder.Services.ConfigureDynamicProxy(config =>
+{
+    config.Interceptors.AddTyped<LoggingAttribute>(method =>
+    {
+        var type = method.DeclaringType;
+
+        if (type == null)
+            return false;
+
+        if (type.Name.EndsWith("Coordinator"))
+            return false;
+
+        return type.Name.EndsWith("Service");
+    });
 });
 
 builder.Services.AddBlockEnginesModule(builder.Configuration);
