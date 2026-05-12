@@ -26,7 +26,7 @@ public class EmployeeController : ControllerBase
         _mediator = mediator;
     }
 
-    [Authorize(Roles = $"{nameof(Role.Admin)}")]
+    
     [HttpGet]
     public async Task<IActionResult>  GetEmployeesPage([FromQuery] PagedQuery query)
     {

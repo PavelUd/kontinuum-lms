@@ -4,7 +4,7 @@ import {Modal} from "@/shared/ui/modal/ui/Modal";
 import {useCoursesLookupQuery} from "@/entities/course/model/useCoursesQuery";
 import {Select} from "@/shared/ui/input/Select";
 import {useAvailableGroupsLookup} from "@/entities/group/module/useGroupsQuery";
-import {CreateGroupMemberRequest} from "@/entities/group/module/types";
+import { CreateGroupMemberRequest } from "@/entities/group-member/model/types";
 
 export type Props = {
     onConfirm: (request : CreateGroupMemberRequest) => void;

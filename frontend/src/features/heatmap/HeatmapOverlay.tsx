@@ -11,8 +11,13 @@ export function HeatmapOverlay({heatmapEnabled, heatmapItem} : Props) {
     if (!heatmapEnabled || heatmapItem == undefined) return null;
 
     let level = styles.heatmapValLow;
-    if (heatmapItem.viewsCount > 60) level = styles.heatmapValHigh
-    else if (heatmapItem.viewsCount > 20) level = styles.heatmapValMid;
+    if (heatmapItem.viewsCount > 6) level = styles.heatmapValHigh
+    else if (heatmapItem.viewsCount > 2) level = styles.heatmapValMid;
+
+    const totalSeconds = Math.floor(heatmapItem.avgTimeSpent / 1000)
+
+    const minutes = Math.floor(totalSeconds / 60)
+    const seconds = totalSeconds % 60
 
     return (
         <>
@@ -22,7 +27,7 @@ export function HeatmapOverlay({heatmapEnabled, heatmapItem} : Props) {
                 style={{ lineHeight: '1.2' }}
             >
                 <span className="font-semibold">
-                    {Math.round(heatmapItem.avgTimeSpent)}с
+                    {minutes != 0 ? `${minutes}м` : ""} {seconds}c
                 </span>
                 <span className="text-[0.65rem] opacity-80">
                     {heatmapItem.viewsCount} просм.

@@ -14,8 +14,9 @@ export function ModuleRow({ module, progress }: Props) {
     const statusMap: Record<Status, "locked" | "current" | "completed"> = {
         "archived": "locked",
         "active": "current",
-
+        "draft" : "locked"
     }
+
     const locked = module.status === "archived"
     let classAttribute =  statusMap[module.status]
     if(module.status == "active" && progress && progress > 79){

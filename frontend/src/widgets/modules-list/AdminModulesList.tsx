@@ -50,7 +50,7 @@ export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: 
                             <td>
                                 <div className="flex items-center">
                                     <div className="font-semibold">{m.title}</div>
-                                    {m.status == "draft" && (
+                                    {!(m.status == "archived" || m.status == "active") && (
                                         <span className={styles.badgeDraftInfo} title="Есть неопубликованный черновик">Черновик</span>
                                     )}
                                 </div>
@@ -61,7 +61,7 @@ export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: 
 
                             {/* Статус */}
                             <td>
-                                {m.status != "draft" && (
+                                {(m.status == "archived" || m.status == "active") && (
                                 <Switch
                                     checked={m.status === "active"}
                                     label="Доступен"
@@ -74,7 +74,7 @@ export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: 
 
                             {/* Метрики */}
                             <td>
-                                {m.status != "draft" && (
+                                {(m.status == "archived" || m.status == "active") && (
                                 <div className="flex flex-col text-sm">
 
                                 <span className="font-semibold text-blue-600">
@@ -96,7 +96,7 @@ export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: 
                             {/* Действия */}
                             <td className="text-right pr-4">
                                 <div className="flex gap-1 justify-end">
-                                    {m.status != "draft" && (
+                                    {(m.status == "archived" || m.status == "active") && (
                                     <Link href={`/admin/modules/${m.id}`}>
                                     <Button
                                         variant="ghost"
@@ -112,7 +112,7 @@ export function AdminModulesList({modules,onDelete, courseId, modulesProgress}: 
                                     </Button>
                                     </Link>
                                     <Link href={`/admin/modules/${m.id}/preview`}>
-                                    {m.status != "draft" && (
+                                    {(m.status == "archived" || m.status == "active") && (
                                     <Button
                                         variant="ghost"
                                         icon={<Eye size={14}/>}>
