@@ -24,8 +24,7 @@ public class CoursesController : Controller
         _coursesService = coursesService;
         _lessonsService = lessonsService;
     }
-
-    [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.Methodist)},admin")]
+    
     [HttpGet]
     public async Task<IActionResult> Get()
     {

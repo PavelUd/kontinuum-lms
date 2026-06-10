@@ -14,7 +14,11 @@ public class CourseCreateRequest
     {
         public Mapping()
         {
-            CreateMap<CourseCreateRequest, Course>();
+            CreateMap<CourseCreateRequest, Course>()
+                .ForMember(
+                    dest => dest.Name,
+                    opt => opt.MapFrom(src => src.Name!.Trim())
+                );
         }
     }
 }

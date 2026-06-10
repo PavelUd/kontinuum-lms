@@ -5,7 +5,7 @@ using Core;
 
 namespace BlockEngine.Application.Services;
 
-public class BlockEngine
+public class BlockEngine : IBlockEngine
 {
     private readonly BlockRegistry _registry;
 

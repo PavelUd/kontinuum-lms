@@ -90,12 +90,26 @@ public class GroupsService : IGroupsService, IGroupProvider
     {
         try
         {
-            var lesson = _dbContext.Groups.FirstOrDefault(x => x.Id == idGroup);
-            if (lesson == null)
+            var group = _dbContext.Groups.FirstOrDefault(x => x.Id == idGroup);
+            if (group == null)
             {
                 return await Result<None>.FailureAsync("Group not found");
             }
-            var result = _mapper.Map(request, lesson);
+
+            if (request.Title is not null)
+            {
+                var titleValidation = await ValidateGroupTitle(
+                    request.Title,
+                    group.CourseId,
+                    idGroup);
+
+                if (!titleValidation.Succeeded)
+                {
+                    return await Result<None>.FailureAsync(titleValidation.Errors);
+                }
+            }
+            
+            var result = _mapper.Map(request, group);
             await _dbContext.SaveChangesAsync();
             return await Result<None>.SuccessAsync();
         }
@@ -109,7 +123,7 @@ public class GroupsService : IGroupsService, IGroupProvider
     {
         try
         {
-            var group =  await _dbContext.Groups.FindAsync(id, ct);
+            var group =  await _dbContext.Groups.FirstOrDefaultAsync(x => x.Id == id, cancellationToken: ct);
             if (group == null)
             {
                 return await Result<None>.SuccessAsync();
@@ -129,6 +143,15 @@ public class GroupsService : IGroupsService, IGroupProvider
     
     public async Task<Result<Guid>> CreateGroup(GroupCreateRequest request)
     {
+        var titleValidation = await ValidateGroupTitle(
+            request.Title,
+            request.CourseId);
+
+        if (!titleValidation.Succeeded)
+        {
+            return await Result<Guid>.FailureAsync(titleValidation.Errors);
+        }
+        
         try
         {
             var group = _mapper.Map<Group>(request);
@@ -176,5 +199,27 @@ public class GroupsService : IGroupsService, IGroupProvider
                     Title = x.Group.Title
                 }).ToList()
             );
+    }
+    
+    private async Task<Result<string>> ValidateGroupTitle(string? title, Guid courseId, Guid? excludeGroupId = null)
+    {
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            return await Result<string>.FailureAsync("Group title is required");
+        }
+    
+        var normalizedTitle = title.Trim();
+    
+        var exists = await _dbContext.Groups.AnyAsync(x =>
+            x.CourseId == courseId &&
+            x.Title.ToLower() == normalizedTitle.ToLower() &&
+            (!excludeGroupId.HasValue || x.Id != excludeGroupId.Value));
+    
+        if (exists)
+        {
+            return await Result<string>.FailureAsync("Group with this title already exists");
+        }
+    
+        return await Result<string>.SuccessAsync(normalizedTitle);
     }
 }

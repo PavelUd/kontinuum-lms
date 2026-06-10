@@ -17,13 +17,13 @@ namespace BlockEngine.Application.Services;
 public class BlockService : IBlockService, ILessonBlockStatsProvider
 {
     private readonly ILessonBlockDbContext _dbContext;
-    private readonly BlockEngine _blockEngine;
+    private readonly IBlockEngine _blockEngine;
     private readonly IMapper _mapper;
     private readonly ILessonGuard _lessonGuard;
     private readonly IBlockOrderService _blockOrderService;
 
 
-    public BlockService(ILessonBlockDbContext dbContext, BlockEngine blockEngine, IMapper mapper, IBlockOrderService blockOrderService, ILessonGuard lessonGuard)
+    public BlockService(ILessonBlockDbContext dbContext, IBlockEngine blockEngine, IMapper mapper, IBlockOrderService blockOrderService, ILessonGuard lessonGuard)
     {
         _dbContext = dbContext;
         _blockEngine = blockEngine;

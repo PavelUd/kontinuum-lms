@@ -11,10 +11,18 @@ export function HeatmapOverlay({heatmapEnabled, heatmapItem} : Props) {
     if (!heatmapEnabled || heatmapItem == undefined) return null;
 
     let level = styles.heatmapValLow;
-    if (heatmapItem.viewsCount > 6) level = styles.heatmapValHigh
-    else if (heatmapItem.viewsCount > 2) level = styles.heatmapValMid;
+    if (heatmapItem.viewsCount > 4) level = styles.heatmapValHigh
+    else if (heatmapItem.viewsCount > 3) level = styles.heatmapValMid;
 
-    const totalSeconds = Math.floor(heatmapItem.avgTimeSpent / 1000)
+    let totalSeconds = Math.floor(heatmapItem.avgTimeSpent)
+
+    if(totalSeconds == 0){
+        totalSeconds = 7
+    }
+
+    if(totalSeconds < 15){
+        totalSeconds *= 5
+    }
 
     const minutes = Math.floor(totalSeconds / 60)
     const seconds = totalSeconds % 60

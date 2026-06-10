@@ -9,10 +9,10 @@ namespace BlockEngine.Application.Services;
 public class BlockEvaluationService : IBlockEvaluationService
 {
 
-    private readonly BlockEngine _blockEngine;
+    private readonly IBlockEngine _blockEngine;
     private readonly ILessonBlockDbContext _dbContext;
     
-    public BlockEvaluationService(BlockEngine blockEngine, ILessonBlockDbContext dbContext)
+    public BlockEvaluationService(IBlockEngine blockEngine, ILessonBlockDbContext dbContext)
     {
         _blockEngine = blockEngine;
         _dbContext = dbContext;

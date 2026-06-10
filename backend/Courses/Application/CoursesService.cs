@@ -112,6 +112,22 @@ public class CoursesService : ICoursesService, ICoursesProvider
     
     public Result<Guid> CreateCourse(CourseCreateRequest request)
     {
+        
+        if (string.IsNullOrWhiteSpace(request.Name))
+        {
+            return Result<Guid>.Failure("имя курса оне может быть пустым");
+        }
+
+        var name = request.Name.Trim();
+
+        var exists = _dbContext.Courses
+            .Any(x => x.Name.ToLower() == name.ToLower());
+
+        if (exists)
+        {
+            return Result<Guid>.Failure("Курс с таким именем уже существует");
+        }
+        
         try
         {
             var course = _mapper.Map<Course>(request);

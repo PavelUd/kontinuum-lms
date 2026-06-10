@@ -46,7 +46,7 @@ public class UsersService : IUsersService, IUserQueryService
             var user = _mapper.Map<User>(request);
             var normalizedPhone = PhoneHelper.NormalizePhone(user.Phone);
             var exists = await _context.Users
-                .AnyAsync(x => x.Phone == user.Phone);
+                .AnyAsync(x => x.Phone == normalizedPhone);
 
             if (exists)
             {

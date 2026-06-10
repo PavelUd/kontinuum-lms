@@ -16,13 +16,11 @@ public class LessonsService : ILessonsService, ILessonProvider
 {
     private  readonly ICoursesDbContext _dbContext;
     private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
 
-    public LessonsService(ICoursesDbContext dbContext, IMapper mapper, IMediator mediator)
+    public LessonsService(ICoursesDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;
-        _mediator = mediator;
     }
     
     public async Task<Result<List<SummaryLessonDto>>> GetAvailableLessons(Guid idCourse)
@@ -61,22 +59,18 @@ public class LessonsService : ILessonsService, ILessonProvider
         return await Result<List<SummaryLessonDto>>
             .SuccessAsync(lessons);
     }
-
-    public async Task<Result<None>> UpdateTitle(string title, Guid id)
-    {
-        var lesson = _dbContext.Lessons.FirstOrDefault(x => x.Id == id);
-        if (lesson == null)
-        {
-            return await Result<None>.SuccessAsync();
-        }
-        lesson.Title = title;
-        await _dbContext.SaveChangesAsync();
-        return await Result<None>.SuccessAsync();
-    }
-    
     
     public async Task<Result<Guid>> CreateLesson(LessonCreateRequest request, Guid idCourse)
     {
+        var titleValidation = await ValidateLessonTitle(
+            request.Title,
+            idCourse);
+
+        if (!titleValidation.Succeeded)
+        {
+            return await Result<Guid>.FailureAsync(titleValidation.Errors.First());
+        }
+        
         try
         {
             var lesson = _mapper.Map<Lesson>(request);
@@ -136,6 +130,20 @@ public class LessonsService : ILessonsService, ILessonProvider
             {
                 return await Result<None>.FailureAsync("Lesson not found");
             }
+
+            if (request.Title is not null)
+            {
+                var titleValidation = await ValidateLessonTitle(
+                    request.Title,
+                    lesson.CourseId,
+                    lesson.Id);
+
+                if (!titleValidation.Succeeded)
+                {
+                    return await Result<None>.FailureAsync(titleValidation.Errors.First());
+                }
+            }
+            
             _mapper.Map(request, lesson);
             await _dbContext.SaveChangesAsync();
             return await Result<None>.SuccessAsync();
@@ -253,5 +261,30 @@ public class LessonsService : ILessonsService, ILessonProvider
             return;
 
         _dbContext.Lessons.Remove(draftLesson);
+    }
+    
+    private async Task<Result<string>> ValidateLessonTitle(
+        string? title,
+        Guid courseId,
+        Guid? excludeLessonId = null)
+    {
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            return await Result<string>.FailureAsync("Lesson title is required");
+        }
+
+        var normalizedTitle = title.Trim();
+
+        var exists = await _dbContext.Lessons.AnyAsync(x =>
+            x.CourseId == courseId &&
+            x.Title.ToLower() == normalizedTitle.ToLower() &&
+            (!excludeLessonId.HasValue || x.Id != excludeLessonId.Value));
+
+        if (exists)
+        {
+            return await Result<string>.FailureAsync("Lesson with this title already exists");
+        }
+
+        return await Result<string>.SuccessAsync(normalizedTitle);
     }
 }

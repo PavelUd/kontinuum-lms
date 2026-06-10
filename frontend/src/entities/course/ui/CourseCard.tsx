@@ -23,6 +23,7 @@ export function CourseCard({ course, onOpen }: Props) {
     return (
         <div className="k-course-card cursor-pointer" onClick={onOpen}>
             <div className="k-card-placeholder">
+                <img src={course.avatarUrl} className="h-full w-full rounded-xl object-cover"></img>
                 <BookOpen size={36} className="text-primary opacity-25; color: accent-amber-300" />
             </div>
 

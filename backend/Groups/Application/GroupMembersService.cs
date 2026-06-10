@@ -56,7 +56,7 @@ public class GroupMembersService : IGroupMembersService, IGroupMembersProvider
     {
         try
         {
-            var member = await _dbContext.GroupMembers.FindAsync(id, ct);
+            var member = await _dbContext.GroupMembers.FirstOrDefaultAsync( x => x.Id == id, ct);
             if (member == null || member.Role != GroupRole.Student)
             {
                 return await Result<None>.SuccessAsync();

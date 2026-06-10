@@ -21,7 +21,7 @@ public class LessonProgressProcessor : ILessonProgressProcessor
         _analyticsDbContext = analyticsDbContext;
     }
 
-    private async Task ProcessInternal(BlockEvaluatedEvent e)
+    internal async Task ProcessInternal(BlockEvaluatedEvent e)
     {
         // 1
         var exists = await _analyticsDbContext.BlockCompletions

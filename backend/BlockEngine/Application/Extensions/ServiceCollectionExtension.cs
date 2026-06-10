@@ -22,7 +22,7 @@ public static class ServiceCollectionExtension
     private static void AddServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<BlockRegistry>();
-        services.AddScoped<Services.BlockEngine>();
+        services.AddScoped<IBlockEngine, Services.BlockEngine>();
         services.AddScoped<IBlockOrderService, BlockOrderService>();
         services.AddScoped<IBlockFileService, BlockFileService>();
         services.AddScoped<IBlockService, BlockService>();
