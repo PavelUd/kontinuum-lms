@@ -13,6 +13,7 @@ public enum BlockType
     Video,
     File,
     Audio,
+    PageBreak,
     OpenQuestion,
     ChoiceQuestion
 }
