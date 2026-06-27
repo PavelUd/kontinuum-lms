@@ -26,6 +26,8 @@ import {OpenQuestionBlock} from "@/entities/module-block/ui/question/openQuestio
 import {EditOpenQuestionBlock} from "@/entities/module-block/ui/question/openQuestion/EditOpenQuestionBlock";
 import {ChoiceQuestionBlock} from "@/entities/module-block/ui/question/choiceQuestion/ChoiceQuestionBlcok";
 import {EditChoiceQuestionBlock} from "@/entities/module-block/ui/question/choiceQuestion/EditChoiceQuestionBlock";
+import {PageBreakBlock} from "@/entities/module-block/ui/page-break/PageBreakBlock";
+import {EditPageBreakBlock} from "@/entities/module-block/ui/page-break/EditPageBreak";
 
 registerBlock("text", {
     view: TextBlock,
@@ -95,4 +97,9 @@ registerBlock("openquestion", {
 registerBlock("choicequestion", {
     view: ChoiceQuestionBlock,
     editor: EditChoiceQuestionBlock
+})
+
+registerBlock("pagebreak", {
+    view: PageBreakBlock,
+    editor: EditPageBreakBlock
 })

@@ -9,6 +9,7 @@ import {CodeBlockContent} from "@/entities/module-block/ui/code/code-block-conte
 import { ImageBlockContent } from "@/entities/module-block/ui/upload/image/image-block-content";
 import {VideoBlockContent} from "@/entities/module-block/ui/upload/video/video-block-content";
 import {ChoiceQuestionBlockContent, QuestionBlockContent} from "@/entities/module-block/ui/question/question-content";
+import {PageBreakBlockContent} from "@/entities/module-block/ui/page-break/page-break-content";
 
 export type BlockContentMap = {
     text: TextBlockContent,
@@ -21,12 +22,13 @@ export type BlockContentMap = {
     image: ImageBlockContent,
     video: VideoBlockContent,
     audio: FileBlockContent,
-    file: FileBlockContent
+    file: FileBlockContent,
     openquestion: QuestionBlockContent,
-    choicequestion : ChoiceQuestionBlockContent
+    choicequestion : ChoiceQuestionBlockContent,
+    pagebreak: PageBreakBlockContent,
 }
 
-export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
+export const DEFAULT_BLOCK_CONTENT : BlockContentMap = {
 
     text: {
         text: "Текст"
@@ -85,6 +87,9 @@ export const DEFAULT_BLOCK_CONTENT: BlockContentMap = {
         description: "",
         correctAnswer: "1",
         options: ["Выбор 1", "Выбор 2", "Выбор 3"]
+    },
+    pagebreak:{
+        label: "Продолжить изучение"
     }
 
 }

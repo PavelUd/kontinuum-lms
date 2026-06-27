@@ -28,7 +28,7 @@ export function EditEmployeeModal({
             title="Редактирование сотрудника"
             open={isOpen}
             onClose={onClose}
-            width={900}
+            width={600}
             footer={
                 <div className="px-4 py-2 border-t border-gray-100 flex justify-end gap-4">
                     <Button variant="outline" onClick={onClose}>

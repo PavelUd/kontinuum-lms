@@ -16,7 +16,7 @@ export function CreateCourseForm({ isOpen, onClose }: Props){
 
     const mutations = useCourseMutations();
     return (
-        <Modal title={<div>Создание курса</div>}
+        <Modal width={600} title={<div>Создание курса</div>}
                footer={
                 <Footer onClick={ () => {
                        mutations.create({name : title, avatarUrl :""})

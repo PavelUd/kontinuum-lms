@@ -60,7 +60,7 @@ export function CreateEmployeeModal({ isOpen, onClose, onConfirm }: Props) {
             title="Добавление сотрудника"
             open={isOpen}
             onClose={onClose}
-            width={900}
+            width={600}
             footer={
                 step === "form" ? (
                     <div className="p-4 py-2 border-t border-gray-100 flex gap-4">

@@ -42,7 +42,8 @@ export function EditorSidebar({ moduleId,draftId, courseId }: Props) {
         { type: "file", icon: "file", color: "gray", label: "Файл для скачивания" },
         { type: "openquestion", icon: "edit3", color: "red", label: "Открытй вопрос" },
         { type: "choicequestion",variant: "Single", icon: "edit3", color: "red", label: "Тест (1 выбор)" },
-        { type: "choicequestion",variant:"Multiple",  icon: "", color: "red", label: "Тест (мульти)" }
+        { type: "choicequestion",variant:"Multiple",  icon: "", color: "red", label: "Тест (мульти)" },
+        {type: "pagebreak", icon:"file", color: "#6c757d", label:"Разрыв страницы"}
     ]
 
     return (
@@ -68,7 +69,9 @@ export function EditorSidebar({ moduleId,draftId, courseId }: Props) {
                     <div
                         key={`${block.type}-${block.variant ?? "default"}`}
                         className={styles.blockEntry}
-                        onClick={() => {createBlock(block.type, draftId, content)}}
+                        onClick={() => {
+                            // @ts-ignore
+                            createBlock(block.type, draftId, content)}}
                     >
                         <BlockIcon size={20} style={{ color: block.color }}/>
                         {block.label}

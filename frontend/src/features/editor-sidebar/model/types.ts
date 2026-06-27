@@ -39,9 +39,9 @@ export const iconMap: Record<string, LucideIcon> = {
     spoiler: EyeOff,
     formula: Variable,
     code: Code,
-    page_break: FileMinus,
     file : FileDown,
     openquestion: Edit3,
+    pagebreak: FileMinus,
     Single: CircleDot,
     Multiple: CheckSquare
 };

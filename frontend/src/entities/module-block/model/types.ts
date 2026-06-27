@@ -11,12 +11,12 @@ export type BlockType =
     | "formula"
     | "video"
     | "spoiler"
-    | "page_break"
     | "table"
     | "audio"
     | "file"
     | "openquestion"
     | "choicequestion"
+    | "pagebreak"
 
 export interface ModuleBlock<T> {
     id: string
@@ -52,6 +52,7 @@ export type BlockContent =
     | TextBlockContent
     | CalloutBlockContent
     | HeadingBlockContent
+
 
 export type EditBlockProps<T = any> = {
     block: ModuleBlock<T>
