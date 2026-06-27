@@ -15,6 +15,8 @@ public interface IBlockService
 
     public Task<Result<None>> DeleteLessonBlock(Guid idBlock);
 
+    public Task<Result<ImportBlocksResponse>> ImportLessonBlocks(List<BlockCreateRequest> request, Guid lessonId);
+
     public Task<Result<None>> MoveBlock(Guid blockId, Guid? aboveId, Guid? belowId);
 
     public Task<Result<None>> UpdateBlockContent(UpdateContentRequest request, Guid idBlock);

@@ -39,6 +39,18 @@ public class LessonBlocksController : Controller
     }
     
     [Authorize]
+    [HttpPost("/api/lessons/{id}/blocks/import")]
+    public async Task<IActionResult> ImportBlocks([FromBody] List<BlockCreateRequest> request, Guid id)
+    {
+        var idResult = await _blockService.ImportLessonBlocks(request, id);
+        if (!idResult.Succeeded)
+        {
+            return BadRequest(idResult.Errors);
+        }
+        return Accepted($"/courses/{idResult.Data}", new { idResult.Data });
+    }
+    
+    [Authorize]
     [HttpGet("/api/lessons/{id}/blocks")]
     public async Task<IActionResult> GetBlocks(Guid id)
     {

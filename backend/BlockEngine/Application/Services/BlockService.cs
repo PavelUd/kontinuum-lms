@@ -61,6 +61,42 @@ public class BlockService : IBlockService, ILessonBlockStatsProvider
         }
     }
 
+    public async Task<Result<ImportBlocksResponse>> ImportLessonBlocks(List<BlockCreateRequest> request, Guid lessonId)
+    {
+        try
+        {
+            await _lessonGuard.EnsureEditable(lessonId);
+            var blocks = new List<LessonBlock>();
+
+            for (var i = 0; i < request.Count; i++)
+            {
+                var block = _mapper.Map<LessonBlock>(request[i]);
+                block.OrderIndex = i;
+                block.LessonId = lessonId;
+
+                var preProcessResult = await _blockEngine.PreProcessAsync(
+                    request[i].Type,
+                    block.Content);
+
+                if (!preProcessResult.Succeeded)
+                {
+                    return await Result<ImportBlocksResponse>.FailureAsync(
+                        $"Ошибка в блоке #{i + 1}: {string.Join(", ", preProcessResult.Errors)}");
+                }
+
+                blocks.Add(block);
+            }
+
+            _dbContext.LessonBlocks.AddRange(blocks);
+            await _dbContext.SaveChangesAsync();
+            return await Result<ImportBlocksResponse>.SuccessAsync(new ImportBlocksResponse(lessonId, blocks.Count));
+        }
+        catch (Exception ex)
+        {
+            return await Result<ImportBlocksResponse>.FailureAsync(ex.Message);
+        }
+    }
+
     public async Task<Result<Guid>> CreateLessonBlock(BlockCreateRequest request, Guid lessonId)
     {
         try
