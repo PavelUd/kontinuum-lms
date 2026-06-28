@@ -1,5 +1,5 @@
 import {TableBlockContent, TableRow} from "@/entities/module-block/ui/table/table-block-content";
-
+import { v4 as uuidv4 } from 'uuid';
 
 
 export const updateColumnTitle = (
@@ -45,7 +45,7 @@ export const updateCell = (
 export const addRow = (table: TableBlockContent): TableBlockContent => {
 
     const newRow: TableRow = {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         cells: table.columns.map(() => "Новая ячейка")
     }
 
@@ -68,7 +68,7 @@ export const removeRow = (table: TableBlockContent): TableBlockContent => {
 
 export const addColumn = (table: TableBlockContent): TableBlockContent => {
 
-    const columnId = crypto.randomUUID()
+    const columnId = uuidv4()
 
     const columns = [
         ...table.columns,

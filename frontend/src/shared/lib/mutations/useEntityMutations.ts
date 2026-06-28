@@ -1,6 +1,7 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query"
 import {ApiResponse} from "@/shared/api/types/api-response";
 import {EntityConfig, Optimistic} from "@/shared/lib/mutations/types";
+import { v4 as uuidv4 } from 'uuid';
 
 
 export function useEntityMutations<T extends { id: string }>(config: EntityConfig<T>) {
@@ -19,7 +20,7 @@ export function useEntityMutations<T extends { id: string }>(config: EntityConfi
             const prev = queryClient.getQueryData<any>(config.queryKey)
 
             const temp: Optimistic<T> = {
-                id: crypto.randomUUID(),
+                id: uuidv4(),
                 __temp: true,
                 ...data
             } as Optimistic<T>

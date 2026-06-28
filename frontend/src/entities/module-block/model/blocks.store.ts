@@ -2,6 +2,7 @@ import { create } from "zustand"
 import {BlockContent, BlocksState, BlockType, ModuleBlock, SaveStatus} from "@/entities/module-block/model/types";
 import {getDefaultBlockContent} from "@/entities/module-block/model/block-defaults";
 import {BlockCommandQueue} from "@/entities/module-block/model/block-command-queue";
+import { v4 as uuidv4 } from 'uuid';
 
 type BlocksStore = BlocksState & {
 
@@ -53,7 +54,7 @@ export const useLessonBlocksStore = create<BlocksStore>((set, get) => ({
 
     addBlock: (type, lessonId, content) => {
 
-        const id = crypto.randomUUID()
+        const id = uuidv4()
 
         const block: ModuleBlock<any> = {
             id,
